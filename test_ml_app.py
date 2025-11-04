@@ -405,7 +405,7 @@ class DebrisRiskTester:
             print(f"   Impact Probability: {impact['impact_probability_percentage']:.2f}%")
             print(f"   Risk Level: {impact['risk_level']}")
             print(f"   Est. Impact Time: {prediction['estimated_impact_time'][:19]}")
-            print(f"   Est. Impact Location: {prediction['estimated_impact_location']['latitude']:.2f}°, {prediction['estimated_impact_location']['longitude']:.2f}°")
+            print(f"   Est. Impact Location: {prediction['estimated_impact_location']['latitude']:.2f}deg, {prediction['estimated_impact_location']['longitude']:.2f}deg")
             print(f"   Confidence: {impact['confidence']:.1%}")
             
             # Show detailed risk factors
@@ -518,7 +518,7 @@ class DebrisRiskTester:
                 output.append(f"   Lowest Risk Score: {min_score:.3f}/5.0")
                 
                 high_risk_count = sum(1 for s in scores if s >= 3.5)
-                output.append(f"   High Risk Pairs (≥3.5): {high_risk_count} ({high_risk_count/len(results)*100:.1f}%)")
+                output.append(f"   High Risk Pairs (>=3.5): {high_risk_count} ({high_risk_count/len(results)*100:.1f}%)")
             
             return "\n".join(output)
         
@@ -570,7 +570,7 @@ def main():
     
     print(f"\nRISK ASSESSMENT SUMMARY:")
     print(f"   Total pairs assessed: {total_pairs:,}")
-    print(f"   High risk pairs (≥3.5/5.0): {high_risk_count:,}")
+    print(f"   High risk pairs (>=3.5/5.0): {high_risk_count:,}")
     print(f"   High risk percentage: {(high_risk_count/total_pairs)*100:.2f}%")
     
     # Show distribution
