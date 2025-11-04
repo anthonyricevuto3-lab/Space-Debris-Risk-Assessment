@@ -1,0 +1,11 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineEndpoint.schema.json
+name: space-debris-endpoint
+description: Endpoint for Space Debris Earth Impact Risk Assessment
+auth_mode: key
+
+traffic:
+  space-debris-deployment: 100
+
+tags:
+  project: space-debris-assessment
+  version: "1.0.0"

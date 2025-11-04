@@ -1,0 +1,19 @@
+$schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
+name: space-debris-env
+version: 1.0
+description: Environment for Space Debris Risk Assessment ML model
+
+conda_file: env/conda.yml
+
+image: mcr.microsoft.com/azureml/openmpi4.1.0-ubuntu20.04:latest
+
+inference_config:
+  liveness_route:
+    path: /health
+    port: 8000
+  readiness_route:
+    path: /health
+    port: 8000
+  scoring_route:
+    path: /score
+    port: 8000

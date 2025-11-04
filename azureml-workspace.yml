@@ -1,0 +1,14 @@
+$schema: https://azuremlschemas.azureedge.net/latest/workspace.schema.json
+name: Space-Debris-Risk-Assessment
+resource_group: Space-Debris-Risk-Assessment-RG
+location: westus3
+display_name: Space Debris Risk Assessment Workspace
+description: Machine Learning workspace for orbital debris Earth impact risk assessment
+storage_account: spacedebrisris4512633738
+key_vault: spacedebrisris9071396964
+application_insights: spacedebrisris9066306514
+
+tags:
+  project: space-debris-assessment
+  environment: production
+  owner: AnthonyRicevuto3@gmail.com
