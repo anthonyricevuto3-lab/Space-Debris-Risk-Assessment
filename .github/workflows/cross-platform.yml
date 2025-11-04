@@ -1,4 +1,4 @@
-name: 🌐 Cross-Platform Testing
+name: Cross-Platform Testing
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   test-matrix:
-    name: 🧪 Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
+    name: Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
     runs-on: ${{ matrix.os }}
     
     strategy:
@@ -26,22 +26,22 @@ jobs:
             python-version: '3.9'
     
     steps:
-    - name: 📥 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python-version }}
         
-    - name: 📦 Install Dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-core.txt
         # Install optional dependencies individually
         pip install sgp4>=2.20 || echo "sgp4 installation skipped"
         
-    - name: 🧪 Test TLE Data Loading
+    - name: Test TLE Data Loading
       run: |
         python -c "
         import sys
@@ -52,10 +52,10 @@ jobs:
         result = tester.load_tle_data()
         assert result, 'TLE data loading failed'
         assert len(tester.satellites) > 0, 'No satellites loaded'
-        print(f'✅ TLE loading test passed on {sys.platform}: {len(tester.satellites)} objects')
+        print(f'TLE loading test passed on {sys.platform}: {len(tester.satellites)} objects')
         "
         
-    - name: 🎯 Test Risk Model
+    - name: Test Risk Model
       run: |
         python -c "
         import sys
@@ -67,14 +67,14 @@ jobs:
         target = {'altitude': 410, 'eccentricity': 0.05, 'inclination': 52.0}
         risk = model.predict_risk(satellite, target)
         assert 0 <= risk <= 1, f'Risk score {risk} out of range'
-        print(f'✅ Risk model test passed on {sys.platform}: risk={risk:.3f}')
+        print(f'Risk model test passed on {sys.platform}: risk={risk:.3f}')
         "
         
-    - name: 🚀 Test Main Application
+    - name: Test Main Application
       run: |
         python test_ml_app.py --max-pairs 3 --format summary
         
-    - name: 📊 Performance Benchmark
+    - name: Performance Benchmark
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
       run: |
         python -c "
@@ -88,58 +88,57 @@ jobs:
         end_time = time.time()
         
         if result.returncode == 0:
-            print(f'⚡ Performance: {end_time - start_time:.2f} seconds for 10 pairs')
+            print(f'Performance: {end_time - start_time:.2f} seconds for 10 pairs')
         else:
-            print(f'❌ Error: {result.stderr}')
+            print(f'Error: {result.stderr}')
             sys.exit(1)
         "
         
   dependency-check:
-    name: 🔍 Dependency Security Check
+    name: Dependency Security Check
     runs-on: ubuntu-latest
     
     steps:
-    - name: 📥 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Set up Python
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         
-    - name: 🔒 Check Dependencies
+    - name: Check Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install safety bandit
         
         # Check for known security vulnerabilities (continue on error)
-        safety check --json || echo "⚠️ Security scan completed with warnings"
+        safety check --json || echo "Security scan completed with warnings"
         
         # Static security analysis (continue on error)
-        bandit -r src/ -f json || echo "⚠️ Static analysis completed with warnings"
+        bandit -r src/ -f json || echo "Static analysis completed with warnings"
         
   data-validation:
-    name: 📡 TLE Data Validation
+    name: TLE Data Validation
     runs-on: ubuntu-latest
     
     steps:
-    - name: 📥 Checkout Code
+    - name: Checkout Code
       uses: actions/checkout@v4
       
-    - name: 🐍 Set up Python
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.11'
         
-    - name: 📦 Install Dependencies
-    - name: 📦 Install Dependencies
+    - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements-core.txt
         # Install optional dependencies individually
         pip install sgp4>=2.20 || echo "sgp4 installation skipped"
         
-    - name: 🛰️ Validate TLE Data Quality
+    - name: Validate TLE Data Quality
       run: |
         python -c "
         import sys
@@ -161,10 +160,10 @@ jobs:
             assert 'line2' in sat, f'Missing line2 in satellite {i}'
             assert 'norad_id' in sat, f'Missing norad_id in satellite {i}'
             
-        print(f'✅ TLE data validation passed: {len(satellites)} objects verified')
+        print(f'TLE data validation passed: {len(satellites)} objects verified')
         "
         
-    - name: 🎯 Validate Risk Calculations
+    - name: Validate Risk Calculations
       run: |
         python -c "
         import sys
@@ -185,5 +184,5 @@ jobs:
             assert 0 <= risk <= 1, f'Invalid risk score {risk} for test case {i}'
             print(f'Test case {i+1}: risk={risk:.3f}')
             
-        print('✅ Risk calculation validation passed')
+        print('Risk calculation validation passed')
         "
