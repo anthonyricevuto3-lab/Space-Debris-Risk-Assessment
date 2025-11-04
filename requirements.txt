@@ -5,26 +5,26 @@ scipy>=1.7.0
 
 # Optional but recommended for enhanced functionality
 sgp4>=2.20
-poliastro>=0.17.0
-astropy>=5.0
+poliastro>=0.12.0,<0.13.0
+astropy>=5.0,<6.0
 skyfield>=1.40
 
 # Machine Learning (optional)
 scikit-learn>=1.0.0
-tensorflow>=2.8.0
-torch>=1.10.0
+tensorflow>=2.8.0,<2.16.0
+torch>=1.10.0,<2.0.0
 
 # Visualization (optional)
-matplotlib>=3.5.0
-plotly>=5.0.0
+matplotlib>=3.5.0,<4.0.0
+plotly>=5.0.0,<6.0.0
 
 # Web framework (optional for API)
-fastapi>=0.80.0
-uvicorn>=0.18.0
+fastapi>=0.80.0,<1.0.0
+uvicorn>=0.18.0,<1.0.0
 
 # Atmospheric modeling (optional)
 # pyatmos  # Note: May require special installation
 
 # Mapping and geospatial (optional)
-folium>=0.12.0
-cartopy>=0.20.0
+folium>=0.12.0,<1.0.0
+cartopy>=0.20.0,<1.0.0

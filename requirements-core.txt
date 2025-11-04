@@ -1,0 +1,11 @@
+# Core dependencies required for Space Debris Risk Assessment
+# These are the minimum dependencies needed for the application to run
+requests>=2.25.0
+numpy>=1.20.0
+scipy>=1.7.0
+
+# Optional orbital mechanics (install separately if needed)
+# sgp4>=2.20
+# poliastro>=0.12.0,<0.13.0
+# astropy>=5.0,<6.0
+# skyfield>=1.40
