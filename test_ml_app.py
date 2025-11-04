@@ -51,7 +51,7 @@ class DebrisRiskTester:
         Returns:
             True if successful, False otherwise
         """
-        print("📡 Loading TLE data from CelesTrak...")
+        print("Loading TLE data from CelesTrak...")
         
         try:
             # Load Cosmos-2251 debris data (same as main.py)
@@ -389,7 +389,7 @@ class DebrisRiskTester:
         print(f"Completed {len(results):,} risk assessments")
         
         # Show top 3 highest risk pairs
-        print(f"\n🚨 TOP 3 HIGHEST EARTH IMPACT RISK PAIRS:")
+        print(f"\nTOP 3 HIGHEST EARTH IMPACT RISK PAIRS:")
         print("=" * 80)
         
         for i, result in enumerate(results[:3]):
@@ -404,13 +404,13 @@ class DebrisRiskTester:
             print(f"   Risk Score: {impact['risk_score_0_to_5']:.3f}/5.0")
             print(f"   Impact Probability: {impact['impact_probability_percentage']:.2f}%")
             print(f"   Risk Level: {impact['risk_level']}")
-            print(f"   🌍 Est. Impact Time: {prediction['estimated_impact_time'][:19]}")
-            print(f"   📍 Est. Impact Location: {prediction['estimated_impact_location']['latitude']:.2f}°, {prediction['estimated_impact_location']['longitude']:.2f}°")
+            print(f"   Est. Impact Time: {prediction['estimated_impact_time'][:19]}")
+            print(f"   Est. Impact Location: {prediction['estimated_impact_location']['latitude']:.2f}°, {prediction['estimated_impact_location']['longitude']:.2f}°")
             print(f"   Confidence: {impact['confidence']:.1%}")
             
             # Show detailed risk factors
             factors = impact['risk_factors']
-            print(f"   📈 Risk Factors:")
+            print(f"   Risk Factors:")
             print(f"      - Altitude Risk: {factors['altitude_risk']:.3f}")
             print(f"      - Atmospheric Drag: {factors['atmospheric_drag_factor']:.3f}")
             print(f"      - Collision Probability: {factors['collision_probability']:.3f}")
@@ -464,7 +464,7 @@ class DebrisRiskTester:
         
         elif format_type == "summary":
             output = []
-            output.append("🌌 ORBITAL DEBRIS EARTH IMPACT RISK ASSESSMENT SUMMARY")
+            output.append("ORBITAL DEBRIS EARTH IMPACT RISK ASSESSMENT SUMMARY")
             output.append("=" * 60)
             output.append(f"Analysis Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
             output.append(f"Total Satellites: {len(self.satellites)}")
@@ -483,7 +483,7 @@ class DebrisRiskTester:
                 if impact['risk_score_0_to_5'] >= 3.5:
                     high_risk_pairs.append(result)
             
-            output.append("📈 RISK LEVEL DISTRIBUTION:")
+            output.append("RISK LEVEL DISTRIBUTION:")
             for level in ['EXTREME', 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'MINIMAL']:
                 count = risk_counts.get(level, 0)
                 percentage = (count / len(results) * 100) if results else 0
@@ -568,7 +568,7 @@ def main():
     total_pairs = len(results)
     high_risk_count = sum(1 for r in results if r['earth_impact_assessment']['risk_score_0_to_5'] >= 3.5)
     
-    print(f"\n📈 RISK ASSESSMENT SUMMARY:")
+    print(f"\nRISK ASSESSMENT SUMMARY:")
     print(f"   Total pairs assessed: {total_pairs:,}")
     print(f"   High risk pairs (≥3.5/5.0): {high_risk_count:,}")
     print(f"   High risk percentage: {(high_risk_count/total_pairs)*100:.2f}%")
