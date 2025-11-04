@@ -552,16 +552,16 @@ def main():
     
     # Load TLE data
     if not tester.load_tle_data():
-        print("❌ Failed to load TLE data. Cannot continue.")
+        print("Failed to load TLE data. Cannot continue.")
         return 1
     
     # Run comprehensive risk assessment on all pairs (limited for demo)
-    print("\n🎯 Running comprehensive Earth impact risk assessment...")
+    print("\nRunning comprehensive Earth impact risk assessment...")
     demo_limit = 500  # Change to None to process ALL pairs
     results = tester.run_risk_assessment(max_pairs=demo_limit)
     
     if not results:
-        print("❌ No results generated.")
+        print("No results generated.")
         return 1
     
     # Show summary statistics
@@ -582,7 +582,7 @@ def main():
             risk_counts[risk_level] = 0
         risk_counts[risk_level] += 1
     
-    print(f"\n📊 RISK LEVEL DISTRIBUTION:")
+    print(f"\nRISK LEVEL DISTRIBUTION:")
     for level in ['EXTREME', 'CRITICAL', 'HIGH', 'MEDIUM', 'LOW', 'MINIMAL']:
         count = risk_counts.get(level, 0)
         percentage = (count / total_pairs) * 100 if total_pairs > 0 else 0
@@ -590,7 +590,7 @@ def main():
     
     # Format and display output
     print("\n" + "=" * 60)
-    print("📋 RISK ASSESSMENT RESULTS")
+    print("RISK ASSESSMENT RESULTS")
     print("=" * 60)
     
     formatted_output = tester.format_output(results, args.format)
@@ -601,11 +601,11 @@ def main():
         try:
             with open(args.save_output, 'w') as f:
                 f.write(formatted_output)
-            print(f"\n💾 Output saved to: {args.save_output}")
+            print(f"\nOutput saved to: {args.save_output}")
         except Exception as e:
-            print(f"\n❌ Error saving output: {e}")
+            print(f"\nError saving output: {e}")
     
-    print("\n🎉 Test completed successfully!")
+    print("\nTest completed successfully!")
     return 0
 
 if __name__ == "__main__":
