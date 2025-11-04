@@ -23,14 +23,14 @@ jobs:
       uses: actions/checkout@v4
       
     - name: 🐍 Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ env.PYTHON_VERSION }}
         
     - name: 📦 Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements.txt
+        pip install -r requirements-core.txt
         pip install build twine
         
     - name: 🏗️ Build Package
@@ -101,11 +101,8 @@ EOF
         
     - name: 📤 Upload Release Assets
       if: github.event_name == 'release'
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v1
       with:
-        upload_url: ${{ github.event.release.upload_url }}
-        asset_path: ./space-debris-risk-assessment-${{ github.event.release.tag_name }}.zip
-        asset_name: space-debris-risk-assessment-${{ github.event.release.tag_name }}.zip
+        files: ./space-debris-risk-assessment-${{ github.event.release.tag_name }}.zip
+        token: ${{ secrets.GITHUB_TOKEN }}
         asset_content_type: application/zip

@@ -3,10 +3,10 @@ requests>=2.25.0
 numpy>=1.20.0
 scipy>=1.7.0
 
-# Optional but recommended for enhanced functionality
+# Optional space libraries (install what's compatible with your Python version)
 sgp4>=2.20
-poliastro>=0.12.0,<0.13.0
-astropy>=5.0,<6.0
+# poliastro  # Commented out due to Python 3.11 compatibility issues
+astropy>=4.0  # More flexible version range
 skyfield>=1.40
 
 # Machine Learning (optional)
