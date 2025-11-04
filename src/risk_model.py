@@ -6,16 +6,23 @@ orbital debris collision risks and trajectory propagation.
 """
 
 import numpy as np
-import pandas as pd
-import joblib
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import mean_absolute_error, r2_score
-import logging
 from datetime import datetime, timedelta
 from typing import Dict, List, Tuple, Optional, Any
 import os
+import logging
+
+# Optional ML dependencies
+try:
+    import pandas as pd
+    import joblib
+    from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+    from sklearn.model_selection import train_test_split
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.metrics import mean_absolute_error, r2_score
+    ML_AVAILABLE = True
+except ImportError as e:
+    print(f"Warning: ML libraries not available: {e}")
+    ML_AVAILABLE = False
 
 # MLflow integration
 try:
@@ -61,11 +68,16 @@ class DebrisRiskModel:
         """
         self.model_type = model_type
         self.model = None
-        self.scaler = StandardScaler()
+        self.scaler = None
         self.feature_columns = []
         self.is_trained = False
         
+        if not ML_AVAILABLE:
+            logger.warning("ML libraries not available, using simple fallback calculations")
+            return
+        
         # Initialize the specified model
+        self.scaler = StandardScaler()
         if model_type == "random_forest":
             self.model = RandomForestRegressor(
                 n_estimators=100,
@@ -256,6 +268,10 @@ class DebrisRiskModel:
         Returns:
             Risk score between 0 and 1
         """
+        # If ML libraries not available, use simple heuristic calculation
+        if not ML_AVAILABLE:
+            return self._simple_risk_calculation(satellite, target)
+            
         if not self.is_trained:
             raise ValueError("Model must be trained before making predictions")
         
@@ -273,6 +289,51 @@ class DebrisRiskModel:
         
         # Ensure risk score is bounded between 0 and 1
         return np.clip(risk_score, 0.0, 1.0)
+        
+    def _simple_risk_calculation(self, satellite: Dict, target: Dict) -> float:
+        """
+        Simple fallback risk calculation when ML libraries are not available.
+        
+        Args:
+            satellite: Satellite data dictionary
+            target: Target satellite data dictionary
+            
+        Returns:
+            Risk score between 0 and 1
+        """
+        # Extract basic orbital parameters with defaults
+        sat_alt = satellite.get('altitude', 400)
+        sat_ecc = satellite.get('eccentricity', 0.01)
+        sat_inc = satellite.get('inclination', 51.6)
+        
+        tgt_alt = target.get('altitude', 410)
+        tgt_ecc = target.get('eccentricity', 0.01)
+        tgt_inc = target.get('inclination', 51.6)
+        
+        # Calculate altitude difference risk (closer altitudes = higher risk)
+        alt_diff = abs(sat_alt - tgt_alt)
+        alt_risk = max(0, 1 - alt_diff / 100)  # Risk decreases with altitude separation
+        
+        # Calculate inclination difference risk (similar inclinations = higher risk)
+        inc_diff = abs(sat_inc - tgt_inc)
+        inc_risk = max(0, 1 - inc_diff / 30)  # Risk decreases with inclination separation
+        
+        # Eccentricity contribution (higher eccentricity = more unpredictable = higher risk)
+        ecc_risk = (sat_ecc + tgt_ecc) / 2
+        
+        # Low altitude risk (atmosphere drag makes orbits less predictable)
+        low_alt_risk = max(0, (500 - min(sat_alt, tgt_alt)) / 500) if min(sat_alt, tgt_alt) < 500 else 0
+        
+        # Combine factors with weights
+        combined_risk = (
+            0.4 * alt_risk +
+            0.3 * inc_risk +
+            0.2 * ecc_risk +
+            0.1 * low_alt_risk
+        )
+        
+        # Ensure result is between 0 and 1
+        return max(0.0, min(1.0, combined_risk))
     
     def _adjust_risk_for_horizon(self, base_risk: float, satellite: Dict, 
                                 target: Dict, horizon_hours: int) -> float:

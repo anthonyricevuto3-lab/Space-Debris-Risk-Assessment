@@ -4,6 +4,11 @@ requests>=2.25.0
 numpy>=1.20.0
 scipy>=1.7.0
 
+# ML dependencies (required for risk model)
+pandas>=1.3.0
+scikit-learn>=1.0.0
+joblib>=1.0.0
+
 # Optional orbital mechanics (install separately if needed)
 # sgp4>=2.20
 # poliastro>=0.12.0,<0.13.0

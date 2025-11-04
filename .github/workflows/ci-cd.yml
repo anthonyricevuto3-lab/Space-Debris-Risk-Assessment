@@ -73,10 +73,13 @@ jobs:
         python -c "
         import sys
         sys.path.append('src')
-        from risk_model import SpaceDebrisRiskModel
-        model = SpaceDebrisRiskModel()
-        risk = model.calculate_earth_impact_risk(400, 0.01, 0.1, 0.05, 0.001)
-        assert 0 <= risk <= 5, f'Risk score {risk} out of range'
+        from risk_model import DebrisRiskModel
+        model = DebrisRiskModel()
+        # Create mock satellite and target data for testing
+        satellite = {'altitude': 400, 'eccentricity': 0.01, 'inclination': 51.6}
+        target = {'altitude': 410, 'eccentricity': 0.05, 'inclination': 52.0}
+        risk = model.predict_risk(satellite, target)
+        assert 0 <= risk <= 1, f'Risk score {risk} out of range'
         print(f'✅ Risk model test passed: risk={risk:.3f}')
         "
         

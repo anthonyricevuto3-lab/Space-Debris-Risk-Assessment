@@ -60,10 +60,13 @@ jobs:
         python -c "
         import sys
         sys.path.append('src')
-        from risk_model import SpaceDebrisRiskModel
-        model = SpaceDebrisRiskModel()
-        risk = model.calculate_earth_impact_risk(400, 0.01, 0.1, 0.05, 0.001)
-        assert 0 <= risk <= 5, f'Risk score {risk} out of range'
+        from risk_model import DebrisRiskModel
+        model = DebrisRiskModel()
+        # Create mock satellite and target data for testing
+        satellite = {'altitude': 400, 'eccentricity': 0.01, 'inclination': 51.6}
+        target = {'altitude': 410, 'eccentricity': 0.05, 'inclination': 52.0}
+        risk = model.predict_risk(satellite, target)
+        assert 0 <= risk <= 1, f'Risk score {risk} out of range'
         print(f'✅ Risk model test passed on {sys.platform}: risk={risk:.3f}')
         "
         
@@ -166,20 +169,20 @@ jobs:
         python -c "
         import sys
         sys.path.append('src')
-        from risk_model import SpaceDebrisRiskModel
+        from risk_model import DebrisRiskModel
         
-        model = SpaceDebrisRiskModel()
+        model = DebrisRiskModel()
         
-        # Test edge cases
+        # Test edge cases with proper satellite/target format
         test_cases = [
-            (100, 0.1, 0.5, 0.2, 0.01),   # Very low altitude
-            (800, 0.001, 0.01, 0.0, 0.0), # High altitude, circular
-            (400, 0.05, 0.3, 0.1, 0.005), # ISS-like orbit
+            ({'altitude': 100, 'eccentricity': 0.2, 'inclination': 45}, {'altitude': 110, 'eccentricity': 0.1, 'inclination': 46}),   # Very low altitude
+            ({'altitude': 800, 'eccentricity': 0.0, 'inclination': 98}, {'altitude': 805, 'eccentricity': 0.001, 'inclination': 99}), # High altitude, circular
+            ({'altitude': 400, 'eccentricity': 0.1, 'inclination': 51.6}, {'altitude': 410, 'eccentricity': 0.05, 'inclination': 52}), # ISS-like orbit
         ]
         
-        for i, (alt, drag, col_prob, ecc, decay) in enumerate(test_cases):
-            risk = model.calculate_earth_impact_risk(alt, drag, col_prob, ecc, decay)
-            assert 0 <= risk <= 5, f'Invalid risk score {risk} for test case {i}'
+        for i, (satellite, target) in enumerate(test_cases):
+            risk = model.predict_risk(satellite, target)
+            assert 0 <= risk <= 1, f'Invalid risk score {risk} for test case {i}'
             print(f'Test case {i+1}: risk={risk:.3f}')
             
         print('✅ Risk calculation validation passed')
