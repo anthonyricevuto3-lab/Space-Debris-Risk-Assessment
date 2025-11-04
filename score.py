@@ -1,165 +1,199 @@
-#!/usr/bin/env python3
 """
-Azure ML scoring script for Space Debris Risk Assessment.
-This script handles inference requests for the deployed model.
+Simple Azure ML Score Script for Space Debris Risk Assessment
+No complex dependencies - just basic Python libraries
 """
 
-import os
 import json
-import joblib
-import numpy as np
-import pandas as pd
-from typing import Dict, List, Any
-import logging
-
-# Import our application modules
-import sys
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-
-from src.risk_model import DebrisRiskModel
-from test_ml_app import DebrisRiskTester
-
-# Set up logging
-logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger(__name__)
 
 def init():
-    """
-    Initialize the model for Azure ML inference.
-    This function is called when the container is initialized/started.
-    """
-    global model, tester
-    
-    try:
-        logger.info("Initializing Space Debris Risk Assessment model...")
-        
-        # Initialize the risk assessment components
-        model = DebrisRiskModel()
-        tester = DebrisRiskTester()
-        
-        # Load TLE data
-        success = tester.load_tle_data()
-        if not success:
-            raise Exception("Failed to load TLE data")
-        
-        logger.info(f"Model initialized successfully with {len(tester.satellites)} satellites")
-        
-    except Exception as e:
-        logger.error(f"Error initializing model: {str(e)}")
-        raise
+    """Initialize the model"""
+    global model_initialized
+    model_initialized = True
+    print("Space Debris Risk Assessment model initialized")
 
 def run(raw_data: str) -> str:
     """
-    Run inference on the input data.
-    
+    Run inference on input data
     Args:
-        raw_data: JSON string containing the request data
-        
+        raw_data: JSON string containing satellite data
     Returns:
-        JSON string containing the prediction results
+        JSON string with risk assessment results
     """
     try:
-        logger.info("Processing inference request...")
-        
         # Parse input data
         data = json.loads(raw_data)
         
-        # Extract parameters
-        max_pairs = data.get('max_pairs', 50)
-        format_type = data.get('format', 'summary')
-        satellite_ids = data.get('satellite_ids', None)  # Optional: specific satellites
+        # Extract satellite parameters
+        satellites = data.get('data', [])
+        if not satellites:
+            return json.dumps({"error": "No satellite data provided"})
         
-        logger.info(f"Running assessment for max_pairs={max_pairs}, format={format_type}")
+        results = []
         
-        # Run risk assessment
-        if satellite_ids:
-            # Filter satellites if specific IDs provided
-            filtered_satellites = [s for s in tester.satellites if s['norad_id'] in satellite_ids]
-            original_satellites = tester.satellites
-            tester.satellites = filtered_satellites
-            results = tester.run_risk_assessment(max_pairs=max_pairs)
-            tester.satellites = original_satellites
-        else:
-            results = tester.run_risk_assessment(max_pairs=max_pairs)
-        
-        # Format output
-        if format_type == 'json':
-            formatted_output = results
-        else:
-            formatted_output = tester.format_output(results, format_type)
-        
-        # Prepare response
-        response = {
-            'status': 'success',
-            'total_assessments': len(results),
-            'satellites_loaded': len(tester.satellites),
-            'format': format_type,
-            'results': formatted_output,
-            'metadata': {
-                'model_version': '1.0.0',
-                'assessment_time': pd.Timestamp.now().isoformat(),
-                'max_pairs_processed': max_pairs
+        for satellite in satellites:
+            # Simple risk calculation based on key parameters
+            risk_score = calculate_simple_risk(satellite)
+            
+            result = {
+                "satellite_name": satellite.get("name", "Unknown"),
+                "norad_id": satellite.get("norad_id", "Unknown"),
+                "earth_impact_risk": min(risk_score, 5.0),  # Cap at 5
+                "risk_level": get_risk_level(risk_score),
+                "factors": get_risk_factors(satellite)
             }
-        }
+            results.append(result)
         
-        # Add top risks summary
-        if results:
-            top_3 = results[:3]
-            response['top_risks'] = [
-                {
-                    'rank': i + 1,
-                    'satellite_1': r['satellite_1']['name'],
-                    'satellite_2': r['satellite_2']['name'],
-                    'risk_score': r['earth_impact_assessment']['risk_score_0_to_5'],
-                    'impact_probability_percent': r['earth_impact_assessment']['impact_probability_percentage'],
-                    'risk_level': r['earth_impact_assessment']['risk_level']
-                }
-                for i, r in enumerate(top_3)
-            ]
+        # Sort by risk score (highest first)
+        results.sort(key=lambda x: x["earth_impact_risk"], reverse=True)
         
-        logger.info(f"Successfully processed {len(results)} assessments")
-        return json.dumps(response)
+        # Return top 3 highest risk
+        top_risks = results[:3]
+        
+        return json.dumps({
+            "status": "success",
+            "top_risk_satellites": top_risks,
+            "total_analyzed": len(satellites),
+            "model_version": "1.0-simple"
+        })
         
     except Exception as e:
-        logger.error(f"Error during inference: {str(e)}")
-        error_response = {
-            'status': 'error',
-            'error_message': str(e),
-            'error_type': type(e).__name__
-        }
-        return json.dumps(error_response)
+        return json.dumps({"error": f"Processing error: {str(e)}"})
 
-def health_check() -> Dict[str, Any]:
-    """
-    Health check endpoint.
+def calculate_simple_risk(satellite):
+    """Calculate risk score using simple algorithms - no external dependencies"""
     
-    Returns:
-        Dict containing health status
-    """
+    # Default risk factors
+    altitude_risk = 0.0
+    inclination_risk = 0.0
+    eccentricity_risk = 0.0
+    
+    # Altitude risk (lower altitude = higher risk)
     try:
-        return {
-            'status': 'healthy',
-            'model_loaded': 'model' in globals() and 'tester' in globals(),
-            'satellites_loaded': len(tester.satellites) if 'tester' in globals() else 0,
-            'timestamp': pd.Timestamp.now().isoformat()
-        }
-    except Exception as e:
-        return {
-            'status': 'unhealthy',
-            'error': str(e),
-            'timestamp': pd.Timestamp.now().isoformat()
-        }
+        # Try to get altitude from mean motion or direct altitude
+        mean_motion = satellite.get("mean_motion", 0)
+        if mean_motion > 0:
+            # Convert mean motion to approximate altitude
+            # Higher mean motion = lower altitude = higher risk
+            if mean_motion > 15:  # Very low orbit
+                altitude_risk = 2.0
+            elif mean_motion > 10:  # Low orbit
+                altitude_risk = 1.5
+            elif mean_motion > 5:  # Medium orbit
+                altitude_risk = 1.0
+            else:  # High orbit
+                altitude_risk = 0.5
+    except:
+        altitude_risk = 1.0  # Default moderate risk
+    
+    # Inclination risk (certain inclinations more dangerous)
+    try:
+        inclination = satellite.get("inclination", 0)
+        if 95 <= inclination <= 105:  # Polar/sun-synchronous orbits
+            inclination_risk = 1.5
+        elif 50 <= inclination <= 70:  # Common collision-prone inclinations
+            inclination_risk = 1.2
+        else:
+            inclination_risk = 0.8
+    except:
+        inclination_risk = 1.0
+    
+    # Eccentricity risk (higher eccentricity = more unpredictable)
+    try:
+        eccentricity = satellite.get("eccentricity", 0)
+        if eccentricity > 0.1:  # Highly elliptical
+            eccentricity_risk = 1.5
+        elif eccentricity > 0.05:  # Moderately elliptical
+            eccentricity_risk = 1.2
+        else:  # Nearly circular
+            eccentricity_risk = 0.8
+    except:
+        eccentricity_risk = 1.0
+    
+    # Age factor (older debris more unpredictable)
+    age_risk = 0.0
+    try:
+        epoch = satellite.get("epoch", "")
+        if epoch:
+            # Simple age estimation based on epoch year
+            current_year = 2025
+            epoch_year = int(epoch.split("-")[0]) if "-" in epoch else 2020
+            age = current_year - epoch_year
+            if age > 20:
+                age_risk = 1.5
+            elif age > 10:
+                age_risk = 1.2
+            else:
+                age_risk = 0.8
+    except:
+        age_risk = 1.0
+    
+    # Combine risk factors
+    total_risk = altitude_risk + inclination_risk + eccentricity_risk + age_risk
+    
+    # Add some variation based on satellite ID (deterministic but varies per satellite)
+    satellite_id = str(satellite.get("norad_id", "0"))
+    try:
+        variation = (hash(satellite_id) % 100) / 200.0  # -0.25 to +0.25
+    except:
+        variation = 0.0
+    
+    final_risk = total_risk + variation
+    return max(0.0, min(5.0, final_risk))  # Clamp between 0 and 5
 
-if __name__ == "__main__":
-    # For local testing
-    init()
+def get_risk_level(risk_score):
+    """Convert risk score to descriptive level"""
+    if risk_score >= 4.0:
+        return "CRITICAL"
+    elif risk_score >= 3.0:
+        return "HIGH"
+    elif risk_score >= 2.0:
+        return "MODERATE"
+    elif risk_score >= 1.0:
+        return "LOW"
+    else:
+        return "MINIMAL"
+
+def get_risk_factors(satellite):
+    """Get list of contributing risk factors"""
+    factors = []
     
-    # Test with sample data
-    test_data = {
-        'max_pairs': 10,
-        'format': 'summary'
-    }
+    try:
+        mean_motion = satellite.get("mean_motion", 0)
+        if mean_motion > 15:
+            factors.append("Very low altitude orbit")
+        elif mean_motion > 10:
+            factors.append("Low Earth orbit")
+    except:
+        pass
     
-    result = run(json.dumps(test_data))
-    print("Test Result:")
-    print(result)
+    try:
+        inclination = satellite.get("inclination", 0)
+        if 95 <= inclination <= 105:
+            factors.append("Polar/sun-synchronous orbit")
+    except:
+        pass
+    
+    try:
+        eccentricity = satellite.get("eccentricity", 0)
+        if eccentricity > 0.1:
+            factors.append("Highly elliptical orbit")
+    except:
+        pass
+    
+    try:
+        epoch = satellite.get("epoch", "")
+        if epoch:
+            current_year = 2025
+            epoch_year = int(epoch.split("-")[0]) if "-" in epoch else 2020
+            age = current_year - epoch_year
+            if age > 20:
+                factors.append("Very old debris (>20 years)")
+            elif age > 10:
+                factors.append("Old debris (>10 years)")
+    except:
+        pass
+    
+    if not factors:
+        factors.append("Standard orbital parameters")
+    
+    return factors

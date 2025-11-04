@@ -15,34 +15,34 @@ Built a FastAPI backend that analyzes and predicts orbital debris collision risk
 
 ## 🚀 Quick Start
 
-### Option 1: Automated Deployment
-```bash
-python deploy.py
-```
-
-### Option 2: Manual Setup
+### Option 1: Run Risk Assessment
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
 # Run risk assessment
-python test_ml_app.py --max-pairs 50
+python test_ml_app.py
+```
+
+### Option 2: Azure ML Deployment (Requires Azure Setup)
+```bash
+# Deploy to Azure ML
+python deploy_simple_v1.py
 ```
 
 ## 📊 Usage Examples
 
 ```bash
-# Quick demo (50 pairs)
-python test_ml_app.py --max-pairs 50
+# Run basic risk assessment
+python test_ml_app.py
 
-# Process all satellite pairs (warning: takes time!)
-python test_ml_app.py --max-pairs -1
-
-# Table format output
-python test_ml_app.py --max-pairs 100 --format table
-
-# Save results to file
-python test_ml_app.py --max-pairs 200 --format json --save-output results.json
+# Test the scoring script locally
+python -c "
+import score
+score.init()
+result = score.run('{\"data\": [{\"name\": \"Test Satellite\", \"norad_id\": \"12345\", \"mean_motion\": 15.5, \"inclination\": 98.0, \"eccentricity\": 0.001}]}')
+print(result)
+"
 ```
 
 ## 🔬 Risk Assessment Scale
