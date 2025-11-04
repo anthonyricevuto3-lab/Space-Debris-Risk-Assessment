@@ -45,12 +45,14 @@ jobs:
       run: |
         python -c "
         import sys
-        sys.path.append('src')
-        from tle_loader import TLELoader
-        loader = TLELoader()
-        data = loader.load_cosmos_debris(max_objects=5)
-        assert len(data) > 0, 'No TLE data loaded'
-        print(f'✅ TLE loading test passed on {sys.platform}: {len(data)} objects')
+        import os
+        sys.path.append('.')
+        from test_ml_app import DebrisRiskTester
+        tester = DebrisRiskTester()
+        result = tester.load_tle_data()
+        assert result, 'TLE data loading failed'
+        assert len(tester.satellites) > 0, 'No satellites loaded'
+        print(f'✅ TLE loading test passed on {sys.platform}: {len(tester.satellites)} objects')
         "
         
     - name: 🎯 Test Risk Model
@@ -138,22 +140,25 @@ jobs:
       run: |
         python -c "
         import sys
-        sys.path.append('src')
-        from tle_loader import TLELoader
+        import os
+        sys.path.append('.')
+        from test_ml_app import DebrisRiskTester
         
-        loader = TLELoader()
-        data = loader.load_cosmos_debris(max_objects=50)
+        tester = DebrisRiskTester()
+        result = tester.load_tle_data()
+        assert result, 'TLE data loading failed'
         
         # Validate data quality
-        assert len(data) >= 10, f'Insufficient TLE data: {len(data)} objects'
+        satellites = tester.satellites
+        assert len(satellites) >= 10, f'Insufficient TLE data: {len(satellites)} objects'
         
-        for i, obj in enumerate(data[:5]):
-            assert 'object_id' in obj, f'Missing object_id in object {i}'
-            assert 'name' in obj, f'Missing name in object {i}'
-            assert 'line1' in obj, f'Missing line1 in object {i}'
-            assert 'line2' in obj, f'Missing line2 in object {i}'
+        for i, sat in enumerate(satellites[:5]):
+            assert 'name' in sat, f'Missing name in satellite {i}'
+            assert 'line1' in sat, f'Missing line1 in satellite {i}'
+            assert 'line2' in sat, f'Missing line2 in satellite {i}'
+            assert 'norad_id' in sat, f'Missing norad_id in satellite {i}'
             
-        print(f'✅ TLE data validation passed: {len(data)} objects verified')
+        print(f'✅ TLE data validation passed: {len(satellites)} objects verified')
         "
         
     - name: 🎯 Validate Risk Calculations

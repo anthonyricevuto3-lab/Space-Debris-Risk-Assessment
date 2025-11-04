@@ -56,23 +56,27 @@ jobs:
         
     - name: 🧪 Run Tests
       run: |
-        # Test TLE data loading
+        # Test TLE data loading (using the actual test_ml_app.py method)
         python -c "
         import sys
-        sys.path.append('src')
-        from tle_loader import TLELoader
-        loader = TLELoader()
-        data = loader.load_cosmos_debris(max_objects=10)
-        print(f'✅ TLE loading test passed: {len(data)} objects loaded')
+        import os
+        sys.path.append('.')
+        from test_ml_app import DebrisRiskTester
+        tester = DebrisRiskTester()
+        result = tester.load_tle_data()
+        assert result, 'TLE data loading failed'
+        assert len(tester.satellites) > 0, 'No satellites loaded'
+        print(f'✅ TLE loading test passed: {len(tester.satellites)} objects loaded')
         "
         
-        # Test risk model
+        # Test risk model with the actual class
         python -c "
         import sys
         sys.path.append('src')
         from risk_model import SpaceDebrisRiskModel
         model = SpaceDebrisRiskModel()
         risk = model.calculate_earth_impact_risk(400, 0.01, 0.1, 0.05, 0.001)
+        assert 0 <= risk <= 5, f'Risk score {risk} out of range'
         print(f'✅ Risk model test passed: risk={risk:.3f}')
         "
         
