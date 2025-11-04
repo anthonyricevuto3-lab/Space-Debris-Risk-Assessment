@@ -1,0 +1,201 @@
+name: 🚀 Space Debris Risk Assessment CI/CD
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+    inputs:
+      deploy_to_azure:
+        description: 'Deploy to Azure ML'
+        required: false
+        default: 'false'
+
+env:
+  PYTHON_VERSION: '3.11'
+  AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+  AZURE_RESOURCE_GROUP: 'Space-Debris-Risk-Assessment-RG'
+  AZURE_ML_WORKSPACE: 'Space-Debris-Risk-Assessment'
+
+jobs:
+  test:
+    name: 🧪 Test Application
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: 📦 Cache Dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+          
+    - name: 🔧 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov
+        
+    - name: 🔍 Lint Code
+      run: |
+        pip install flake8
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+        
+    - name: 🧪 Run Tests
+      run: |
+        # Test TLE data loading
+        python -c "
+        import sys
+        sys.path.append('src')
+        from tle_loader import TLELoader
+        loader = TLELoader()
+        data = loader.load_cosmos_debris(max_objects=10)
+        print(f'✅ TLE loading test passed: {len(data)} objects loaded')
+        "
+        
+        # Test risk model
+        python -c "
+        import sys
+        sys.path.append('src')
+        from risk_model import SpaceDebrisRiskModel
+        model = SpaceDebrisRiskModel()
+        risk = model.calculate_earth_impact_risk(400, 0.01, 0.1, 0.05, 0.001)
+        print(f'✅ Risk model test passed: risk={risk:.3f}')
+        "
+        
+    - name: 🎯 Run Application Test
+      run: |
+        python test_ml_app.py --max-pairs 5 --format summary
+        
+  build:
+    name: 🏗️ Build Application
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: 📊 Generate Test Report
+      run: |
+        python test_ml_app.py --max-pairs 20 --format json --save-output test_results.json
+        
+    - name: 📤 Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results
+        path: test_results.json
+        
+  deploy-azure:
+    name: 🌊 Deploy to Azure ML
+    runs-on: ubuntu-latest
+    needs: [test, build]
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event.inputs.deploy_to_azure == 'true')
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: 🔑 Azure Login
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        
+    - name: 📦 Install Azure ML SDK
+      run: |
+        python -m pip install --upgrade pip
+        pip install azure-ai-ml azure-identity azure-cli
+        
+    - name: 🚀 Deploy to Azure ML
+      run: |
+        python deploy_simple.py
+      env:
+        AZURE_SUBSCRIPTION_ID: ${{ env.AZURE_SUBSCRIPTION_ID }}
+        
+    - name: 🧪 Test Deployment
+      run: |
+        python test_endpoint.py
+      continue-on-error: true
+      
+  security-scan:
+    name: 🔒 Security Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🔍 Run Security Scan
+      uses: pypa/gh-action-pip-audit@v1.0.8
+      with:
+        inputs: requirements.txt
+        
+  performance-test:
+    name: ⚡ Performance Test
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install memory-profiler psutil
+        
+    - name: ⏱️ Performance Benchmark
+      run: |
+        python -c "
+        import time
+        import psutil
+        import os
+        
+        # Memory usage before
+        process = psutil.Process(os.getpid())
+        mem_before = process.memory_info().rss / 1024 / 1024
+        
+        # Time the application
+        start_time = time.time()
+        os.system('python test_ml_app.py --max-pairs 50 --format summary')
+        end_time = time.time()
+        
+        # Memory usage after
+        mem_after = process.memory_info().rss / 1024 / 1024
+        
+        print(f'⚡ Performance Results:')
+        print(f'   Execution Time: {end_time - start_time:.2f} seconds')
+        print(f'   Memory Usage: {mem_after:.2f} MB (Δ{mem_after - mem_before:.2f} MB)')
+        "

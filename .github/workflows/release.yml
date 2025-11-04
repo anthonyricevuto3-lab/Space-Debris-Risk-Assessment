@@ -1,0 +1,111 @@
+name: 🎯 Release Deployment
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version'
+        required: true
+        default: 'v1.0.0'
+
+env:
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  release-deploy:
+    name: 🚀 Release Deployment
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ env.PYTHON_VERSION }}
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install build twine
+        
+    - name: 🏗️ Build Package
+      run: |
+        python -m build
+        
+    - name: 📤 Create Release Assets
+      run: |
+        # Create a comprehensive release package
+        mkdir -p release-package
+        
+        # Copy essential files
+        cp -r src/ release-package/
+        cp test_ml_app.py release-package/
+        cp requirements.txt release-package/
+        cp README.md release-package/
+        cp DEPLOYMENT_GUIDE.md release-package/
+        cp deploy_simple.py release-package/
+        
+        # Create deployment scripts
+        cat > release-package/quick_start.sh << 'EOF'
+#!/bin/bash
+echo "🛰️ Space Debris Risk Assessment - Quick Start"
+echo "=============================================="
+pip install -r requirements.txt
+python test_ml_app.py --max-pairs 50
+EOF
+        
+        cat > release-package/quick_start.bat << 'EOF'
+@echo off
+echo 🛰️ Space Debris Risk Assessment - Quick Start
+echo ==============================================
+pip install -r requirements.txt
+python test_ml_app.py --max-pairs 50
+EOF
+        
+        chmod +x release-package/quick_start.sh
+        
+        # Create zip archive
+        zip -r space-debris-risk-assessment-${{ github.event.inputs.version || github.event.release.tag_name }}.zip release-package/
+        
+    - name: 📊 Generate Release Report
+      run: |
+        python test_ml_app.py --max-pairs 100 --format json --save-output release-test-results.json
+        
+        # Create release notes
+        cat > RELEASE_NOTES.md << 'EOF'
+# 🛰️ Space Debris Risk Assessment Release
+        
+## 🎯 Features
+- Real-time TLE data processing from CelesTrak
+- Earth impact probability assessment (0-5 scale)
+- Machine learning risk prediction models
+- Azure ML deployment capability
+- Comprehensive documentation
+        
+## 📊 Test Results
+EOF
+        
+        python -c "
+        import json
+        with open('release-test-results.json', 'r') as f:
+            results = json.load(f)
+        print(f'- Processed {results.get(\"total_pairs\", 0)} satellite pairs')
+        print(f'- Identified {len(results.get(\"top_risks\", []))} high-risk objects')
+        print(f'- Risk assessment completed successfully')
+        " >> RELEASE_NOTES.md
+        
+    - name: 📤 Upload Release Assets
+      if: github.event_name == 'release'
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url: ${{ github.event.release.upload_url }}
+        asset_path: ./space-debris-risk-assessment-${{ github.event.release.tag_name }}.zip
+        asset_name: space-debris-risk-assessment-${{ github.event.release.tag_name }}.zip
+        asset_content_type: application/zip

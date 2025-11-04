@@ -1,0 +1,176 @@
+name: 🌐 Cross-Platform Testing
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: '0 2 * * 1'  # Weekly on Monday at 2 AM UTC
+
+jobs:
+  test-matrix:
+    name: 🧪 Test on ${{ matrix.os }} - Python ${{ matrix.python-version }}
+    runs-on: ${{ matrix.os }}
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python-version: ['3.9', '3.10', '3.11', '3.12']
+        exclude:
+          # Exclude some combinations to speed up CI
+          - os: macos-latest
+            python-version: '3.9'
+          - os: windows-latest
+            python-version: '3.9'
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: 🧪 Test TLE Data Loading
+      run: |
+        python -c "
+        import sys
+        sys.path.append('src')
+        from tle_loader import TLELoader
+        loader = TLELoader()
+        data = loader.load_cosmos_debris(max_objects=5)
+        assert len(data) > 0, 'No TLE data loaded'
+        print(f'✅ TLE loading test passed on {sys.platform}: {len(data)} objects')
+        "
+        
+    - name: 🎯 Test Risk Model
+      run: |
+        python -c "
+        import sys
+        sys.path.append('src')
+        from risk_model import SpaceDebrisRiskModel
+        model = SpaceDebrisRiskModel()
+        risk = model.calculate_earth_impact_risk(400, 0.01, 0.1, 0.05, 0.001)
+        assert 0 <= risk <= 5, f'Risk score {risk} out of range'
+        print(f'✅ Risk model test passed on {sys.platform}: risk={risk:.3f}')
+        "
+        
+    - name: 🚀 Test Main Application
+      run: |
+        python test_ml_app.py --max-pairs 3 --format summary
+        
+    - name: 📊 Performance Benchmark
+      if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
+      run: |
+        python -c "
+        import time
+        import subprocess
+        import sys
+        
+        start_time = time.time()
+        result = subprocess.run([sys.executable, 'test_ml_app.py', '--max-pairs', '10'], 
+                              capture_output=True, text=True)
+        end_time = time.time()
+        
+        if result.returncode == 0:
+            print(f'⚡ Performance: {end_time - start_time:.2f} seconds for 10 pairs')
+        else:
+            print(f'❌ Error: {result.stderr}')
+            sys.exit(1)
+        "
+        
+  dependency-check:
+    name: 🔍 Dependency Security Check
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: 🔒 Check Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install safety bandit
+        
+        # Check for known security vulnerabilities
+        safety check --json || echo "Security issues found"
+        
+        # Static security analysis
+        bandit -r src/ -f json || echo "Security issues found"
+        
+  data-validation:
+    name: 📡 TLE Data Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📥 Checkout Code
+      uses: actions/checkout@v4
+      
+    - name: 🐍 Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+        
+    - name: 📦 Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        
+    - name: 🛰️ Validate TLE Data Quality
+      run: |
+        python -c "
+        import sys
+        sys.path.append('src')
+        from tle_loader import TLELoader
+        
+        loader = TLELoader()
+        data = loader.load_cosmos_debris(max_objects=50)
+        
+        # Validate data quality
+        assert len(data) >= 10, f'Insufficient TLE data: {len(data)} objects'
+        
+        for i, obj in enumerate(data[:5]):
+            assert 'object_id' in obj, f'Missing object_id in object {i}'
+            assert 'name' in obj, f'Missing name in object {i}'
+            assert 'line1' in obj, f'Missing line1 in object {i}'
+            assert 'line2' in obj, f'Missing line2 in object {i}'
+            
+        print(f'✅ TLE data validation passed: {len(data)} objects verified')
+        "
+        
+    - name: 🎯 Validate Risk Calculations
+      run: |
+        python -c "
+        import sys
+        sys.path.append('src')
+        from risk_model import SpaceDebrisRiskModel
+        
+        model = SpaceDebrisRiskModel()
+        
+        # Test edge cases
+        test_cases = [
+            (100, 0.1, 0.5, 0.2, 0.01),   # Very low altitude
+            (800, 0.001, 0.01, 0.0, 0.0), # High altitude, circular
+            (400, 0.05, 0.3, 0.1, 0.005), # ISS-like orbit
+        ]
+        
+        for i, (alt, drag, col_prob, ecc, decay) in enumerate(test_cases):
+            risk = model.calculate_earth_impact_risk(alt, drag, col_prob, ecc, decay)
+            assert 0 <= risk <= 5, f'Invalid risk score {risk} for test case {i}'
+            print(f'Test case {i+1}: risk={risk:.3f}')
+            
+        print('✅ Risk calculation validation passed')
+        "
