@@ -92,11 +92,11 @@ class DebrisRiskTester:
                             })
             
             self.satellites = satellites
-            print(f"✅ Loaded {len(satellites)} debris objects")
+            print(f"Loaded {len(satellites)} debris objects")
             return True
             
         except Exception as e:
-            print(f"❌ Error loading TLE data: {e}")
+            print(f"Error loading TLE data: {e}")
             return False
     
     def calculate_orbital_elements(self, tle_line1: str, tle_line2: str) -> Dict[str, float]:
@@ -341,18 +341,18 @@ class DebrisRiskTester:
             List of risk assessment results sorted by risk score
         """
         if len(self.satellites) < 2:
-            print("❌ Need at least 2 satellites for risk assessment")
+            print("Need at least 2 satellites for risk assessment")
             return []
         
         total_pairs = (len(self.satellites) * (len(self.satellites) - 1)) // 2
         if max_pairs is None:
             max_pairs = total_pairs
         
-        print(f"🔍 Running comprehensive Earth impact risk assessment...")
-        print(f"📊 Total satellites: {len(self.satellites)}")
-        print(f"📊 Total possible pairs: {total_pairs}")
-        print(f"📊 Processing pairs: {min(max_pairs, total_pairs)}")
-        print(f"📊 Scale: 0-5 (0=No Earth impact risk, 5=100% Earth impact probability)")
+        print(f"Running comprehensive Earth impact risk assessment...")
+        print(f"Total satellites: {len(self.satellites)}")
+        print(f"Total possible pairs: {total_pairs}")
+        print(f"Processing pairs: {min(max_pairs, total_pairs)}")
+        print(f"Scale: 0-5 (0=No Earth impact risk, 5=100% Earth impact probability)")
         print("")
         
         results = []
@@ -386,7 +386,7 @@ class DebrisRiskTester:
         results.sort(key=lambda x: x['earth_impact_assessment']['risk_score_0_to_5'], reverse=True)
         
         self.test_results = results
-        print(f"✅ Completed {len(results):,} risk assessments")
+        print(f"Completed {len(results):,} risk assessments")
         
         # Show top 3 highest risk pairs
         print(f"\n🚨 TOP 3 HIGHEST EARTH IMPACT RISK PAIRS:")
@@ -401,12 +401,12 @@ class DebrisRiskTester:
             print(f"\n#{i+1} HIGHEST RISK PAIR:")
             print(f"   Satellite 1: {sat1['name']} (ID: {sat1['norad_id']})")
             print(f"   Satellite 2: {sat2['name']} (ID: {sat2['norad_id']})")
-            print(f"   🎯 Risk Score: {impact['risk_score_0_to_5']:.3f}/5.0")
-            print(f"   📊 Impact Probability: {impact['impact_probability_percentage']:.2f}%")
-            print(f"   ⚠️  Risk Level: {impact['risk_level']}")
+            print(f"   Risk Score: {impact['risk_score_0_to_5']:.3f}/5.0")
+            print(f"   Impact Probability: {impact['impact_probability_percentage']:.2f}%")
+            print(f"   Risk Level: {impact['risk_level']}")
             print(f"   🌍 Est. Impact Time: {prediction['estimated_impact_time'][:19]}")
             print(f"   📍 Est. Impact Location: {prediction['estimated_impact_location']['latitude']:.2f}°, {prediction['estimated_impact_location']['longitude']:.2f}°")
-            print(f"   🔬 Confidence: {impact['confidence']:.1%}")
+            print(f"   Confidence: {impact['confidence']:.1%}")
             
             # Show detailed risk factors
             factors = impact['risk_factors']
@@ -466,9 +466,9 @@ class DebrisRiskTester:
             output = []
             output.append("🌌 ORBITAL DEBRIS EARTH IMPACT RISK ASSESSMENT SUMMARY")
             output.append("=" * 60)
-            output.append(f"📊 Analysis Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-            output.append(f"🛰️  Total Satellites: {len(self.satellites)}")
-            output.append(f"🔍 Risk Assessments: {len(results)}")
+            output.append(f"Analysis Time: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
+            output.append(f"Total Satellites: {len(self.satellites)}")
+            output.append(f"Risk Assessments: {len(results)}")
             output.append("")
             
             # Risk level distribution
@@ -492,7 +492,7 @@ class DebrisRiskTester:
             output.append("")
             
             if high_risk_pairs:
-                output.append("⚠️  HIGH EARTH IMPACT RISK PAIRS:")
+                output.append("HIGH EARTH IMPACT RISK PAIRS:")
                 for i, result in enumerate(high_risk_pairs[:5]):  # Show top 5
                     sat1 = result['satellite_1']['name'][:30]
                     sat2 = result['satellite_2']['name'][:30]
@@ -512,7 +512,7 @@ class DebrisRiskTester:
                 max_score = max(scores)
                 min_score = min(scores)
                 
-                output.append("📊 PERFORMANCE METRICS:")
+                output.append("PERFORMANCE METRICS:")
                 output.append(f"   Average Risk Score: {avg_score:.3f}/5.0")
                 output.append(f"   Highest Risk Score: {max_score:.3f}/5.0")
                 output.append(f"   Lowest Risk Score: {min_score:.3f}/5.0")
@@ -540,11 +540,11 @@ def main():
     # Handle special case for all pairs
     max_pairs = None if args.max_pairs == -1 else args.max_pairs
     
-    print("🚀 Space Debris Earth Impact Risk Assessment - ML App Test")
-    print("=" * 70)
-    print(f"📊 Assessment Mode: {'ALL PAIRS' if max_pairs is None else f'LIMITED ({max_pairs:,} pairs)'}")
-    print(f"📊 Risk Scale: 0-5 (0=No Earth impact risk, 5=100% Earth impact probability)")
-    print(f"🎯 Focus: Top 3 highest Earth impact risk pairs")
+    print("Space Debris Earth Impact Risk Assessment - ML App Test")
+    print("="*70)
+    print(f"Assessment Mode: {'ALL PAIRS' if max_pairs is None else f'LIMITED ({max_pairs:,} pairs)'}")
+    print(f"Risk Scale: 0-5 (0=No Earth impact risk, 5=100% Earth impact probability)")
+    print(f"Focus: Top 3 highest Earth impact risk pairs")
     print("")
     
     # Initialize tester

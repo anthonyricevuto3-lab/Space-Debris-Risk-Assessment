@@ -77,6 +77,6 @@ def deploy_simple():
 if __name__ == "__main__":
     success = deploy_simple()
     if success:
-        print("✅ Azure ML deployment completed successfully!")
+        print("Azure ML deployment completed successfully!")
     else:
-        print("❌ Azure ML deployment failed")
+        print("Azure ML deployment failed")

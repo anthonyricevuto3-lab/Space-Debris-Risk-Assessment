@@ -1,10 +1,10 @@
-# 🛰️ Space Debris Earth Impact Risk Assessment
+﻿# Space Debris Earth Impact Risk Assessment
 
 A machine learning application for assessing the Earth impact probability of orbital debris using real TLE (Two-Line Element) data from CelesTrak.
 
 Built a FastAPI backend that analyzes and predicts orbital debris collision risks using Kalman filters, TLE data parsing, and machine learning models for trajectory prediction. Designed APIs for satellite data ingestion, debris risk computation, and real-time alert generation to support scalable aerospace applications.
 
-## 🎯 Features
+## Features
 
 - **Real-time TLE Data**: Loads current orbital debris data from CelesTrak
 - **Earth Impact Assessment**: 0-5 scale probability assessment (0=No risk, 5=100% Earth impact)
@@ -13,7 +13,7 @@ Built a FastAPI backend that analyzes and predicts orbital debris collision risk
 - **Multiple Output Formats**: Summary, table, and JSON formats
 - **Scalable Processing**: Configure from small demos to full dataset analysis
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Option 1: Run Risk Assessment
 ```bash
@@ -30,7 +30,7 @@ python test_ml_app.py
 python deploy_simple_v1.py
 ```
 
-## 📊 Usage Examples
+## Usage Examples
 
 ```bash
 # Run basic risk assessment
@@ -45,10 +45,10 @@ print(result)
 "
 ```
 
-## 🔬 Risk Assessment Scale
+## Risk Assessment Scale
 
 - **EXTREME (4.5-5.0)**: 90-100% Earth impact probability
-- **CRITICAL (3.5-4.5)**: 70-90% Earth impact probability  
+- **CRITICAL (3.5-4.5)**: 70-90% Earth impact probability 
 - **HIGH (2.5-3.5)**: 50-70% Earth impact probability
 - **MEDIUM (1.5-2.5)**: 30-50% Earth impact probability
 - **LOW (0.5-1.5)**: 10-30% Earth impact probability
@@ -58,24 +58,24 @@ print(result)
 
 ```
 orbital-debris-ml/
-├── test_ml_app.py          # Main application
+├── test_ml_app.py     # Main application
 ├── src/
-│   ├── risk_model.py       # Core ML model
-│   ├── tle_loader.py       # TLE data loading
-│   ├── utils.py            # Utility functions
-│   └── __init__.py         # Package initialization
+│  ├── risk_model.py    # Core ML model
+│  ├── tle_loader.py    # TLE data loading
+│  ├── utils.py      # Utility functions
+│  └── __init__.py     # Package initialization
 ├── env/
-│   └── conda.yml           # Conda environment
-├── requirements.txt        # Python dependencies
-├── deploy.py              # Deployment script
-└── README.md              # This file
+│  └── conda.yml      # Conda environment
+├── requirements.txt    # Python dependencies
+├── deploy.py       # Deployment script
+└── README.md       # This file
 ```
 
-## 🛰️ Data Source
+## Data Source
 
 This application uses real orbital debris data from CelesTrak, specifically the Cosmos-2251 debris catalog, which contains data for 598+ debris objects.
 
-## 🔧 Risk Calculation
+## Risk Calculation
 
 The Earth impact probability is calculated using weighted factors:
 
@@ -90,13 +90,13 @@ The Earth impact probability is calculated using weighted factors:
 ```
 🚨 TOP 3 HIGHEST EARTH IMPACT RISK PAIRS:
 #1 HIGHEST RISK PAIR:
-   Satellite 1: COSMOS 2251 (ID: 22675)
-   Satellite 2: COSMOS 2251 DEB (ID: 34958)
-   🎯 Risk Score: 2.291/5.0
-   📊 Impact Probability: 45.81%
-   ⚠️  Risk Level: MEDIUM
-   🌍 Est. Impact Time: 2028-01-05T15:44:09
-   📍 Est. Impact Location: -60.50°, 55.29°
+  Satellite 1: COSMOS 2251 (ID: 22675)
+  Satellite 2: COSMOS 2251 DEB (ID: 34958)
+   Risk Score: 2.291/5.0
+   Impact Probability: 45.81%
+   Risk Level: MEDIUM
+  🌍 Est. Impact Time: 2028-01-05T15:44:09
+  📍 Est. Impact Location: -60.50°, 55.29°
 ```
 
 ## 🚨 Important Notes
@@ -106,7 +106,7 @@ The Earth impact probability is calculated using weighted factors:
 - Real space surveillance requires specialized orbital analysis software
 - TLE data accuracy depends on tracking network updates
 
-## 🔬 Dependencies
+## Dependencies
 
 ### Core Requirements
 - Python 3.8+
