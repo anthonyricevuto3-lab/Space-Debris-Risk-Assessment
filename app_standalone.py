@@ -418,8 +418,8 @@ def home():
             
             <div class="data-source">
                 <p>Data source: High-Performance Live TLE data from CelesTrak (COSMOS-2251 debris catalog)</p>
-                <p> Optimized TLE parser   Vectorized risk calculations   Real-time orbital tracking</p>
-                <p> Ultra-fast processing engine   NORAD catalog objects   Live risk assessment</p>
+                <p> Optimized TLE parser -  Vectorized risk calculations -  Real-time orbital tracking</p>
+                <p> Ultra-fast processing engine -  NORAD catalog objects -  Live risk assessment</p>
             </div>
         </div>
 
