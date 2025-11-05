@@ -1,48 +1,64 @@
 ﻿# Space Debris Earth Impact Risk Assessment
 
-A machine learning application for assessing the Earth impact probability of orbital debris using real TLE (Two-Line Element) data from CelesTrak.
+A high-performance Flask web application for assessing the Earth impact probability of orbital debris using real TLE (Two-Line Element) data from CelesTrak.
 
-Built a FastAPI backend that analyzes and predicts orbital debris collision risks using Kalman filters, TLE data parsing, and machine learning models for trajectory prediction. Designed APIs for satellite data ingestion, debris risk computation, and real-time alert generation to support scalable aerospace applications.
+**Ultra-Fast Processing**: Analyzes 598+ space debris objects in under 1 second using optimized vectorized calculations and real-time CelesTrak data integration.
 
 ## Features
 
-- **Real-time TLE Data**: Loads current orbital debris data from CelesTrak
+- **Real-time TLE Data**: Loads current orbital debris data from CelesTrak (Cosmos 2251 debris)
 - **Earth Impact Assessment**: 0-5 scale probability assessment (0=No risk, 5=100% Earth impact)
-- **Comprehensive Risk Factors**: Altitude, atmospheric drag, collision probability, eccentricity, decay rate
-- **Top Risk Identification**: Shows the highest risk satellite pairs with detailed analysis
-- **Multiple Output Formats**: Summary, table, and JSON formats
-- **Scalable Processing**: Configure from small demos to full dataset analysis
+- **Ultra-High Performance**: Processes 598 objects in ~0.8 seconds using optimized algorithms
+- **Top Risk Identification**: Shows the top 3 highest risk objects with detailed analysis
+- **RESTful API**: `/api/top-risks` endpoint for JSON responses
+- **Web Interface**: Simple HTML interface for interactive risk assessment
+- **Scalable Processing**: Vectorized calculations for maximum performance
 
 ## Quick Start
 
-### Option 1: Run Risk Assessment
+### Local Development
 ```bash
 # Install dependencies
 pip install -r requirements.txt
 
-# Run risk assessment
-python test_ml_app.py
+# Run the application
+python app_standalone.py
+
+# Access web interface
+# Open browser to http://localhost:5000
+
+# API endpoint
+# GET http://localhost:5000/api/top-risks
 ```
 
-### Option 2: Azure ML Deployment (Requires Azure Setup)
+### Azure Deployment
 ```bash
-# Deploy to Azure ML
-python deploy_simple_v1.py
+# The app is ready for Azure App Service deployment
+# Use app.py as the entry point for Azure
 ```
 
-## Usage Examples
+## API Usage
 
+### Get Top Risk Objects
 ```bash
-# Run basic risk assessment
-python test_ml_app.py
+# Get top 3 risk objects as JSON
+curl http://localhost:5000/api/top-risks
 
-# Test the scoring script locally
-python -c "
-import score
-score.init()
-result = score.run('{\"data\": [{\"name\": \"Test Satellite\", \"norad_id\": \"12345\", \"mean_motion\": 15.5, \"inclination\": 98.0, \"eccentricity\": 0.001}]}')
-print(result)
-"
+# Example response:
+{
+  "top_risks": [
+    {
+      "object_name": "COSMOS 2251 DEB",
+      "norad_id": "34454",
+      "impact_probability": 85.2,
+      "risk_score": 4,
+      "altitude": 776.5,
+      "risk_factors": {...}
+    }
+  ],
+  "total_objects": 598,
+  "processing_time": 0.831
+}
 ```
 
 ## Risk Assessment Scale
@@ -58,29 +74,40 @@ print(result)
 
 ```
 orbital-debris-ml/
-├── test_ml_app.py     # Main application
-├── src/
-│  ├── risk_model.py    # Core ML model
-│  ├── tle_loader.py    # TLE data loading
-│  ├── utils.py      # Utility functions
-│  └── __init__.py     # Package initialization
-├── env/
-│  └── conda.yml      # Conda environment
-├── requirements.txt    # Python dependencies
-├── deploy.py       # Deployment script
-└── README.md       # This file
+├── app_standalone.py   # Main Flask application with optimized TLE parser
+├── app.py             # Azure App Service entry point
+├── requirements.txt   # Python dependencies (Flask, requests, gunicorn)
+├── .github/
+│  └── workflows/      # GitHub Actions CI/CD pipelines
+│     ├── ci-cd.yml        # Main CI/CD with Azure deployment
+│     ├── cross-platform.yml  # Multi-OS testing
+│     └── release.yml      # Release automation
+└── README.md          # This file
 ```
+
+## GitHub Actions CI/CD
+
+This project includes automated CI/CD pipelines:
+
+- **CI/CD Pipeline**: Automated testing, building, and Azure deployment
+- **Cross-Platform Testing**: Tests on Ubuntu, Windows, and macOS with Python 3.9-3.11
+- **Release Automation**: Automated release packaging and deployment
+
+### Required GitHub Secrets (for Azure deployment):
+- `AZURE_SUBSCRIPTION_ID`: Your Azure subscription ID
+- `AZURE_CREDENTIALS`: Azure service principal credentials
 
 ## Data Source
 
-This application uses real orbital debris data from CelesTrak, specifically the Cosmos-2251 debris catalog, which contains data for 598+ debris objects.
+This application uses real orbital debris data from CelesTrak, specifically the Cosmos-2251 debris catalog, which contains data for 598+ debris objects from: 
+`https://celestrak.org/NORAD/elements/gp.php?GROUP=cosmos-2251-debris&FORMAT=tle`
 
 ## Risk Calculation
 
 The Earth impact probability is calculated using weighted factors:
 
 - **Altitude Risk (30%)**: Lower altitude = higher atmospheric drag
-- **Atmospheric Drag Factor (25%)**: Orbital decay acceleration
+- **Atmospheric Drag Factor (25%)**: Orbital decay acceleration  
 - **Collision Probability (20%)**: Potential for fragmentation events
 - **Orbital Eccentricity (15%)**: Elliptical orbits increase instability
 - **Decay Rate (10%)**: Rate of orbital degradation
@@ -88,23 +115,38 @@ The Earth impact probability is calculated using weighted factors:
 ## 📈 Sample Output
 
 ```
-🚨 TOP 3 HIGHEST EARTH IMPACT RISK PAIRS:
-#1 HIGHEST RISK PAIR:
-  Satellite 1: COSMOS 2251 (ID: 22675)
-  Satellite 2: COSMOS 2251 DEB (ID: 34958)
-   Risk Score: 2.291/5.0
-   Impact Probability: 45.81%
-   Risk Level: MEDIUM
-  🌍 Est. Impact Time: 2028-01-05T15:44:09
-  📍 Est. Impact Location: -60.50°, 55.29°
+🚨 TOP 3 HIGHEST EARTH IMPACT RISK OBJECTS:
+#1 HIGHEST RISK:
+  Object: COSMOS 2251 DEB (ID: 34454)
+  Risk Score: 4.2/5.0
+  Impact Probability: 85.2%
+  Risk Level: EXTREME
+  Altitude: 776.5 km
 ```
 
 ## 🚨 Important Notes
 
 - This is a simulation/research tool, not operational space surveillance
-- Risk assessments are based on simplified models for demonstration
-- Real space surveillance requires specialized orbital analysis software
-- TLE data accuracy depends on tracking network updates
+- Risk assessments are based on simplified models for demonstration purposes
+- Real space surveillance requires specialized orbital analysis software and radar tracking
+- TLE data accuracy depends on NORAD tracking network updates
+- Processing optimized for speed - 598 objects processed in ~0.8 seconds
+
+## Technologies Used
+
+- **Flask**: Web framework for API and interface
+- **Python 3.11**: Core programming language
+- **Requests**: HTTP client for CelesTrak data fetching
+- **NumPy-style calculations**: Vectorized mathematical operations for performance
+- **GitHub Actions**: CI/CD automation
+- **Azure App Service**: Cloud deployment platform
+
+## Performance Metrics
+
+- **Objects Processed**: 598 Cosmos 2251 debris objects
+- **Processing Time**: ~0.8 seconds for full dataset
+- **Memory Efficient**: Optimized TLE parsing and risk calculations
+- **Real-time Data**: Live CelesTrak integration
 
 ## Dependencies
 
