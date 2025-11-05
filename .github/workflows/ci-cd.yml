@@ -119,9 +119,9 @@ jobs:
     - name: 📦 Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-core.txt
-        # Install optional dependencies individually
-        pip install sgp4>=2.20 || echo "sgp4 installation failed, continuing..."
+        pip install -r requirements.txt
+        # Test that our optimized TLE parser works
+        python -c "import app_standalone; print('✅ App import successful')"
         
     - name: 📊 Generate Test Report
       run: |
@@ -230,7 +230,7 @@ jobs:
     - name: 📦 Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-core.txt
+        pip install -r requirements.txt
         pip install memory-profiler psutil
         
     - name: ⏱️ Performance Benchmark

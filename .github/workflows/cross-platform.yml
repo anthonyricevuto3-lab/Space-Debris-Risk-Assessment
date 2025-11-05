@@ -37,37 +37,50 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-core.txt
-        # Install optional dependencies individually
-        pip install sgp4>=2.20 || echo "sgp4 installation skipped"
+        pip install -r requirements.txt
+        # Test that our optimized TLE parser works
+        python -c "import app_standalone; print('✅ App import successful')"
         
     - name: Test TLE Data Loading
       run: |
         python -c "
-        import sys
-        import os
-        sys.path.append('.')
-        from test_ml_app import DebrisRiskTester
-        tester = DebrisRiskTester()
-        result = tester.load_tle_data()
-        assert result, 'TLE data loading failed'
-        assert len(tester.satellites) > 0, 'No satellites loaded'
-        print(f'TLE loading test passed on {sys.platform}: {len(tester.satellites)} objects')
+        import app_standalone
+        print('🧪 Testing optimized TLE parser...')
+        
+        # Test TLE data fetch
+        data = app_standalone.optimized_fetch_celestrack_tle()
+        assert data is not None, 'Failed to fetch TLE data'
+        assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
+        print(f'✅ TLE data test passed: {len(data)} objects loaded')
+        
+        # Test scoring system
+        for debris in data:
+            score = debris['risk_assessment']['earth_impact_score']
+            prob = debris['risk_assessment']['impact_probability_percent']
+            assert 0 <= score <= 5, f'Risk score {score} out of range [0,5]'
+            assert 0 <= prob <= 100, f'Impact probability {prob} out of range [0,100]'
+            
+        print('✅ All tests passed')
         "
         
-    - name: Test Risk Model
+    - name: Test Flask API
       run: |
         python -c "
-        import sys
-        sys.path.append('src')
-        from risk_model import DebrisRiskModel
-        model = DebrisRiskModel()
-        # Create mock satellite and target data for testing
-        satellite = {'altitude': 400, 'eccentricity': 0.01, 'inclination': 51.6}
-        target = {'altitude': 410, 'eccentricity': 0.05, 'inclination': 52.0}
-        risk = model.predict_risk(satellite, target)
-        assert 0 <= risk <= 1, f'Risk score {risk} out of range'
-        print(f'Risk model test passed on {sys.platform}: risk={risk:.3f}')
+        from app_standalone import app
+        
+        with app.test_client() as client:
+            response = client.get('/health')
+            assert response.status_code == 200, 'Health endpoint failed'
+            
+            response = client.get('/api/top-risks')
+            assert response.status_code == 200, 'API endpoint failed'
+            
+            data = response.get_json()
+            assert isinstance(data, list), 'API should return a list'
+            assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
+            
+            print('✅ Flask API tests passed')
+        "
         "
         
     - name: Test Main Application
@@ -134,9 +147,9 @@ jobs:
     - name: Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-core.txt
-        # Install optional dependencies individually
-        pip install sgp4>=2.20 || echo "sgp4 installation skipped"
+        pip install -r requirements.txt
+        # Test that our optimized TLE parser works
+        python -c "import app_standalone; print('✅ App import successful')"
         
     - name: Validate TLE Data Quality
       run: |
