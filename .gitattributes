@@ -1,0 +1,13 @@
+# Exclude virtual environment from repository and CI checks
+.venv/ export-ignore
+venv/ export-ignore
+env/ export-ignore
+# Ensure text files are handled properly for CI/CD
+*.py text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.md text eol=lf
+*.txt text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf

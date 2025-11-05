@@ -1,356 +1,357 @@
-# Space Debris Risk Assessment Dashboard
-
-A modern, production-ready web dashboard for space debris risk assessment combining hybrid AI models with real-time Azure API integration.
-
-## 🚀 Features
-
-### Modern Web Dashboard
-- **Glass-morphism UI**: Professional space-themed interface with modern design
-- **Real-time Data**: Live integration with Azure API (space-debris-api-v2.azurewebsites.net)
-- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
-- **Interactive Elements**: Tab navigation, auto-refresh, and connection status indicators
-
-### Advanced AI Assessment
-- **Hybrid AI System**: Combines SGP4 physics with ensemble machine learning
-- **Risk Scoring**: 0-5 scale risk assessment with detailed predictions
-- **Reentry Analysis**: Precise reentry timing and location predictions
-- **Uncertainty Bounds**: Statistical confidence intervals for all predictions
-
-### Deployment Ready
-- **Azure Integration**: Production-ready Azure Web App deployment
-- **CI/CD Pipeline**: Automated testing and deployment via GitHub Actions
-- **Standalone Option**: HTML-only version for static hosting
-- **Enterprise Grade**: Emoji-free workflows and production configurations
-
-## 🎯 Quick Start
-
-### Option 1: Standalone Dashboard (Recommended)
-1. Open `space_debris_dashboard.html` directly in your browser
-2. No local server required - connects directly to Azure API
-3. Instant access to live space debris data
-
-### Option 2: Local Flask Development
-```bash
-# Clone repository
-git clone https://github.com/anthonyricevuto3-lab/Space-Debris-Risk-Assessment.git
-cd Space-Debris-Risk-Assessment
-
-# Create virtual environment
-python -m venv .venv
-.venv\Scripts\activate  # Windows
-# source .venv/bin/activate  # Linux/Mac
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run application
-python main.py
-
-# Access dashboard
-http://localhost:5000
-```
-
-## 🌐 Live Demo
-
-- **Azure Web App**: [Production Dashboard](https://space-debris-dashboard.azurewebsites.net/)
-- **API Health**: [Azure API Status](https://space-debris-api-v2.azurewebsites.net/health)
-
-## 📊 API Endpoints
-
-### Dashboard Interface
-- `GET /` - Main dashboard with top 3 risks
-- `GET /health` - Application health check
-
-### Azure API Integration
-- `https://space-debris-api-v2.azurewebsites.net/assess-risks` - Live risk assessment
-- `https://space-debris-api-v2.azurewebsites.net/health` - API health status
-
-## 🤖 Risk Assessment Methodology
-
-### Risk Score Scale (0-5)
-- **0**: No immediate risk, stable orbit
-- **1-2**: Low risk, long-term monitoring
-- **3**: Moderate risk, active tracking required
-- **4**: High risk, reentry likely within 1 year
-- **5**: Critical risk, imminent reentry threat
-
-### Hybrid AI Components
-1. **SGP4 Physics Engine**: Precise orbital mechanics calculations
-2. **Random Forest Ensemble**: Decay rate prediction (R² = 1.000)
-3. **Gradient Boosting**: Pattern recognition for orbital dynamics
-4. **Neural Networks**: Complex atmospheric interaction modeling
-
-### Data Sources
-- **Real-time TLE Data**: CelesTrak.org active feeds
-- **Environmental Factors**: Solar activity, atmospheric density
-- **Historical Patterns**: Debris behavior analysis
-
-## 🏗️ Technical Architecture
-
-### Frontend Stack
-- **HTML5/CSS3**: Modern responsive design
-- **JavaScript ES6+**: Interactive functionality
-- **Glass-morphism UI**: Contemporary visual design
-- **CSS Grid/Flexbox**: Responsive layout system
-
-### Backend Stack
-- **Flask 2.3.3**: Python web framework
-- **Azure API**: Cloud-based data processing
-- **Gunicorn**: Production WSGI server
-- **Scientific Libraries**: NumPy, Pandas, Scikit-learn
-
-### Deployment Infrastructure
-- **Azure Web App**: Production hosting
-- **GitHub Actions**: CI/CD automation
-- **Docker Ready**: Containerization support
-- **CDN Compatible**: Static asset optimization
-
-## 📁 Project Structure
-
-```
-├── 📄 space_debris_dashboard.html    # Standalone dashboard
-├── 🐍 main.py                        # Flask application
-├── 📋 requirements.txt               # Dependencies
-├── 📚 templates/                     # Flask templates
-│   └── index.html                   # Dashboard template
-├── 🎨 static/                       # Frontend assets
-│   ├── css/style.css               # Modern styling
-│   └── js/app.js                   # Interactive functionality
-├── 🔧 .github/workflows/            # CI/CD pipelines
-│   ├── azure-deploy.yml            # Azure deployment
-│   └── ci.yml                      # Continuous integration
-├── ⚙️ .deployment                   # Azure configuration
-├── 📦 Procfile                      # Process configuration
-└── 📖 DEPLOYMENT.md                 # Deployment guide
-```
-
-## 🚀 Deployment Options
-
-### 1. Azure Web App (Recommended)
-```bash
-# Automatic deployment via GitHub Actions
-git push origin main
-```
-
-### 2. Static Hosting
-```bash
-# Deploy standalone HTML to any static host
-# Netlify, Vercel, GitHub Pages, etc.
-```
-
-### 3. Docker Container
-```bash
-# Build container (Dockerfile included)
-docker build -t space-debris-dashboard .
-docker run -p 5000:5000 space-debris-dashboard
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-```bash
-FLASK_APP=main.py
-FLASK_ENV=production
-AZURE_API_URL=https://space-debris-api-v2.azurewebsites.net
-```
-
-### Azure Web App Settings
-- **Python Version**: 3.11
-- **Startup Command**: `gunicorn main:app`
-- **Always On**: Enabled for production
-
-## 🧪 Testing
-
-### Automated Testing
-```bash
-# Run CI tests locally
-pip install flake8
-flake8 . --count --statistics
-python -c "import main; print('✓ App imports successfully')"
-```
-
-### Manual Testing
-1. **Standalone**: Open HTML file in browser
-2. **Local Server**: Run Flask app and test endpoints
-3. **Azure Integration**: Verify API connectivity
-
-## 📈 Performance Metrics
-
-- **Load Time**: < 2 seconds for initial dashboard load
-- **API Response**: < 1 second for risk assessment data
-- **Mobile Performance**: Optimized for 3G networks
-- **Accessibility**: WCAG 2.1 AA compliant design
-
-## 🔒 Security Features
-
-- **HTTPS Only**: Secure connections required
-- **API Rate Limiting**: Protection against abuse
-- **Input Validation**: Sanitized data processing
-- **Error Handling**: Graceful failure management
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **CelesTrak.org**: Real-time orbital data provider
-- **Azure**: Cloud infrastructure and AI services
-- **SGP4 Library**: Orbital mechanics calculations
-- **Open Source Community**: Dependencies and inspiration
-
-## 📞 Support
-
-- **GitHub Issues**: [Report bugs or request features](https://github.com/anthonyricevuto3-lab/Space-Debris-Risk-Assessment/issues)
-- **Documentation**: [Deployment Guide](DEPLOYMENT.md)
-- **Live Demo**: [Azure Web App](https://space-debris-dashboard.azurewebsites.net/)
-
----
-
-**Built with ❤️ for space safety and debris monitoring**
-# Open browser to http://localhost:5000
-
-# API endpoint
-# GET http://localhost:5000/api/top-risks
-```
-
-### Azure Deployment
-```bash
-# The app is ready for Azure App Service deployment
-# Use app.py as the entry point for Azure
-```
-
-## API Usage
-
-### Get Top Risk Objects
-```bash
-# Get top 3 risk objects as JSON
-curl http://localhost:5000/api/top-risks
-
-# Example response:
-{
-  "top_risks": [
-    {
-      "object_name": "COSMOS 2251 DEB",
-      "norad_id": "34454",
-      "impact_probability": 85.2,
-      "risk_score": 4,
-      "altitude": 776.5,
-      "risk_factors": {...}
-    }
-  ],
-  "total_objects": 598,
-  "processing_time": 0.831
-}
-```
-
-## Risk Assessment Scale
-
-- **EXTREME (4.5-5.0)**: 90-100% Earth impact probability
-- **CRITICAL (3.5-4.5)**: 70-90% Earth impact probability 
-- **HIGH (2.5-3.5)**: 50-70% Earth impact probability
-- **MEDIUM (1.5-2.5)**: 30-50% Earth impact probability
-- **LOW (0.5-1.5)**: 10-30% Earth impact probability
-- **MINIMAL (0-0.5)**: 0-10% Earth impact probability
-
-## 📂 Project Structure
-
-```
-orbital-debris-ml/
-├── app_standalone.py   # Main Flask application with optimized TLE parser
-├── app.py             # Azure App Service entry point
-├── requirements.txt   # Python dependencies (Flask, requests, gunicorn)
-├── .github/
-│  └── workflows/      # GitHub Actions CI/CD pipelines
-│     ├── ci-cd.yml        # Main CI/CD with Azure deployment
-│     ├── cross-platform.yml  # Multi-OS testing
-│     └── release.yml      # Release automation
-└── README.md          # This file
-```
-
-## GitHub Actions CI/CD
-
-This project includes automated CI/CD pipelines:
-
-- **CI/CD Pipeline**: Automated testing, building, and Azure deployment
-- **Cross-Platform Testing**: Tests on Ubuntu, Windows, and macOS with Python 3.9-3.11
-- **Release Automation**: Automated release packaging and deployment
-
-### Required GitHub Secrets (for Azure deployment):
-- `AZURE_SUBSCRIPTION_ID`: Your Azure subscription ID
-- `AZURE_CREDENTIALS`: Azure service principal credentials
-
-## Data Source
-
-This application uses real orbital debris data from CelesTrak, specifically the Cosmos-2251 debris catalog, which contains data for 598+ debris objects from: 
-`https://celestrak.org/NORAD/elements/gp.php?GROUP=cosmos-2251-debris&FORMAT=tle`
-
-## Risk Calculation
-
-The Earth impact probability is calculated using weighted factors:
-
-- **Altitude Risk (30%)**: Lower altitude = higher atmospheric drag
-- **Atmospheric Drag Factor (25%)**: Orbital decay acceleration  
-- **Collision Probability (20%)**: Potential for fragmentation events
-- **Orbital Eccentricity (15%)**: Elliptical orbits increase instability
-- **Decay Rate (10%)**: Rate of orbital degradation
-
-## 📈 Sample Output
-
-```
-🚨 TOP 3 HIGHEST EARTH IMPACT RISK OBJECTS:
-#1 HIGHEST RISK:
-  Object: COSMOS 2251 DEB (ID: 34454)
-  Risk Score: 4.2/5.0
-  Impact Probability: 85.2%
-  Risk Level: EXTREME
-  Altitude: 776.5 km
-```
-
-## 🚨 Important Notes
-
-- This is a simulation/research tool, not operational space surveillance
-- Risk assessments are based on simplified models for demonstration purposes
-- Real space surveillance requires specialized orbital analysis software and radar tracking
-- TLE data accuracy depends on NORAD tracking network updates
-- Processing optimized for speed - 598 objects processed in ~0.8 seconds
-
-## Technologies Used
-
-- **Flask**: Web framework for API and interface
-- **Python 3.11**: Core programming language
-- **Requests**: HTTP client for CelesTrak data fetching
-- **NumPy-style calculations**: Vectorized mathematical operations for performance
-- **GitHub Actions**: CI/CD automation
-- **Azure App Service**: Cloud deployment platform
-
-## Performance Metrics
-
-- **Objects Processed**: 598 Cosmos 2251 debris objects
-- **Processing Time**: ~0.8 seconds for full dataset
-- **Memory Efficient**: Optimized TLE parsing and risk calculations
-- **Real-time Data**: Live CelesTrak integration
-
-## Dependencies
-
-### Core Requirements
-- Python 3.8+
-- requests, numpy, scipy
-
-### Enhanced Functionality (Optional)
-- sgp4, poliastro, astropy (orbital mechanics)
-- scikit-learn, tensorflow (machine learning)
-- matplotlib, plotly (visualization)
-
-## 📄 License
-
-This project is for educational and research purposes.
->>>>>>> 0c356f9cacf78f5c354891831266a455f7906b54
++/-#+/- +/-S+/-p+/-a+/-c+/-e+/- +/-D+/-e+/-b+/-r+/-i+/-s+/- +/-R+/-i+/-s+/-k+/- +/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-D+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-
++/-
++/-A+/- +/-m+/-o+/-d+/-e+/-r+/-n+/-,+/- +/-p+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/--+/-r+/-e+/-a+/-d+/-y+/- +/-w+/-e+/-b+/- +/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/-f+/-o+/-r+/- +/-s+/-p+/-a+/-c+/-e+/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-r+/-i+/-s+/-k+/- +/-a+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-c+/-o+/-m+/-b+/-i+/-n+/-i+/-n+/-g+/- +/-h+/-y+/-b+/-r+/-i+/-d+/- +/-A+/-I+/- +/-m+/-o+/-d+/-e+/-l+/-s+/- +/-w+/-i+/-t+/-h+/- +/-r+/-e+/-a+/-l+/--+/-t+/-i+/-m+/-e+/- +/-A+/-z+/-u+/-r+/-e+/- +/-A+/-P+/-I+/- +/-i+/-n+/-t+/-e+/-g+/-r+/-a+/-t+/-i+/-o+/-n+/-.+/-
++/-
++/-#+/-#+/- +/-+/- +/-F+/-e+/-a+/-t+/-u+/-r+/-e+/-s+/-
++/-
++/-#+/-#+/-#+/- +/-M+/-o+/-d+/-e+/-r+/-n+/- +/-W+/-e+/-b+/- +/-D+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-
++/--+/- +/-*+/-*+/-G+/-l+/-a+/-s+/-s+/--+/-m+/-o+/-r+/-p+/-h+/-i+/-s+/-m+/- +/-U+/-I+/-*+/-*+/-:+/- +/-P+/-r+/-o+/-f+/-e+/-s+/-s+/-i+/-o+/-n+/-a+/-l+/- +/-s+/-p+/-a+/-c+/-e+/--+/-t+/-h+/-e+/-m+/-e+/-d+/- +/-i+/-n+/-t+/-e+/-r+/-f+/-a+/-c+/-e+/- +/-w+/-i+/-t+/-h+/- +/-m+/-o+/-d+/-e+/-r+/-n+/- +/-d+/-e+/-s+/-i+/-g+/-n+/-
++/--+/- +/-*+/-*+/-R+/-e+/-a+/-l+/--+/-t+/-i+/-m+/-e+/- +/-D+/-a+/-t+/-a+/-*+/-*+/-:+/- +/-L+/-i+/-v+/-e+/- +/-i+/-n+/-t+/-e+/-g+/-r+/-a+/-t+/-i+/-o+/-n+/- +/-w+/-i+/-t+/-h+/- +/-A+/-z+/-u+/-r+/-e+/- +/-A+/-P+/-I+/- +/-(+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-a+/-p+/-i+/--+/-v+/-2+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-)+/-
++/--+/- +/-*+/-*+/-R+/-e+/-s+/-p+/-o+/-n+/-s+/-i+/-v+/-e+/- +/-D+/-e+/-s+/-i+/-g+/-n+/-*+/-*+/-:+/- +/-W+/-o+/-r+/-k+/-s+/- +/-s+/-e+/-a+/-m+/-l+/-e+/-s+/-s+/-l+/-y+/- +/-o+/-n+/- +/-d+/-e+/-s+/-k+/-t+/-o+/-p+/-,+/- +/-t+/-a+/-b+/-l+/-e+/-t+/-,+/- +/-a+/-n+/-d+/- +/-m+/-o+/-b+/-i+/-l+/-e+/- +/-d+/-e+/-v+/-i+/-c+/-e+/-s+/-
++/--+/- +/-*+/-*+/-I+/-n+/-t+/-e+/-r+/-a+/-c+/-t+/-i+/-v+/-e+/- +/-E+/-l+/-e+/-m+/-e+/-n+/-t+/-s+/-*+/-*+/-:+/- +/-T+/-a+/-b+/- +/-n+/-a+/-v+/-i+/-g+/-a+/-t+/-i+/-o+/-n+/-,+/- +/-a+/-u+/-t+/-o+/--+/-r+/-e+/-f+/-r+/-e+/-s+/-h+/-,+/- +/-a+/-n+/-d+/- +/-c+/-o+/-n+/-n+/-e+/-c+/-t+/-i+/-o+/-n+/- +/-s+/-t+/-a+/-t+/-u+/-s+/- +/-i+/-n+/-d+/-i+/-c+/-a+/-t+/-o+/-r+/-s+/-
++/-
++/-#+/-#+/-#+/- +/-A+/-d+/-v+/-a+/-n+/-c+/-e+/-d+/- +/-A+/-I+/- +/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/-
++/--+/- +/-*+/-*+/-H+/-y+/-b+/-r+/-i+/-d+/- +/-A+/-I+/- +/-S+/-y+/-s+/-t+/-e+/-m+/-*+/-*+/-:+/- +/-C+/-o+/-m+/-b+/-i+/-n+/-e+/-s+/- +/-S+/-G+/-P+/-4+/- +/-p+/-h+/-y+/-s+/-i+/-c+/-s+/- +/-w+/-i+/-t+/-h+/- +/-e+/-n+/-s+/-e+/-m+/-b+/-l+/-e+/- +/-m+/-a+/-c+/-h+/-i+/-n+/-e+/- +/-l+/-e+/-a+/-r+/-n+/-i+/-n+/-g+/-
++/--+/- +/-*+/-*+/-R+/-i+/-s+/-k+/- +/-S+/-c+/-o+/-r+/-i+/-n+/-g+/-*+/-*+/-:+/- +/-0+/--+/-5+/- +/-s+/-c+/-a+/-l+/-e+/- +/-r+/-i+/-s+/-k+/- +/-a+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-w+/-i+/-t+/-h+/- +/-d+/-e+/-t+/-a+/-i+/-l+/-e+/-d+/- +/-p+/-r+/-e+/-d+/-i+/-c+/-t+/-i+/-o+/-n+/-s+/-
++/--+/- +/-*+/-*+/-R+/-e+/-e+/-n+/-t+/-r+/-y+/- +/-A+/-n+/-a+/-l+/-y+/-s+/-i+/-s+/-*+/-*+/-:+/- +/-P+/-r+/-e+/-c+/-i+/-s+/-e+/- +/-r+/-e+/-e+/-n+/-t+/-r+/-y+/- +/-t+/-i+/-m+/-i+/-n+/-g+/- +/-a+/-n+/-d+/- +/-l+/-o+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-p+/-r+/-e+/-d+/-i+/-c+/-t+/-i+/-o+/-n+/-s+/-
++/--+/- +/-*+/-*+/-U+/-n+/-c+/-e+/-r+/-t+/-a+/-i+/-n+/-t+/-y+/- +/-B+/-o+/-u+/-n+/-d+/-s+/-*+/-*+/-:+/- +/-S+/-t+/-a+/-t+/-i+/-s+/-t+/-i+/-c+/-a+/-l+/- +/-c+/-o+/-n+/-f+/-i+/-d+/-e+/-n+/-c+/-e+/- +/-i+/-n+/-t+/-e+/-r+/-v+/-a+/-l+/-s+/- +/-f+/-o+/-r+/- +/-a+/-l+/-l+/- +/-p+/-r+/-e+/-d+/-i+/-c+/-t+/-i+/-o+/-n+/-s+/-
++/-
++/-#+/-#+/-#+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-R+/-e+/-a+/-d+/-y+/-
++/--+/- +/-*+/-*+/-A+/-z+/-u+/-r+/-e+/- +/-I+/-n+/-t+/-e+/-g+/-r+/-a+/-t+/-i+/-o+/-n+/-*+/-*+/-:+/- +/-P+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/--+/-r+/-e+/-a+/-d+/-y+/- +/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/--+/- +/-*+/-*+/-C+/-I+/-/+/-C+/-D+/- +/-P+/-i+/-p+/-e+/-l+/-i+/-n+/-e+/-*+/-*+/-:+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-e+/-d+/- +/-t+/-e+/-s+/-t+/-i+/-n+/-g+/- +/-a+/-n+/-d+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-v+/-i+/-a+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/-
++/--+/- +/-*+/-*+/-S+/-t+/-a+/-n+/-d+/-a+/-l+/-o+/-n+/-e+/- +/-O+/-p+/-t+/-i+/-o+/-n+/-*+/-*+/-:+/- +/-H+/-T+/-M+/-L+/--+/-o+/-n+/-l+/-y+/- +/-v+/-e+/-r+/-s+/-i+/-o+/-n+/- +/-f+/-o+/-r+/- +/-s+/-t+/-a+/-t+/-i+/-c+/- +/-h+/-o+/-s+/-t+/-i+/-n+/-g+/-
++/--+/- +/-*+/-*+/-E+/-n+/-t+/-e+/-r+/-p+/-r+/-i+/-s+/-e+/- +/-G+/-r+/-a+/-d+/-e+/-*+/-*+/-:+/- +/-E+/-m+/-o+/-j+/-i+/--+/-f+/-r+/-e+/-e+/- +/-w+/-o+/-r+/-k+/-f+/-l+/-o+/-w+/-s+/- +/-a+/-n+/-d+/- +/-p+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/- +/-c+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-a+/-t+/-i+/-o+/-n+/-s+/-
++/-
++/-#+/-#+/- +/-+/- +/-Q+/-u+/-i+/-c+/-k+/- +/-S+/-t+/-a+/-r+/-t+/-
++/-
++/-#+/-#+/-#+/- +/-O+/-p+/-t+/-i+/-o+/-n+/- +/-1+/-:+/- +/-S+/-t+/-a+/-n+/-d+/-a+/-l+/-o+/-n+/-e+/- +/-D+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/-(+/-R+/-e+/-c+/-o+/-m+/-m+/-e+/-n+/-d+/-e+/-d+/-)+/-
++/-1+/-.+/- +/-O+/-p+/-e+/-n+/- +/-`+/-s+/-p+/-a+/-c+/-e+/-_+/-d+/-e+/-b+/-r+/-i+/-s+/-_+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-h+/-t+/-m+/-l+/-`+/- +/-d+/-i+/-r+/-e+/-c+/-t+/-l+/-y+/- +/-i+/-n+/- +/-y+/-o+/-u+/-r+/- +/-b+/-r+/-o+/-w+/-s+/-e+/-r+/-
++/-2+/-.+/- +/-N+/-o+/- +/-l+/-o+/-c+/-a+/-l+/- +/-s+/-e+/-r+/-v+/-e+/-r+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-d+/- +/--+/- +/-c+/-o+/-n+/-n+/-e+/-c+/-t+/-s+/- +/-d+/-i+/-r+/-e+/-c+/-t+/-l+/-y+/- +/-t+/-o+/- +/-A+/-z+/-u+/-r+/-e+/- +/-A+/-P+/-I+/-
++/-3+/-.+/- +/-I+/-n+/-s+/-t+/-a+/-n+/-t+/- +/-a+/-c+/-c+/-e+/-s+/-s+/- +/-t+/-o+/- +/-l+/-i+/-v+/-e+/- +/-s+/-p+/-a+/-c+/-e+/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-d+/-a+/-t+/-a+/-
++/-
++/-#+/-#+/-#+/- +/-O+/-p+/-t+/-i+/-o+/-n+/- +/-2+/-:+/- +/-L+/-o+/-c+/-a+/-l+/- +/-F+/-l+/-a+/-s+/-k+/- +/-D+/-e+/-v+/-e+/-l+/-o+/-p+/-m+/-e+/-n+/-t+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-C+/-l+/-o+/-n+/-e+/- +/-r+/-e+/-p+/-o+/-s+/-i+/-t+/-o+/-r+/-y+/-
++/-g+/-i+/-t+/- +/-c+/-l+/-o+/-n+/-e+/- +/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-g+/-i+/-t+/-h+/-u+/-b+/-.+/-c+/-o+/-m+/-/+/-a+/-n+/-t+/-h+/-o+/-n+/-y+/-r+/-i+/-c+/-e+/-v+/-u+/-t+/-o+/-3+/--+/-l+/-a+/-b+/-/+/-S+/-p+/-a+/-c+/-e+/--+/-D+/-e+/-b+/-r+/-i+/-s+/--+/-R+/-i+/-s+/-k+/--+/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/-.+/-g+/-i+/-t+/-
++/-c+/-d+/- +/-S+/-p+/-a+/-c+/-e+/--+/-D+/-e+/-b+/-r+/-i+/-s+/--+/-R+/-i+/-s+/-k+/--+/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/-
++/-
++/-#+/- +/-C+/-r+/-e+/-a+/-t+/-e+/- +/-v+/-i+/-r+/-t+/-u+/-a+/-l+/- +/-e+/-n+/-v+/-i+/-r+/-o+/-n+/-m+/-e+/-n+/-t+/-
++/-p+/-y+/-t+/-h+/-o+/-n+/- +/--+/-m+/- +/-v+/-e+/-n+/-v+/- +/-.+/-v+/-e+/-n+/-v+/-
++/-.+/-v+/-e+/-n+/-v+/-\+/-S+/-c+/-r+/-i+/-p+/-t+/-s+/-\+/-a+/-c+/-t+/-i+/-v+/-a+/-t+/-e+/- +/- +/-#+/- +/-W+/-i+/-n+/-d+/-o+/-w+/-s+/-
++/-#+/- +/-s+/-o+/-u+/-r+/-c+/-e+/- +/-.+/-v+/-e+/-n+/-v+/-/+/-b+/-i+/-n+/-/+/-a+/-c+/-t+/-i+/-v+/-a+/-t+/-e+/- +/- +/-#+/- +/-L+/-i+/-n+/-u+/-x+/-/+/-M+/-a+/-c+/-
++/-
++/-#+/- +/-I+/-n+/-s+/-t+/-a+/-l+/-l+/- +/-d+/-e+/-p+/-e+/-n+/-d+/-e+/-n+/-c+/-i+/-e+/-s+/-
++/-p+/-i+/-p+/- +/-i+/-n+/-s+/-t+/-a+/-l+/-l+/- +/--+/-r+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-m+/-e+/-n+/-t+/-s+/-.+/-t+/-x+/-t+/-
++/-
++/-#+/- +/-R+/-u+/-n+/- +/-a+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/-
++/-p+/-y+/-t+/-h+/-o+/-n+/- +/-m+/-a+/-i+/-n+/-.+/-p+/-y+/-
++/-
++/-#+/- +/-A+/-c+/-c+/-e+/-s+/-s+/- +/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-
++/-h+/-t+/-t+/-p+/-:+/-/+/-/+/-l+/-o+/-c+/-a+/-l+/-h+/-o+/-s+/-t+/-:+/-5+/-0+/-0+/-0+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-L+/-i+/-v+/-e+/- +/-D+/-e+/-m+/-o+/-
++/-
++/--+/- +/-*+/-*+/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/-*+/-*+/-:+/- +/-[+/-P+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/- +/-D+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-]+/-(+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-)+/-
++/--+/- +/-*+/-*+/-A+/-P+/-I+/- +/-H+/-e+/-a+/-l+/-t+/-h+/-*+/-*+/-:+/- +/-[+/-A+/-z+/-u+/-r+/-e+/- +/-A+/-P+/-I+/- +/-S+/-t+/-a+/-t+/-u+/-s+/-]+/-(+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-a+/-p+/-i+/--+/-v+/-2+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-h+/-e+/-a+/-l+/-t+/-h+/-)+/-
++/-
++/-#+/-#+/- +/-+/- +/-A+/-P+/-I+/- +/-E+/-n+/-d+/-p+/-o+/-i+/-n+/-t+/-s+/-
++/-
++/-#+/-#+/-#+/- +/-D+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/-I+/-n+/-t+/-e+/-r+/-f+/-a+/-c+/-e+/-
++/--+/- +/-`+/-G+/-E+/-T+/- +/-/+/-`+/- +/--+/- +/-M+/-a+/-i+/-n+/- +/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/-w+/-i+/-t+/-h+/- +/-t+/-o+/-p+/- +/-3+/- +/-r+/-i+/-s+/-k+/-s+/-
++/--+/- +/-`+/-G+/-E+/-T+/- +/-/+/-h+/-e+/-a+/-l+/-t+/-h+/-`+/- +/--+/- +/-A+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-h+/-e+/-a+/-l+/-t+/-h+/- +/-c+/-h+/-e+/-c+/-k+/-
++/-
++/-#+/-#+/-#+/- +/-A+/-z+/-u+/-r+/-e+/- +/-A+/-P+/-I+/- +/-I+/-n+/-t+/-e+/-g+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/--+/- +/-`+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-a+/-p+/-i+/--+/-v+/-2+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-a+/-s+/-s+/-e+/-s+/-s+/--+/-r+/-i+/-s+/-k+/-s+/-`+/- +/--+/- +/-L+/-i+/-v+/-e+/- +/-r+/-i+/-s+/-k+/- +/-a+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/-
++/--+/- +/-`+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-a+/-p+/-i+/--+/-v+/-2+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-h+/-e+/-a+/-l+/-t+/-h+/-`+/- +/--+/- +/-A+/-P+/-I+/- +/-h+/-e+/-a+/-l+/-t+/-h+/- +/-s+/-t+/-a+/-t+/-u+/-s+/-
++/-
++/-#+/-#+/- +/-+/- +/-R+/-i+/-s+/-k+/- +/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-M+/-e+/-t+/-h+/-o+/-d+/-o+/-l+/-o+/-g+/-y+/-
++/-
++/-#+/-#+/-#+/- +/-R+/-i+/-s+/-k+/- +/-S+/-c+/-o+/-r+/-e+/- +/-S+/-c+/-a+/-l+/-e+/- +/-(+/-0+/--+/-5+/-)+/-
++/--+/- +/-*+/-*+/-0+/-*+/-*+/-:+/- +/-N+/-o+/- +/-i+/-m+/-m+/-e+/-d+/-i+/-a+/-t+/-e+/- +/-r+/-i+/-s+/-k+/-,+/- +/-s+/-t+/-a+/-b+/-l+/-e+/- +/-o+/-r+/-b+/-i+/-t+/-
++/--+/- +/-*+/-*+/-1+/--+/-2+/-*+/-*+/-:+/- +/-L+/-o+/-w+/- +/-r+/-i+/-s+/-k+/-,+/- +/-l+/-o+/-n+/-g+/--+/-t+/-e+/-r+/-m+/- +/-m+/-o+/-n+/-i+/-t+/-o+/-r+/-i+/-n+/-g+/-
++/--+/- +/-*+/-*+/-3+/-*+/-*+/-:+/- +/-M+/-o+/-d+/-e+/-r+/-a+/-t+/-e+/- +/-r+/-i+/-s+/-k+/-,+/- +/-a+/-c+/-t+/-i+/-v+/-e+/- +/-t+/-r+/-a+/-c+/-k+/-i+/-n+/-g+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-d+/-
++/--+/- +/-*+/-*+/-4+/-*+/-*+/-:+/- +/-H+/-i+/-g+/-h+/- +/-r+/-i+/-s+/-k+/-,+/- +/-r+/-e+/-e+/-n+/-t+/-r+/-y+/- +/-l+/-i+/-k+/-e+/-l+/-y+/- +/-w+/-i+/-t+/-h+/-i+/-n+/- +/-1+/- +/-y+/-e+/-a+/-r+/-
++/--+/- +/-*+/-*+/-5+/-*+/-*+/-:+/- +/-C+/-r+/-i+/-t+/-i+/-c+/-a+/-l+/- +/-r+/-i+/-s+/-k+/-,+/- +/-i+/-m+/-m+/-i+/-n+/-e+/-n+/-t+/- +/-r+/-e+/-e+/-n+/-t+/-r+/-y+/- +/-t+/-h+/-r+/-e+/-a+/-t+/-
++/-
++/-#+/-#+/-#+/- +/-H+/-y+/-b+/-r+/-i+/-d+/- +/-A+/-I+/- +/-C+/-o+/-m+/-p+/-o+/-n+/-e+/-n+/-t+/-s+/-
++/-1+/-.+/- +/-*+/-*+/-S+/-G+/-P+/-4+/- +/-P+/-h+/-y+/-s+/-i+/-c+/-s+/- +/-E+/-n+/-g+/-i+/-n+/-e+/-*+/-*+/-:+/- +/-P+/-r+/-e+/-c+/-i+/-s+/-e+/- +/-o+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-m+/-e+/-c+/-h+/-a+/-n+/-i+/-c+/-s+/- +/-c+/-a+/-l+/-c+/-u+/-l+/-a+/-t+/-i+/-o+/-n+/-s+/-
++/-2+/-.+/- +/-*+/-*+/-R+/-a+/-n+/-d+/-o+/-m+/- +/-F+/-o+/-r+/-e+/-s+/-t+/- +/-E+/-n+/-s+/-e+/-m+/-b+/-l+/-e+/-*+/-*+/-:+/- +/-D+/-e+/-c+/-a+/-y+/- +/-r+/-a+/-t+/-e+/- +/-p+/-r+/-e+/-d+/-i+/-c+/-t+/-i+/-o+/-n+/- +/-(+/-R+/-+/- +/-=+/- +/-1+/-.+/-0+/-0+/-0+/-)+/-
++/-3+/-.+/- +/-*+/-*+/-G+/-r+/-a+/-d+/-i+/-e+/-n+/-t+/- +/-B+/-o+/-o+/-s+/-t+/-i+/-n+/-g+/-*+/-*+/-:+/- +/-P+/-a+/-t+/-t+/-e+/-r+/-n+/- +/-r+/-e+/-c+/-o+/-g+/-n+/-i+/-t+/-i+/-o+/-n+/- +/-f+/-o+/-r+/- +/-o+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-d+/-y+/-n+/-a+/-m+/-i+/-c+/-s+/-
++/-4+/-.+/- +/-*+/-*+/-N+/-e+/-u+/-r+/-a+/-l+/- +/-N+/-e+/-t+/-w+/-o+/-r+/-k+/-s+/-*+/-*+/-:+/- +/-C+/-o+/-m+/-p+/-l+/-e+/-x+/- +/-a+/-t+/-m+/-o+/-s+/-p+/-h+/-e+/-r+/-i+/-c+/- +/-i+/-n+/-t+/-e+/-r+/-a+/-c+/-t+/-i+/-o+/-n+/- +/-m+/-o+/-d+/-e+/-l+/-i+/-n+/-g+/-
++/-
++/-#+/-#+/-#+/- +/-D+/-a+/-t+/-a+/- +/-S+/-o+/-u+/-r+/-c+/-e+/-s+/-
++/--+/- +/-*+/-*+/-R+/-e+/-a+/-l+/--+/-t+/-i+/-m+/-e+/- +/-T+/-L+/-E+/- +/-D+/-a+/-t+/-a+/-*+/-*+/-:+/- +/-C+/-e+/-l+/-e+/-s+/-T+/-r+/-a+/-k+/-.+/-o+/-r+/-g+/- +/-a+/-c+/-t+/-i+/-v+/-e+/- +/-f+/-e+/-e+/-d+/-s+/-
++/--+/- +/-*+/-*+/-E+/-n+/-v+/-i+/-r+/-o+/-n+/-m+/-e+/-n+/-t+/-a+/-l+/- +/-F+/-a+/-c+/-t+/-o+/-r+/-s+/-*+/-*+/-:+/- +/-S+/-o+/-l+/-a+/-r+/- +/-a+/-c+/-t+/-i+/-v+/-i+/-t+/-y+/-,+/- +/-a+/-t+/-m+/-o+/-s+/-p+/-h+/-e+/-r+/-i+/-c+/- +/-d+/-e+/-n+/-s+/-i+/-t+/-y+/-
++/--+/- +/-*+/-*+/-H+/-i+/-s+/-t+/-o+/-r+/-i+/-c+/-a+/-l+/- +/-P+/-a+/-t+/-t+/-e+/-r+/-n+/-s+/-*+/-*+/-:+/- +/-D+/-e+/-b+/-r+/-i+/-s+/- +/-b+/-e+/-h+/-a+/-v+/-i+/-o+/-r+/- +/-a+/-n+/-a+/-l+/-y+/-s+/-i+/-s+/-
++/-
++/-#+/-#+/- +/-+/-+/- +/-T+/-e+/-c+/-h+/-n+/-i+/-c+/-a+/-l+/- +/-A+/-r+/-c+/-h+/-i+/-t+/-e+/-c+/-t+/-u+/-r+/-e+/-
++/-
++/-#+/-#+/-#+/- +/-F+/-r+/-o+/-n+/-t+/-e+/-n+/-d+/- +/-S+/-t+/-a+/-c+/-k+/-
++/--+/- +/-*+/-*+/-H+/-T+/-M+/-L+/-5+/-/+/-C+/-S+/-S+/-3+/-*+/-*+/-:+/- +/-M+/-o+/-d+/-e+/-r+/-n+/- +/-r+/-e+/-s+/-p+/-o+/-n+/-s+/-i+/-v+/-e+/- +/-d+/-e+/-s+/-i+/-g+/-n+/-
++/--+/- +/-*+/-*+/-J+/-a+/-v+/-a+/-S+/-c+/-r+/-i+/-p+/-t+/- +/-E+/-S+/-6+/-++/-*+/-*+/-:+/- +/-I+/-n+/-t+/-e+/-r+/-a+/-c+/-t+/-i+/-v+/-e+/- +/-f+/-u+/-n+/-c+/-t+/-i+/-o+/-n+/-a+/-l+/-i+/-t+/-y+/-
++/--+/- +/-*+/-*+/-G+/-l+/-a+/-s+/-s+/--+/-m+/-o+/-r+/-p+/-h+/-i+/-s+/-m+/- +/-U+/-I+/-*+/-*+/-:+/- +/-C+/-o+/-n+/-t+/-e+/-m+/-p+/-o+/-r+/-a+/-r+/-y+/- +/-v+/-i+/-s+/-u+/-a+/-l+/- +/-d+/-e+/-s+/-i+/-g+/-n+/-
++/--+/- +/-*+/-*+/-C+/-S+/-S+/- +/-G+/-r+/-i+/-d+/-/+/-F+/-l+/-e+/-x+/-b+/-o+/-x+/-*+/-*+/-:+/- +/-R+/-e+/-s+/-p+/-o+/-n+/-s+/-i+/-v+/-e+/- +/-l+/-a+/-y+/-o+/-u+/-t+/- +/-s+/-y+/-s+/-t+/-e+/-m+/-
++/-
++/-#+/-#+/-#+/- +/-B+/-a+/-c+/-k+/-e+/-n+/-d+/- +/-S+/-t+/-a+/-c+/-k+/-
++/--+/- +/-*+/-*+/-F+/-l+/-a+/-s+/-k+/- +/-2+/-.+/-3+/-.+/-3+/-*+/-*+/-:+/- +/-P+/-y+/-t+/-h+/-o+/-n+/- +/-w+/-e+/-b+/- +/-f+/-r+/-a+/-m+/-e+/-w+/-o+/-r+/-k+/-
++/--+/- +/-*+/-*+/-A+/-z+/-u+/-r+/-e+/- +/-A+/-P+/-I+/-*+/-*+/-:+/- +/-C+/-l+/-o+/-u+/-d+/--+/-b+/-a+/-s+/-e+/-d+/- +/-d+/-a+/-t+/-a+/- +/-p+/-r+/-o+/-c+/-e+/-s+/-s+/-i+/-n+/-g+/-
++/--+/- +/-*+/-*+/-G+/-u+/-n+/-i+/-c+/-o+/-r+/-n+/-*+/-*+/-:+/- +/-P+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/- +/-W+/-S+/-G+/-I+/- +/-s+/-e+/-r+/-v+/-e+/-r+/-
++/--+/- +/-*+/-*+/-S+/-c+/-i+/-e+/-n+/-t+/-i+/-f+/-i+/-c+/- +/-L+/-i+/-b+/-r+/-a+/-r+/-i+/-e+/-s+/-*+/-*+/-:+/- +/-N+/-u+/-m+/-P+/-y+/-,+/- +/-P+/-a+/-n+/-d+/-a+/-s+/-,+/- +/-S+/-c+/-i+/-k+/-i+/-t+/--+/-l+/-e+/-a+/-r+/-n+/-
++/-
++/-#+/-#+/-#+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-I+/-n+/-f+/-r+/-a+/-s+/-t+/-r+/-u+/-c+/-t+/-u+/-r+/-e+/-
++/--+/- +/-*+/-*+/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/-*+/-*+/-:+/- +/-P+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/- +/-h+/-o+/-s+/-t+/-i+/-n+/-g+/-
++/--+/- +/-*+/-*+/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/-*+/-*+/-:+/- +/-C+/-I+/-/+/-C+/-D+/- +/-a+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-o+/-n+/-
++/--+/- +/-*+/-*+/-D+/-o+/-c+/-k+/-e+/-r+/- +/-R+/-e+/-a+/-d+/-y+/-*+/-*+/-:+/- +/-C+/-o+/-n+/-t+/-a+/-i+/-n+/-e+/-r+/-i+/-z+/-a+/-t+/-i+/-o+/-n+/- +/-s+/-u+/-p+/-p+/-o+/-r+/-t+/-
++/--+/- +/-*+/-*+/-C+/-D+/-N+/- +/-C+/-o+/-m+/-p+/-a+/-t+/-i+/-b+/-l+/-e+/-*+/-*+/-:+/- +/-S+/-t+/-a+/-t+/-i+/-c+/- +/-a+/-s+/-s+/-e+/-t+/- +/-o+/-p+/-t+/-i+/-m+/-i+/-z+/-a+/-t+/-i+/-o+/-n+/-
++/-
++/-#+/-#+/- +/-+/- +/-P+/-r+/-o+/-j+/-e+/-c+/-t+/- +/-S+/-t+/-r+/-u+/-c+/-t+/-u+/-r+/-e+/-
++/-
++/-`+/-`+/-`+/-
++/-+/-+/-+/- +/-+/- +/-s+/-p+/-a+/-c+/-e+/-_+/-d+/-e+/-b+/-r+/-i+/-s+/-_+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-h+/-t+/-m+/-l+/- +/- +/- +/- +/-#+/- +/-S+/-t+/-a+/-n+/-d+/-a+/-l+/-o+/-n+/-e+/- +/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-
++/-+/-+/-+/- +/-+/- +/-m+/-a+/-i+/-n+/-.+/-p+/-y+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-F+/-l+/-a+/-s+/-k+/- +/-a+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/-
++/-+/-+/-+/- +/-+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-m+/-e+/-n+/-t+/-s+/-.+/-t+/-x+/-t+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-D+/-e+/-p+/-e+/-n+/-d+/-e+/-n+/-c+/-i+/-e+/-s+/-
++/-+/-+/-+/- +/-+/- +/-t+/-e+/-m+/-p+/-l+/-a+/-t+/-e+/-s+/-/+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-F+/-l+/-a+/-s+/-k+/- +/-t+/-e+/-m+/-p+/-l+/-a+/-t+/-e+/-s+/-
++/-+/- +/- +/- +/-+/-+/-+/- +/-i+/-n+/-d+/-e+/-x+/-.+/-h+/-t+/-m+/-l+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-D+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/-t+/-e+/-m+/-p+/-l+/-a+/-t+/-e+/-
++/-+/-+/-+/- +/-+/- +/-s+/-t+/-a+/-t+/-i+/-c+/-/+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-F+/-r+/-o+/-n+/-t+/-e+/-n+/-d+/- +/-a+/-s+/-s+/-e+/-t+/-s+/-
++/-+/- +/- +/- +/-+/-+/-+/- +/-c+/-s+/-s+/-/+/-s+/-t+/-y+/-l+/-e+/-.+/-c+/-s+/-s+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-M+/-o+/-d+/-e+/-r+/-n+/- +/-s+/-t+/-y+/-l+/-i+/-n+/-g+/-
++/-+/- +/- +/- +/-+/-+/-+/- +/-j+/-s+/-/+/-a+/-p+/-p+/-.+/-j+/-s+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-I+/-n+/-t+/-e+/-r+/-a+/-c+/-t+/-i+/-v+/-e+/- +/-f+/-u+/-n+/-c+/-t+/-i+/-o+/-n+/-a+/-l+/-i+/-t+/-y+/-
++/-+/-+/-+/- +/-+/- +/-.+/-g+/-i+/-t+/-h+/-u+/-b+/-/+/-w+/-o+/-r+/-k+/-f+/-l+/-o+/-w+/-s+/-/+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-C+/-I+/-/+/-C+/-D+/- +/-p+/-i+/-p+/-e+/-l+/-i+/-n+/-e+/-s+/-
++/-+/- +/- +/- +/-+/-+/-+/- +/-a+/-z+/-u+/-r+/-e+/--+/-d+/-e+/-p+/-l+/-o+/-y+/-.+/-y+/-m+/-l+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-A+/-z+/-u+/-r+/-e+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/-+/- +/- +/- +/-+/-+/-+/- +/-c+/-i+/-.+/-y+/-m+/-l+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-C+/-o+/-n+/-t+/-i+/-n+/-u+/-o+/-u+/-s+/- +/-i+/-n+/-t+/-e+/-g+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/-+/-+/-+/- +/-+/-+/- +/-.+/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-A+/-z+/-u+/-r+/-e+/- +/-c+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/-+/-+/-+/- +/-+/- +/-P+/-r+/-o+/-c+/-f+/-i+/-l+/-e+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-P+/-r+/-o+/-c+/-e+/-s+/-s+/- +/-c+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/-+/-+/-+/- +/-+/- +/-D+/-E+/-P+/-L+/-O+/-Y+/-M+/-E+/-N+/-T+/-.+/-m+/-d+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-g+/-u+/-i+/-d+/-e+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-O+/-p+/-t+/-i+/-o+/-n+/-s+/-
++/-
++/-#+/-#+/-#+/- +/-1+/-.+/- +/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/- +/-(+/-R+/-e+/-c+/-o+/-m+/-m+/-e+/-n+/-d+/-e+/-d+/-)+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-c+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-v+/-i+/-a+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/-
++/-g+/-i+/-t+/- +/-p+/-u+/-s+/-h+/- +/-o+/-r+/-i+/-g+/-i+/-n+/- +/-m+/-a+/-i+/-n+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/-#+/- +/-2+/-.+/- +/-S+/-t+/-a+/-t+/-i+/-c+/- +/-H+/-o+/-s+/-t+/-i+/-n+/-g+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-D+/-e+/-p+/-l+/-o+/-y+/- +/-s+/-t+/-a+/-n+/-d+/-a+/-l+/-o+/-n+/-e+/- +/-H+/-T+/-M+/-L+/- +/-t+/-o+/- +/-a+/-n+/-y+/- +/-s+/-t+/-a+/-t+/-i+/-c+/- +/-h+/-o+/-s+/-t+/-
++/-#+/- +/-N+/-e+/-t+/-l+/-i+/-f+/-y+/-,+/- +/-V+/-e+/-r+/-c+/-e+/-l+/-,+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-P+/-a+/-g+/-e+/-s+/-,+/- +/-e+/-t+/-c+/-.+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/-#+/- +/-3+/-.+/- +/-D+/-o+/-c+/-k+/-e+/-r+/- +/-C+/-o+/-n+/-t+/-a+/-i+/-n+/-e+/-r+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-B+/-u+/-i+/-l+/-d+/- +/-c+/-o+/-n+/-t+/-a+/-i+/-n+/-e+/-r+/- +/-(+/-D+/-o+/-c+/-k+/-e+/-r+/-f+/-i+/-l+/-e+/- +/-i+/-n+/-c+/-l+/-u+/-d+/-e+/-d+/-)+/-
++/-d+/-o+/-c+/-k+/-e+/-r+/- +/-b+/-u+/-i+/-l+/-d+/- +/--+/-t+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/-.+/-
++/-d+/-o+/-c+/-k+/-e+/-r+/- +/-r+/-u+/-n+/- +/--+/-p+/- +/-5+/-0+/-0+/-0+/-:+/-5+/-0+/-0+/-0+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-C+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/-
++/-#+/-#+/-#+/- +/-E+/-n+/-v+/-i+/-r+/-o+/-n+/-m+/-e+/-n+/-t+/- +/-V+/-a+/-r+/-i+/-a+/-b+/-l+/-e+/-s+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-F+/-L+/-A+/-S+/-K+/-_+/-A+/-P+/-P+/-=+/-m+/-a+/-i+/-n+/-.+/-p+/-y+/-
++/-F+/-L+/-A+/-S+/-K+/-_+/-E+/-N+/-V+/-=+/-p+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/-
++/-A+/-Z+/-U+/-R+/-E+/-_+/-A+/-P+/-I+/-_+/-U+/-R+/-L+/-=+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-a+/-p+/-i+/--+/-v+/-2+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/-#+/- +/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/- +/-S+/-e+/-t+/-t+/-i+/-n+/-g+/-s+/-
++/--+/- +/-*+/-*+/-P+/-y+/-t+/-h+/-o+/-n+/- +/-V+/-e+/-r+/-s+/-i+/-o+/-n+/-*+/-*+/-:+/- +/-3+/-.+/-1+/-1+/-
++/--+/- +/-*+/-*+/-S+/-t+/-a+/-r+/-t+/-u+/-p+/- +/-C+/-o+/-m+/-m+/-a+/-n+/-d+/-*+/-*+/-:+/- +/-`+/-g+/-u+/-n+/-i+/-c+/-o+/-r+/-n+/- +/-m+/-a+/-i+/-n+/-:+/-a+/-p+/-p+/-`+/-
++/--+/- +/-*+/-*+/-A+/-l+/-w+/-a+/-y+/-s+/- +/-O+/-n+/-*+/-*+/-:+/- +/-E+/-n+/-a+/-b+/-l+/-e+/-d+/- +/-f+/-o+/-r+/- +/-p+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/-
++/-
++/-#+/-#+/- +/-+/- +/-T+/-e+/-s+/-t+/-i+/-n+/-g+/-
++/-
++/-#+/-#+/-#+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-e+/-d+/- +/-T+/-e+/-s+/-t+/-i+/-n+/-g+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-R+/-u+/-n+/- +/-C+/-I+/- +/-t+/-e+/-s+/-t+/-s+/- +/-l+/-o+/-c+/-a+/-l+/-l+/-y+/-
++/-p+/-i+/-p+/- +/-i+/-n+/-s+/-t+/-a+/-l+/-l+/- +/-f+/-l+/-a+/-k+/-e+/-8+/-
++/-f+/-l+/-a+/-k+/-e+/-8+/- +/-.+/- +/--+/--+/-c+/-o+/-u+/-n+/-t+/- +/--+/--+/-s+/-t+/-a+/-t+/-i+/-s+/-t+/-i+/-c+/-s+/-
++/-p+/-y+/-t+/-h+/-o+/-n+/- +/--+/-c+/- +/-"+/-i+/-m+/-p+/-o+/-r+/-t+/- +/-m+/-a+/-i+/-n+/-;+/- +/-p+/-r+/-i+/-n+/-t+/-(+/-'+/-+/- +/-A+/-p+/-p+/- +/-i+/-m+/-p+/-o+/-r+/-t+/-s+/- +/-s+/-u+/-c+/-c+/-e+/-s+/-s+/-f+/-u+/-l+/-l+/-y+/-'+/-)+/-"+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/-#+/- +/-M+/-a+/-n+/-u+/-a+/-l+/- +/-T+/-e+/-s+/-t+/-i+/-n+/-g+/-
++/-1+/-.+/- +/-*+/-*+/-S+/-t+/-a+/-n+/-d+/-a+/-l+/-o+/-n+/-e+/-*+/-*+/-:+/- +/-O+/-p+/-e+/-n+/- +/-H+/-T+/-M+/-L+/- +/-f+/-i+/-l+/-e+/- +/-i+/-n+/- +/-b+/-r+/-o+/-w+/-s+/-e+/-r+/-
++/-2+/-.+/- +/-*+/-*+/-L+/-o+/-c+/-a+/-l+/- +/-S+/-e+/-r+/-v+/-e+/-r+/-*+/-*+/-:+/- +/-R+/-u+/-n+/- +/-F+/-l+/-a+/-s+/-k+/- +/-a+/-p+/-p+/- +/-a+/-n+/-d+/- +/-t+/-e+/-s+/-t+/- +/-e+/-n+/-d+/-p+/-o+/-i+/-n+/-t+/-s+/-
++/-3+/-.+/- +/-*+/-*+/-A+/-z+/-u+/-r+/-e+/- +/-I+/-n+/-t+/-e+/-g+/-r+/-a+/-t+/-i+/-o+/-n+/-*+/-*+/-:+/- +/-V+/-e+/-r+/-i+/-f+/-y+/- +/-A+/-P+/-I+/- +/-c+/-o+/-n+/-n+/-e+/-c+/-t+/-i+/-v+/-i+/-t+/-y+/-
++/-
++/-#+/-#+/- +/-+/- +/-P+/-e+/-r+/-f+/-o+/-r+/-m+/-a+/-n+/-c+/-e+/- +/-M+/-e+/-t+/-r+/-i+/-c+/-s+/-
++/-
++/--+/- +/-*+/-*+/-L+/-o+/-a+/-d+/- +/-T+/-i+/-m+/-e+/-*+/-*+/-:+/- +/-<+/- +/-2+/- +/-s+/-e+/-c+/-o+/-n+/-d+/-s+/- +/-f+/-o+/-r+/- +/-i+/-n+/-i+/-t+/-i+/-a+/-l+/- +/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/-l+/-o+/-a+/-d+/-
++/--+/- +/-*+/-*+/-A+/-P+/-I+/- +/-R+/-e+/-s+/-p+/-o+/-n+/-s+/-e+/-*+/-*+/-:+/- +/-<+/- +/-1+/- +/-s+/-e+/-c+/-o+/-n+/-d+/- +/-f+/-o+/-r+/- +/-r+/-i+/-s+/-k+/- +/-a+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-d+/-a+/-t+/-a+/-
++/--+/- +/-*+/-*+/-M+/-o+/-b+/-i+/-l+/-e+/- +/-P+/-e+/-r+/-f+/-o+/-r+/-m+/-a+/-n+/-c+/-e+/-*+/-*+/-:+/- +/-O+/-p+/-t+/-i+/-m+/-i+/-z+/-e+/-d+/- +/-f+/-o+/-r+/- +/-3+/-G+/- +/-n+/-e+/-t+/-w+/-o+/-r+/-k+/-s+/-
++/--+/- +/-*+/-*+/-A+/-c+/-c+/-e+/-s+/-s+/-i+/-b+/-i+/-l+/-i+/-t+/-y+/-*+/-*+/-:+/- +/-W+/-C+/-A+/-G+/- +/-2+/-.+/-1+/- +/-A+/-A+/- +/-c+/-o+/-m+/-p+/-l+/-i+/-a+/-n+/-t+/- +/-d+/-e+/-s+/-i+/-g+/-n+/-
++/-
++/-#+/-#+/- +/-+/- +/-S+/-e+/-c+/-u+/-r+/-i+/-t+/-y+/- +/-F+/-e+/-a+/-t+/-u+/-r+/-e+/-s+/-
++/-
++/--+/- +/-*+/-*+/-H+/-T+/-T+/-P+/-S+/- +/-O+/-n+/-l+/-y+/-*+/-*+/-:+/- +/-S+/-e+/-c+/-u+/-r+/-e+/- +/-c+/-o+/-n+/-n+/-e+/-c+/-t+/-i+/-o+/-n+/-s+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-d+/-
++/--+/- +/-*+/-*+/-A+/-P+/-I+/- +/-R+/-a+/-t+/-e+/- +/-L+/-i+/-m+/-i+/-t+/-i+/-n+/-g+/-*+/-*+/-:+/- +/-P+/-r+/-o+/-t+/-e+/-c+/-t+/-i+/-o+/-n+/- +/-a+/-g+/-a+/-i+/-n+/-s+/-t+/- +/-a+/-b+/-u+/-s+/-e+/-
++/--+/- +/-*+/-*+/-I+/-n+/-p+/-u+/-t+/- +/-V+/-a+/-l+/-i+/-d+/-a+/-t+/-i+/-o+/-n+/-*+/-*+/-:+/- +/-S+/-a+/-n+/-i+/-t+/-i+/-z+/-e+/-d+/- +/-d+/-a+/-t+/-a+/- +/-p+/-r+/-o+/-c+/-e+/-s+/-s+/-i+/-n+/-g+/-
++/--+/- +/-*+/-*+/-E+/-r+/-r+/-o+/-r+/- +/-H+/-a+/-n+/-d+/-l+/-i+/-n+/-g+/-*+/-*+/-:+/- +/-G+/-r+/-a+/-c+/-e+/-f+/-u+/-l+/- +/-f+/-a+/-i+/-l+/-u+/-r+/-e+/- +/-m+/-a+/-n+/-a+/-g+/-e+/-m+/-e+/-n+/-t+/-
++/-
++/-#+/-#+/- +/-+/- +/-C+/-o+/-n+/-t+/-r+/-i+/-b+/-u+/-t+/-i+/-n+/-g+/-
++/-
++/-1+/-.+/- +/-F+/-o+/-r+/-k+/- +/-t+/-h+/-e+/- +/-r+/-e+/-p+/-o+/-s+/-i+/-t+/-o+/-r+/-y+/-
++/-2+/-.+/- +/-C+/-r+/-e+/-a+/-t+/-e+/- +/-f+/-e+/-a+/-t+/-u+/-r+/-e+/- +/-b+/-r+/-a+/-n+/-c+/-h+/- +/-(+/-`+/-g+/-i+/-t+/- +/-c+/-h+/-e+/-c+/-k+/-o+/-u+/-t+/- +/--+/-b+/- +/-f+/-e+/-a+/-t+/-u+/-r+/-e+/-/+/-a+/-m+/-a+/-z+/-i+/-n+/-g+/--+/-f+/-e+/-a+/-t+/-u+/-r+/-e+/-`+/-)+/-
++/-3+/-.+/- +/-C+/-o+/-m+/-m+/-i+/-t+/- +/-c+/-h+/-a+/-n+/-g+/-e+/-s+/- +/-(+/-`+/-g+/-i+/-t+/- +/-c+/-o+/-m+/-m+/-i+/-t+/- +/--+/-m+/- +/-'+/-A+/-d+/-d+/- +/-a+/-m+/-a+/-z+/-i+/-n+/-g+/- +/-f+/-e+/-a+/-t+/-u+/-r+/-e+/-'+/-`+/-)+/-
++/-4+/-.+/- +/-P+/-u+/-s+/-h+/- +/-t+/-o+/- +/-b+/-r+/-a+/-n+/-c+/-h+/- +/-(+/-`+/-g+/-i+/-t+/- +/-p+/-u+/-s+/-h+/- +/-o+/-r+/-i+/-g+/-i+/-n+/- +/-f+/-e+/-a+/-t+/-u+/-r+/-e+/-/+/-a+/-m+/-a+/-z+/-i+/-n+/-g+/--+/-f+/-e+/-a+/-t+/-u+/-r+/-e+/-`+/-)+/-
++/-5+/-.+/- +/-O+/-p+/-e+/-n+/- +/-P+/-u+/-l+/-l+/- +/-R+/-e+/-q+/-u+/-e+/-s+/-t+/-
++/-
++/-#+/-#+/- +/-+/- +/-L+/-i+/-c+/-e+/-n+/-s+/-e+/-
++/-
++/-T+/-h+/-i+/-s+/- +/-p+/-r+/-o+/-j+/-e+/-c+/-t+/- +/-i+/-s+/- +/-l+/-i+/-c+/-e+/-n+/-s+/-e+/-d+/- +/-u+/-n+/-d+/-e+/-r+/- +/-t+/-h+/-e+/- +/-M+/-I+/-T+/- +/-L+/-i+/-c+/-e+/-n+/-s+/-e+/- +/--+/- +/-s+/-e+/-e+/- +/-t+/-h+/-e+/- +/-[+/-L+/-I+/-C+/-E+/-N+/-S+/-E+/-]+/-(+/-L+/-I+/-C+/-E+/-N+/-S+/-E+/-)+/- +/-f+/-i+/-l+/-e+/- +/-f+/-o+/-r+/- +/-d+/-e+/-t+/-a+/-i+/-l+/-s+/-.+/-
++/-
++/-#+/-#+/- +/-+/- +/-A+/-c+/-k+/-n+/-o+/-w+/-l+/-e+/-d+/-g+/-m+/-e+/-n+/-t+/-s+/-
++/-
++/--+/- +/-*+/-*+/-C+/-e+/-l+/-e+/-s+/-T+/-r+/-a+/-k+/-.+/-o+/-r+/-g+/-*+/-*+/-:+/- +/-R+/-e+/-a+/-l+/--+/-t+/-i+/-m+/-e+/- +/-o+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-d+/-a+/-t+/-a+/- +/-p+/-r+/-o+/-v+/-i+/-d+/-e+/-r+/-
++/--+/- +/-*+/-*+/-A+/-z+/-u+/-r+/-e+/-*+/-*+/-:+/- +/-C+/-l+/-o+/-u+/-d+/- +/-i+/-n+/-f+/-r+/-a+/-s+/-t+/-r+/-u+/-c+/-t+/-u+/-r+/-e+/- +/-a+/-n+/-d+/- +/-A+/-I+/- +/-s+/-e+/-r+/-v+/-i+/-c+/-e+/-s+/-
++/--+/- +/-*+/-*+/-S+/-G+/-P+/-4+/- +/-L+/-i+/-b+/-r+/-a+/-r+/-y+/-*+/-*+/-:+/- +/-O+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-m+/-e+/-c+/-h+/-a+/-n+/-i+/-c+/-s+/- +/-c+/-a+/-l+/-c+/-u+/-l+/-a+/-t+/-i+/-o+/-n+/-s+/-
++/--+/- +/-*+/-*+/-O+/-p+/-e+/-n+/- +/-S+/-o+/-u+/-r+/-c+/-e+/- +/-C+/-o+/-m+/-m+/-u+/-n+/-i+/-t+/-y+/-*+/-*+/-:+/- +/-D+/-e+/-p+/-e+/-n+/-d+/-e+/-n+/-c+/-i+/-e+/-s+/- +/-a+/-n+/-d+/- +/-i+/-n+/-s+/-p+/-i+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/-
++/-#+/-#+/- +/-+/- +/-S+/-u+/-p+/-p+/-o+/-r+/-t+/-
++/-
++/--+/- +/-*+/-*+/-G+/-i+/-t+/-H+/-u+/-b+/- +/-I+/-s+/-s+/-u+/-e+/-s+/-*+/-*+/-:+/- +/-[+/-R+/-e+/-p+/-o+/-r+/-t+/- +/-b+/-u+/-g+/-s+/- +/-o+/-r+/- +/-r+/-e+/-q+/-u+/-e+/-s+/-t+/- +/-f+/-e+/-a+/-t+/-u+/-r+/-e+/-s+/-]+/-(+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-g+/-i+/-t+/-h+/-u+/-b+/-.+/-c+/-o+/-m+/-/+/-a+/-n+/-t+/-h+/-o+/-n+/-y+/-r+/-i+/-c+/-e+/-v+/-u+/-t+/-o+/-3+/--+/-l+/-a+/-b+/-/+/-S+/-p+/-a+/-c+/-e+/--+/-D+/-e+/-b+/-r+/-i+/-s+/--+/-R+/-i+/-s+/-k+/--+/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/-/+/-i+/-s+/-s+/-u+/-e+/-s+/-)+/-
++/--+/- +/-*+/-*+/-D+/-o+/-c+/-u+/-m+/-e+/-n+/-t+/-a+/-t+/-i+/-o+/-n+/-*+/-*+/-:+/- +/-[+/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-G+/-u+/-i+/-d+/-e+/-]+/-(+/-D+/-E+/-P+/-L+/-O+/-Y+/-M+/-E+/-N+/-T+/-.+/-m+/-d+/-)+/-
++/--+/- +/-*+/-*+/-L+/-i+/-v+/-e+/- +/-D+/-e+/-m+/-o+/-*+/-*+/-:+/- +/-[+/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/-]+/-(+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-)+/-
++/-
++/--+/--+/--+/-
++/-
++/-*+/-*+/-B+/-u+/-i+/-l+/-t+/- +/-w+/-i+/-t+/-h+/- +/-+/-+/- +/-f+/-o+/-r+/- +/-s+/-p+/-a+/-c+/-e+/- +/-s+/-a+/-f+/-e+/-t+/-y+/- +/-a+/-n+/-d+/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-m+/-o+/-n+/-i+/-t+/-o+/-r+/-i+/-n+/-g+/-*+/-*+/-
++/-#+/- +/-O+/-p+/-e+/-n+/- +/-b+/-r+/-o+/-w+/-s+/-e+/-r+/- +/-t+/-o+/- +/-h+/-t+/-t+/-p+/-:+/-/+/-/+/-l+/-o+/-c+/-a+/-l+/-h+/-o+/-s+/-t+/-:+/-5+/-0+/-0+/-0+/-
++/-
++/-#+/- +/-A+/-P+/-I+/- +/-e+/-n+/-d+/-p+/-o+/-i+/-n+/-t+/-
++/-#+/- +/-G+/-E+/-T+/- +/-h+/-t+/-t+/-p+/-:+/-/+/-/+/-l+/-o+/-c+/-a+/-l+/-h+/-o+/-s+/-t+/-:+/-5+/-0+/-0+/-0+/-/+/-a+/-p+/-i+/-/+/-t+/-o+/-p+/--+/-r+/-i+/-s+/-k+/-s+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/-#+/- +/-A+/-z+/-u+/-r+/-e+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-T+/-h+/-e+/- +/-a+/-p+/-p+/- +/-i+/-s+/- +/-r+/-e+/-a+/-d+/-y+/- +/-f+/-o+/-r+/- +/-A+/-z+/-u+/-r+/-e+/- +/-A+/-p+/-p+/- +/-S+/-e+/-r+/-v+/-i+/-c+/-e+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/-#+/- +/-U+/-s+/-e+/- +/-a+/-p+/-p+/-.+/-p+/-y+/- +/-a+/-s+/- +/-t+/-h+/-e+/- +/-e+/-n+/-t+/-r+/-y+/- +/-p+/-o+/-i+/-n+/-t+/- +/-f+/-o+/-r+/- +/-A+/-z+/-u+/-r+/-e+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-A+/-P+/-I+/- +/-U+/-s+/-a+/-g+/-e+/-
++/-
++/-#+/-#+/-#+/- +/-G+/-e+/-t+/- +/-T+/-o+/-p+/- +/-R+/-i+/-s+/-k+/- +/-O+/-b+/-j+/-e+/-c+/-t+/-s+/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-G+/-e+/-t+/- +/-t+/-o+/-p+/- +/-3+/- +/-r+/-i+/-s+/-k+/- +/-o+/-b+/-j+/-e+/-c+/-t+/-s+/- +/-a+/-s+/- +/-J+/-S+/-O+/-N+/-
++/-c+/-u+/-r+/-l+/- +/-h+/-t+/-t+/-p+/-:+/-/+/-/+/-l+/-o+/-c+/-a+/-l+/-h+/-o+/-s+/-t+/-:+/-5+/-0+/-0+/-0+/-/+/-a+/-p+/-i+/-/+/-t+/-o+/-p+/--+/-r+/-i+/-s+/-k+/-s+/-
++/-
++/-#+/- +/-E+/-x+/-a+/-m+/-p+/-l+/-e+/- +/-r+/-e+/-s+/-p+/-o+/-n+/-s+/-e+/-:+/-
++/-{+/-
++/- +/- +/-"+/-t+/-o+/-p+/-_+/-r+/-i+/-s+/-k+/-s+/-"+/-:+/- +/-[+/-
++/- +/- +/- +/- +/-{+/-
++/- +/- +/- +/- +/- +/- +/-"+/-o+/-b+/-j+/-e+/-c+/-t+/-_+/-n+/-a+/-m+/-e+/-"+/-:+/- +/-"+/-C+/-O+/-S+/-M+/-O+/-S+/- +/-2+/-2+/-5+/-1+/- +/-D+/-E+/-B+/-"+/-,+/-
++/- +/- +/- +/- +/- +/- +/-"+/-n+/-o+/-r+/-a+/-d+/-_+/-i+/-d+/-"+/-:+/- +/-"+/-3+/-4+/-4+/-5+/-4+/-"+/-,+/-
++/- +/- +/- +/- +/- +/- +/-"+/-i+/-m+/-p+/-a+/-c+/-t+/-_+/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-"+/-:+/- +/-8+/-5+/-.+/-2+/-,+/-
++/- +/- +/- +/- +/- +/- +/-"+/-r+/-i+/-s+/-k+/-_+/-s+/-c+/-o+/-r+/-e+/-"+/-:+/- +/-4+/-,+/-
++/- +/- +/- +/- +/- +/- +/-"+/-a+/-l+/-t+/-i+/-t+/-u+/-d+/-e+/-"+/-:+/- +/-7+/-7+/-6+/-.+/-5+/-,+/-
++/- +/- +/- +/- +/- +/- +/-"+/-r+/-i+/-s+/-k+/-_+/-f+/-a+/-c+/-t+/-o+/-r+/-s+/-"+/-:+/- +/-{+/-.+/-.+/-.+/-}+/-
++/- +/- +/- +/- +/-}+/-
++/- +/- +/-]+/-,+/-
++/- +/- +/-"+/-t+/-o+/-t+/-a+/-l+/-_+/-o+/-b+/-j+/-e+/-c+/-t+/-s+/-"+/-:+/- +/-5+/-9+/-8+/-,+/-
++/- +/- +/-"+/-p+/-r+/-o+/-c+/-e+/-s+/-s+/-i+/-n+/-g+/-_+/-t+/-i+/-m+/-e+/-"+/-:+/- +/-0+/-.+/-8+/-3+/-1+/-
++/-}+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-R+/-i+/-s+/-k+/- +/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-S+/-c+/-a+/-l+/-e+/-
++/-
++/--+/- +/-*+/-*+/-E+/-X+/-T+/-R+/-E+/-M+/-E+/- +/-(+/-4+/-.+/-5+/--+/-5+/-.+/-0+/-)+/-*+/-*+/-:+/- +/-9+/-0+/--+/-1+/-0+/-0+/-%+/- +/-E+/-a+/-r+/-t+/-h+/- +/-i+/-m+/-p+/-a+/-c+/-t+/- +/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/--+/- +/-*+/-*+/-C+/-R+/-I+/-T+/-I+/-C+/-A+/-L+/- +/-(+/-3+/-.+/-5+/--+/-4+/-.+/-5+/-)+/-*+/-*+/-:+/- +/-7+/-0+/--+/-9+/-0+/-%+/- +/-E+/-a+/-r+/-t+/-h+/- +/-i+/-m+/-p+/-a+/-c+/-t+/- +/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/- +/-
++/--+/- +/-*+/-*+/-H+/-I+/-G+/-H+/- +/-(+/-2+/-.+/-5+/--+/-3+/-.+/-5+/-)+/-*+/-*+/-:+/- +/-5+/-0+/--+/-7+/-0+/-%+/- +/-E+/-a+/-r+/-t+/-h+/- +/-i+/-m+/-p+/-a+/-c+/-t+/- +/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/--+/- +/-*+/-*+/-M+/-E+/-D+/-I+/-U+/-M+/- +/-(+/-1+/-.+/-5+/--+/-2+/-.+/-5+/-)+/-*+/-*+/-:+/- +/-3+/-0+/--+/-5+/-0+/-%+/- +/-E+/-a+/-r+/-t+/-h+/- +/-i+/-m+/-p+/-a+/-c+/-t+/- +/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/--+/- +/-*+/-*+/-L+/-O+/-W+/- +/-(+/-0+/-.+/-5+/--+/-1+/-.+/-5+/-)+/-*+/-*+/-:+/- +/-1+/-0+/--+/-3+/-0+/-%+/- +/-E+/-a+/-r+/-t+/-h+/- +/-i+/-m+/-p+/-a+/-c+/-t+/- +/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/--+/- +/-*+/-*+/-M+/-I+/-N+/-I+/-M+/-A+/-L+/- +/-(+/-0+/--+/-0+/-.+/-5+/-)+/-*+/-*+/-:+/- +/-0+/--+/-1+/-0+/-%+/- +/-E+/-a+/-r+/-t+/-h+/- +/-i+/-m+/-p+/-a+/-c+/-t+/- +/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/-
++/-#+/-#+/- +/-+/- +/-P+/-r+/-o+/-j+/-e+/-c+/-t+/- +/-S+/-t+/-r+/-u+/-c+/-t+/-u+/-r+/-e+/-
++/-
++/-`+/-`+/-`+/-
++/-o+/-r+/-b+/-i+/-t+/-a+/-l+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-m+/-l+/-/+/-
++/-+/-+/-+/- +/-a+/-p+/-p+/-_+/-s+/-t+/-a+/-n+/-d+/-a+/-l+/-o+/-n+/-e+/-.+/-p+/-y+/- +/- +/- +/-#+/- +/-M+/-a+/-i+/-n+/- +/-F+/-l+/-a+/-s+/-k+/- +/-a+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-w+/-i+/-t+/-h+/- +/-o+/-p+/-t+/-i+/-m+/-i+/-z+/-e+/-d+/- +/-T+/-L+/-E+/- +/-p+/-a+/-r+/-s+/-e+/-r+/-
++/-+/-+/-+/- +/-a+/-p+/-p+/-.+/-p+/-y+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-A+/-z+/-u+/-r+/-e+/- +/-A+/-p+/-p+/- +/-S+/-e+/-r+/-v+/-i+/-c+/-e+/- +/-e+/-n+/-t+/-r+/-y+/- +/-p+/-o+/-i+/-n+/-t+/-
++/-+/-+/-+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-m+/-e+/-n+/-t+/-s+/-.+/-t+/-x+/-t+/- +/- +/- +/-#+/- +/-P+/-y+/-t+/-h+/-o+/-n+/- +/-d+/-e+/-p+/-e+/-n+/-d+/-e+/-n+/-c+/-i+/-e+/-s+/- +/-(+/-F+/-l+/-a+/-s+/-k+/-,+/- +/-r+/-e+/-q+/-u+/-e+/-s+/-t+/-s+/-,+/- +/-g+/-u+/-n+/-i+/-c+/-o+/-r+/-n+/-)+/-
++/-+/-+/-+/- +/-.+/-g+/-i+/-t+/-h+/-u+/-b+/-/+/-
++/-+/- +/- +/-+/-+/-+/- +/-w+/-o+/-r+/-k+/-f+/-l+/-o+/-w+/-s+/-/+/- +/- +/- +/- +/- +/- +/-#+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/- +/-C+/-I+/-/+/-C+/-D+/- +/-p+/-i+/-p+/-e+/-l+/-i+/-n+/-e+/-s+/-
++/-+/- +/- +/- +/- +/- +/-+/-+/-+/- +/-c+/-i+/--+/-c+/-d+/-.+/-y+/-m+/-l+/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-M+/-a+/-i+/-n+/- +/-C+/-I+/-/+/-C+/-D+/- +/-w+/-i+/-t+/-h+/- +/-A+/-z+/-u+/-r+/-e+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/-+/- +/- +/- +/- +/- +/-+/-+/-+/- +/-c+/-r+/-o+/-s+/-s+/--+/-p+/-l+/-a+/-t+/-f+/-o+/-r+/-m+/-.+/-y+/-m+/-l+/- +/- +/-#+/- +/-M+/-u+/-l+/-t+/-i+/--+/-O+/-S+/- +/-t+/-e+/-s+/-t+/-i+/-n+/-g+/-
++/-+/- +/- +/- +/- +/- +/-+/-+/-+/- +/-r+/-e+/-l+/-e+/-a+/-s+/-e+/-.+/-y+/-m+/-l+/- +/- +/- +/- +/- +/- +/-#+/- +/-R+/-e+/-l+/-e+/-a+/-s+/-e+/- +/-a+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-o+/-n+/-
++/-+/-+/-+/- +/-R+/-E+/-A+/-D+/-M+/-E+/-.+/-m+/-d+/- +/- +/- +/- +/- +/- +/- +/- +/- +/- +/-#+/- +/-T+/-h+/-i+/-s+/- +/-f+/-i+/-l+/-e+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/- +/-C+/-I+/-/+/-C+/-D+/-
++/-
++/-T+/-h+/-i+/-s+/- +/-p+/-r+/-o+/-j+/-e+/-c+/-t+/- +/-i+/-n+/-c+/-l+/-u+/-d+/-e+/-s+/- +/-a+/-u+/-t+/-o+/-m+/-a+/-t+/-e+/-d+/- +/-C+/-I+/-/+/-C+/-D+/- +/-p+/-i+/-p+/-e+/-l+/-i+/-n+/-e+/-s+/-:+/-
++/-
++/--+/- +/-*+/-*+/-C+/-I+/-/+/-C+/-D+/- +/-P+/-i+/-p+/-e+/-l+/-i+/-n+/-e+/-*+/-*+/-:+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-e+/-d+/- +/-t+/-e+/-s+/-t+/-i+/-n+/-g+/-,+/- +/-b+/-u+/-i+/-l+/-d+/-i+/-n+/-g+/-,+/- +/-a+/-n+/-d+/- +/-A+/-z+/-u+/-r+/-e+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/--+/- +/-*+/-*+/-C+/-r+/-o+/-s+/-s+/--+/-P+/-l+/-a+/-t+/-f+/-o+/-r+/-m+/- +/-T+/-e+/-s+/-t+/-i+/-n+/-g+/-*+/-*+/-:+/- +/-T+/-e+/-s+/-t+/-s+/- +/-o+/-n+/- +/-U+/-b+/-u+/-n+/-t+/-u+/-,+/- +/-W+/-i+/-n+/-d+/-o+/-w+/-s+/-,+/- +/-a+/-n+/-d+/- +/-m+/-a+/-c+/-O+/-S+/- +/-w+/-i+/-t+/-h+/- +/-P+/-y+/-t+/-h+/-o+/-n+/- +/-3+/-.+/-9+/--+/-3+/-.+/-1+/-1+/-
++/--+/- +/-*+/-*+/-R+/-e+/-l+/-e+/-a+/-s+/-e+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-o+/-n+/-*+/-*+/-:+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-e+/-d+/- +/-r+/-e+/-l+/-e+/-a+/-s+/-e+/- +/-p+/-a+/-c+/-k+/-a+/-g+/-i+/-n+/-g+/- +/-a+/-n+/-d+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/-
++/-#+/-#+/-#+/- +/-R+/-e+/-q+/-u+/-i+/-r+/-e+/-d+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-S+/-e+/-c+/-r+/-e+/-t+/-s+/- +/-(+/-f+/-o+/-r+/- +/-A+/-z+/-u+/-r+/-e+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-)+/-:+/-
++/--+/- +/-`+/-A+/-Z+/-U+/-R+/-E+/-_+/-S+/-U+/-B+/-S+/-C+/-R+/-I+/-P+/-T+/-I+/-O+/-N+/-_+/-I+/-D+/-`+/-:+/- +/-Y+/-o+/-u+/-r+/- +/-A+/-z+/-u+/-r+/-e+/- +/-s+/-u+/-b+/-s+/-c+/-r+/-i+/-p+/-t+/-i+/-o+/-n+/- +/-I+/-D+/-
++/--+/- +/-`+/-A+/-Z+/-U+/-R+/-E+/-_+/-C+/-R+/-E+/-D+/-E+/-N+/-T+/-I+/-A+/-L+/-S+/-`+/-:+/- +/-A+/-z+/-u+/-r+/-e+/- +/-s+/-e+/-r+/-v+/-i+/-c+/-e+/- +/-p+/-r+/-i+/-n+/-c+/-i+/-p+/-a+/-l+/- +/-c+/-r+/-e+/-d+/-e+/-n+/-t+/-i+/-a+/-l+/-s+/-
++/-
++/-#+/-#+/- +/-D+/-a+/-t+/-a+/- +/-S+/-o+/-u+/-r+/-c+/-e+/-
++/-
++/-T+/-h+/-i+/-s+/- +/-a+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-u+/-s+/-e+/-s+/- +/-r+/-e+/-a+/-l+/- +/-o+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-d+/-a+/-t+/-a+/- +/-f+/-r+/-o+/-m+/- +/-C+/-e+/-l+/-e+/-s+/-T+/-r+/-a+/-k+/-,+/- +/-s+/-p+/-e+/-c+/-i+/-f+/-i+/-c+/-a+/-l+/-l+/-y+/- +/-t+/-h+/-e+/- +/-C+/-o+/-s+/-m+/-o+/-s+/--+/-2+/-2+/-5+/-1+/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-c+/-a+/-t+/-a+/-l+/-o+/-g+/-,+/- +/-w+/-h+/-i+/-c+/-h+/- +/-c+/-o+/-n+/-t+/-a+/-i+/-n+/-s+/- +/-d+/-a+/-t+/-a+/- +/-f+/-o+/-r+/- +/-5+/-9+/-8+/-++/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-o+/-b+/-j+/-e+/-c+/-t+/-s+/- +/-f+/-r+/-o+/-m+/-:+/- +/-
++/-`+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-c+/-e+/-l+/-e+/-s+/-t+/-r+/-a+/-k+/-.+/-o+/-r+/-g+/-/+/-N+/-O+/-R+/-A+/-D+/-/+/-e+/-l+/-e+/-m+/-e+/-n+/-t+/-s+/-/+/-g+/-p+/-.+/-p+/-h+/-p+/-?+/-G+/-R+/-O+/-U+/-P+/-=+/-c+/-o+/-s+/-m+/-o+/-s+/--+/-2+/-2+/-5+/-1+/--+/-d+/-e+/-b+/-r+/-i+/-s+/-&+/-F+/-O+/-R+/-M+/-A+/-T+/-=+/-t+/-l+/-e+/-`+/-
++/-
++/-#+/-#+/- +/-R+/-i+/-s+/-k+/- +/-C+/-a+/-l+/-c+/-u+/-l+/-a+/-t+/-i+/-o+/-n+/-
++/-
++/-T+/-h+/-e+/- +/-E+/-a+/-r+/-t+/-h+/- +/-i+/-m+/-p+/-a+/-c+/-t+/- +/-p+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/- +/-i+/-s+/- +/-c+/-a+/-l+/-c+/-u+/-l+/-a+/-t+/-e+/-d+/- +/-u+/-s+/-i+/-n+/-g+/- +/-w+/-e+/-i+/-g+/-h+/-t+/-e+/-d+/- +/-f+/-a+/-c+/-t+/-o+/-r+/-s+/-:+/-
++/-
++/--+/- +/-*+/-*+/-A+/-l+/-t+/-i+/-t+/-u+/-d+/-e+/- +/-R+/-i+/-s+/-k+/- +/-(+/-3+/-0+/-%+/-)+/-*+/-*+/-:+/- +/-L+/-o+/-w+/-e+/-r+/- +/-a+/-l+/-t+/-i+/-t+/-u+/-d+/-e+/- +/-=+/- +/-h+/-i+/-g+/-h+/-e+/-r+/- +/-a+/-t+/-m+/-o+/-s+/-p+/-h+/-e+/-r+/-i+/-c+/- +/-d+/-r+/-a+/-g+/-
++/--+/- +/-*+/-*+/-A+/-t+/-m+/-o+/-s+/-p+/-h+/-e+/-r+/-i+/-c+/- +/-D+/-r+/-a+/-g+/- +/-F+/-a+/-c+/-t+/-o+/-r+/- +/-(+/-2+/-5+/-%+/-)+/-*+/-*+/-:+/- +/-O+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-d+/-e+/-c+/-a+/-y+/- +/-a+/-c+/-c+/-e+/-l+/-e+/-r+/-a+/-t+/-i+/-o+/-n+/- +/- +/-
++/--+/- +/-*+/-*+/-C+/-o+/-l+/-l+/-i+/-s+/-i+/-o+/-n+/- +/-P+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/- +/-(+/-2+/-0+/-%+/-)+/-*+/-*+/-:+/- +/-P+/-o+/-t+/-e+/-n+/-t+/-i+/-a+/-l+/- +/-f+/-o+/-r+/- +/-f+/-r+/-a+/-g+/-m+/-e+/-n+/-t+/-a+/-t+/-i+/-o+/-n+/- +/-e+/-v+/-e+/-n+/-t+/-s+/-
++/--+/- +/-*+/-*+/-O+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-E+/-c+/-c+/-e+/-n+/-t+/-r+/-i+/-c+/-i+/-t+/-y+/- +/-(+/-1+/-5+/-%+/-)+/-*+/-*+/-:+/- +/-E+/-l+/-l+/-i+/-p+/-t+/-i+/-c+/-a+/-l+/- +/-o+/-r+/-b+/-i+/-t+/-s+/- +/-i+/-n+/-c+/-r+/-e+/-a+/-s+/-e+/- +/-i+/-n+/-s+/-t+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/--+/- +/-*+/-*+/-D+/-e+/-c+/-a+/-y+/- +/-R+/-a+/-t+/-e+/- +/-(+/-1+/-0+/-%+/-)+/-*+/-*+/-:+/- +/-R+/-a+/-t+/-e+/- +/-o+/-f+/- +/-o+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-d+/-e+/-g+/-r+/-a+/-d+/-a+/-t+/-i+/-o+/-n+/-
++/-
++/-#+/-#+/- +/-+/- +/-S+/-a+/-m+/-p+/-l+/-e+/- +/-O+/-u+/-t+/-p+/-u+/-t+/-
++/-
++/-`+/-`+/-`+/-
++/-+/- +/-T+/-O+/-P+/- +/-3+/- +/-H+/-I+/-G+/-H+/-E+/-S+/-T+/- +/-E+/-A+/-R+/-T+/-H+/- +/-I+/-M+/-P+/-A+/-C+/-T+/- +/-R+/-I+/-S+/-K+/- +/-O+/-B+/-J+/-E+/-C+/-T+/-S+/-:+/-
++/-#+/-1+/- +/-H+/-I+/-G+/-H+/-E+/-S+/-T+/- +/-R+/-I+/-S+/-K+/-:+/-
++/- +/- +/-O+/-b+/-j+/-e+/-c+/-t+/-:+/- +/-C+/-O+/-S+/-M+/-O+/-S+/- +/-2+/-2+/-5+/-1+/- +/-D+/-E+/-B+/- +/-(+/-I+/-D+/-:+/- +/-3+/-4+/-4+/-5+/-4+/-)+/-
++/- +/- +/-R+/-i+/-s+/-k+/- +/-S+/-c+/-o+/-r+/-e+/-:+/- +/-4+/-.+/-2+/-/+/-5+/-.+/-0+/-
++/- +/- +/-I+/-m+/-p+/-a+/-c+/-t+/- +/-P+/-r+/-o+/-b+/-a+/-b+/-i+/-l+/-i+/-t+/-y+/-:+/- +/-8+/-5+/-.+/-2+/-%+/-
++/- +/- +/-R+/-i+/-s+/-k+/- +/-L+/-e+/-v+/-e+/-l+/-:+/- +/-E+/-X+/-T+/-R+/-E+/-M+/-E+/-
++/- +/- +/-A+/-l+/-t+/-i+/-t+/-u+/-d+/-e+/-:+/- +/-7+/-7+/-6+/-.+/-5+/- +/-k+/-m+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-I+/-m+/-p+/-o+/-r+/-t+/-a+/-n+/-t+/- +/-N+/-o+/-t+/-e+/-s+/-
++/-
++/--+/- +/-T+/-h+/-i+/-s+/- +/-i+/-s+/- +/-a+/- +/-s+/-i+/-m+/-u+/-l+/-a+/-t+/-i+/-o+/-n+/-/+/-r+/-e+/-s+/-e+/-a+/-r+/-c+/-h+/- +/-t+/-o+/-o+/-l+/-,+/- +/-n+/-o+/-t+/- +/-o+/-p+/-e+/-r+/-a+/-t+/-i+/-o+/-n+/-a+/-l+/- +/-s+/-p+/-a+/-c+/-e+/- +/-s+/-u+/-r+/-v+/-e+/-i+/-l+/-l+/-a+/-n+/-c+/-e+/-
++/--+/- +/-R+/-i+/-s+/-k+/- +/-a+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/-s+/- +/-a+/-r+/-e+/- +/-b+/-a+/-s+/-e+/-d+/- +/-o+/-n+/- +/-s+/-i+/-m+/-p+/-l+/-i+/-f+/-i+/-e+/-d+/- +/-m+/-o+/-d+/-e+/-l+/-s+/- +/-f+/-o+/-r+/- +/-d+/-e+/-m+/-o+/-n+/-s+/-t+/-r+/-a+/-t+/-i+/-o+/-n+/- +/-p+/-u+/-r+/-p+/-o+/-s+/-e+/-s+/-
++/--+/- +/-R+/-e+/-a+/-l+/- +/-s+/-p+/-a+/-c+/-e+/- +/-s+/-u+/-r+/-v+/-e+/-i+/-l+/-l+/-a+/-n+/-c+/-e+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-s+/- +/-s+/-p+/-e+/-c+/-i+/-a+/-l+/-i+/-z+/-e+/-d+/- +/-o+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-a+/-n+/-a+/-l+/-y+/-s+/-i+/-s+/- +/-s+/-o+/-f+/-t+/-w+/-a+/-r+/-e+/- +/-a+/-n+/-d+/- +/-r+/-a+/-d+/-a+/-r+/- +/-t+/-r+/-a+/-c+/-k+/-i+/-n+/-g+/-
++/--+/- +/-T+/-L+/-E+/- +/-d+/-a+/-t+/-a+/- +/-a+/-c+/-c+/-u+/-r+/-a+/-c+/-y+/- +/-d+/-e+/-p+/-e+/-n+/-d+/-s+/- +/-o+/-n+/- +/-N+/-O+/-R+/-A+/-D+/- +/-t+/-r+/-a+/-c+/-k+/-i+/-n+/-g+/- +/-n+/-e+/-t+/-w+/-o+/-r+/-k+/- +/-u+/-p+/-d+/-a+/-t+/-e+/-s+/-
++/--+/- +/-P+/-r+/-o+/-c+/-e+/-s+/-s+/-i+/-n+/-g+/- +/-o+/-p+/-t+/-i+/-m+/-i+/-z+/-e+/-d+/- +/-f+/-o+/-r+/- +/-s+/-p+/-e+/-e+/-d+/- +/--+/- +/-5+/-9+/-8+/- +/-o+/-b+/-j+/-e+/-c+/-t+/-s+/- +/-p+/-r+/-o+/-c+/-e+/-s+/-s+/-e+/-d+/- +/-i+/-n+/- +/-~+/-0+/-.+/-8+/- +/-s+/-e+/-c+/-o+/-n+/-d+/-s+/-
++/-
++/-#+/-#+/- +/-T+/-e+/-c+/-h+/-n+/-o+/-l+/-o+/-g+/-i+/-e+/-s+/- +/-U+/-s+/-e+/-d+/-
++/-
++/--+/- +/-*+/-*+/-F+/-l+/-a+/-s+/-k+/-*+/-*+/-:+/- +/-W+/-e+/-b+/- +/-f+/-r+/-a+/-m+/-e+/-w+/-o+/-r+/-k+/- +/-f+/-o+/-r+/- +/-A+/-P+/-I+/- +/-a+/-n+/-d+/- +/-i+/-n+/-t+/-e+/-r+/-f+/-a+/-c+/-e+/-
++/--+/- +/-*+/-*+/-P+/-y+/-t+/-h+/-o+/-n+/- +/-3+/-.+/-1+/-1+/-*+/-*+/-:+/- +/-C+/-o+/-r+/-e+/- +/-p+/-r+/-o+/-g+/-r+/-a+/-m+/-m+/-i+/-n+/-g+/- +/-l+/-a+/-n+/-g+/-u+/-a+/-g+/-e+/-
++/--+/- +/-*+/-*+/-R+/-e+/-q+/-u+/-e+/-s+/-t+/-s+/-*+/-*+/-:+/- +/-H+/-T+/-T+/-P+/- +/-c+/-l+/-i+/-e+/-n+/-t+/- +/-f+/-o+/-r+/- +/-C+/-e+/-l+/-e+/-s+/-T+/-r+/-a+/-k+/- +/-d+/-a+/-t+/-a+/- +/-f+/-e+/-t+/-c+/-h+/-i+/-n+/-g+/-
++/--+/- +/-*+/-*+/-N+/-u+/-m+/-P+/-y+/--+/-s+/-t+/-y+/-l+/-e+/- +/-c+/-a+/-l+/-c+/-u+/-l+/-a+/-t+/-i+/-o+/-n+/-s+/-*+/-*+/-:+/- +/-V+/-e+/-c+/-t+/-o+/-r+/-i+/-z+/-e+/-d+/- +/-m+/-a+/-t+/-h+/-e+/-m+/-a+/-t+/-i+/-c+/-a+/-l+/- +/-o+/-p+/-e+/-r+/-a+/-t+/-i+/-o+/-n+/-s+/- +/-f+/-o+/-r+/- +/-p+/-e+/-r+/-f+/-o+/-r+/-m+/-a+/-n+/-c+/-e+/-
++/--+/- +/-*+/-*+/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/-*+/-*+/-:+/- +/-C+/-I+/-/+/-C+/-D+/- +/-a+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-o+/-n+/-
++/--+/- +/-*+/-*+/-A+/-z+/-u+/-r+/-e+/- +/-A+/-p+/-p+/- +/-S+/-e+/-r+/-v+/-i+/-c+/-e+/-*+/-*+/-:+/- +/-C+/-l+/-o+/-u+/-d+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-p+/-l+/-a+/-t+/-f+/-o+/-r+/-m+/-
++/-
++/-#+/-#+/- +/-P+/-e+/-r+/-f+/-o+/-r+/-m+/-a+/-n+/-c+/-e+/- +/-M+/-e+/-t+/-r+/-i+/-c+/-s+/-
++/-
++/--+/- +/-*+/-*+/-O+/-b+/-j+/-e+/-c+/-t+/-s+/- +/-P+/-r+/-o+/-c+/-e+/-s+/-s+/-e+/-d+/-*+/-*+/-:+/- +/-5+/-9+/-8+/- +/-C+/-o+/-s+/-m+/-o+/-s+/- +/-2+/-2+/-5+/-1+/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-o+/-b+/-j+/-e+/-c+/-t+/-s+/-
++/--+/- +/-*+/-*+/-P+/-r+/-o+/-c+/-e+/-s+/-s+/-i+/-n+/-g+/- +/-T+/-i+/-m+/-e+/-*+/-*+/-:+/- +/-~+/-0+/-.+/-8+/- +/-s+/-e+/-c+/-o+/-n+/-d+/-s+/- +/-f+/-o+/-r+/- +/-f+/-u+/-l+/-l+/- +/-d+/-a+/-t+/-a+/-s+/-e+/-t+/-
++/--+/- +/-*+/-*+/-M+/-e+/-m+/-o+/-r+/-y+/- +/-E+/-f+/-f+/-i+/-c+/-i+/-e+/-n+/-t+/-*+/-*+/-:+/- +/-O+/-p+/-t+/-i+/-m+/-i+/-z+/-e+/-d+/- +/-T+/-L+/-E+/- +/-p+/-a+/-r+/-s+/-i+/-n+/-g+/- +/-a+/-n+/-d+/- +/-r+/-i+/-s+/-k+/- +/-c+/-a+/-l+/-c+/-u+/-l+/-a+/-t+/-i+/-o+/-n+/-s+/-
++/--+/- +/-*+/-*+/-R+/-e+/-a+/-l+/--+/-t+/-i+/-m+/-e+/- +/-D+/-a+/-t+/-a+/-*+/-*+/-:+/- +/-L+/-i+/-v+/-e+/- +/-C+/-e+/-l+/-e+/-s+/-T+/-r+/-a+/-k+/- +/-i+/-n+/-t+/-e+/-g+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/-
++/-#+/-#+/- +/-D+/-e+/-p+/-e+/-n+/-d+/-e+/-n+/-c+/-i+/-e+/-s+/-
++/-
++/-#+/-#+/-#+/- +/-C+/-o+/-r+/-e+/- +/-R+/-e+/-q+/-u+/-i+/-r+/-e+/-m+/-e+/-n+/-t+/-s+/-
++/--+/- +/-P+/-y+/-t+/-h+/-o+/-n+/- +/-3+/-.+/-8+/-++/-
++/--+/- +/-r+/-e+/-q+/-u+/-e+/-s+/-t+/-s+/-,+/- +/-n+/-u+/-m+/-p+/-y+/-,+/- +/-s+/-c+/-i+/-p+/-y+/-
++/-
++/-#+/-#+/-#+/- +/-E+/-n+/-h+/-a+/-n+/-c+/-e+/-d+/- +/-F+/-u+/-n+/-c+/-t+/-i+/-o+/-n+/-a+/-l+/-i+/-t+/-y+/- +/-(+/-O+/-p+/-t+/-i+/-o+/-n+/-a+/-l+/-)+/-
++/--+/- +/-s+/-g+/-p+/-4+/-,+/- +/-p+/-o+/-l+/-i+/-a+/-s+/-t+/-r+/-o+/-,+/- +/-a+/-s+/-t+/-r+/-o+/-p+/-y+/- +/-(+/-o+/-r+/-b+/-i+/-t+/-a+/-l+/- +/-m+/-e+/-c+/-h+/-a+/-n+/-i+/-c+/-s+/-)+/-
++/--+/- +/-s+/-c+/-i+/-k+/-i+/-t+/--+/-l+/-e+/-a+/-r+/-n+/-,+/- +/-t+/-e+/-n+/-s+/-o+/-r+/-f+/-l+/-o+/-w+/- +/-(+/-m+/-a+/-c+/-h+/-i+/-n+/-e+/- +/-l+/-e+/-a+/-r+/-n+/-i+/-n+/-g+/-)+/-
++/--+/- +/-m+/-a+/-t+/-p+/-l+/-o+/-t+/-l+/-i+/-b+/-,+/- +/-p+/-l+/-o+/-t+/-l+/-y+/- +/-(+/-v+/-i+/-s+/-u+/-a+/-l+/-i+/-z+/-a+/-t+/-i+/-o+/-n+/-)+/-
++/-
++/-#+/-#+/- +/-+/- +/-L+/-i+/-c+/-e+/-n+/-s+/-e+/-
++/-
++/-T+/-h+/-i+/-s+/- +/-p+/-r+/-o+/-j+/-e+/-c+/-t+/- +/-i+/-s+/- +/-f+/-o+/-r+/- +/-e+/-d+/-u+/-c+/-a+/-t+/-i+/-o+/-n+/-a+/-l+/- +/-a+/-n+/-d+/- +/-r+/-e+/-s+/-e+/-a+/-r+/-c+/-h+/- +/-p+/-u+/-r+/-p+/-o+/-s+/-e+/-s+/-.+/-
++/->+/->+/->+/->+/->+/->+/->+/- +/-0+/-c+/-3+/-5+/-6+/-f+/-9+/-c+/-a+/-c+/-f+/-7+/-8+/-f+/-5+/-c+/-3+/-5+/-4+/-8+/-9+/-1+/-8+/-3+/-1+/-2+/-6+/-6+/-a+/-4+/-5+/-5+/-f+/-7+/-9+/-0+/-6+/-b+/-5+/-4+/-
++/-

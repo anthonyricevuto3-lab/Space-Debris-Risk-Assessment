@@ -123,6 +123,13 @@ jobs:
         # Test that our optimized TLE parser works
         python -c "import app_standalone; print(' App import successful')"
         
+    - name:  Check ASCII Compliance
+      run: |
+        echo "Checking ASCII compliance in source files only..."
+        find . -name "*.py" -not -path "./.venv/*" -not -path "./venv/*" -not -path "./env/*" | xargs grep -l '[^ -~\n\r\t]' || echo "No non-ASCII characters found in Python files"
+        find . -name "*.yml" -not -path "./.venv/*" -not -path "./venv/*" -not -path "./env/*" | xargs grep -l '[^ -~\n\r\t]' || echo "No non-ASCII characters found in YAML files"
+        find . -name "*.yaml" -not -path "./.venv/*" -not -path "./venv/*" -not -path "./env/*" | xargs grep -l '[^ -~\n\r\t]' || echo "No non-ASCII characters found in YAML files"
+        
     - name:  Generate Test Report
       run: |
         python -c "

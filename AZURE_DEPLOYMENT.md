@@ -1,154 +1,154 @@
-# Space Debris Risk Assessment - Azure Deployment Guide
-
-## 🚀 Quick Start
-
-This guide will help you deploy the Space Debris Risk Assessment system to Azure Web Apps.
-
-## 📋 Prerequisites
-
-- Azure subscription
-- GitHub repository (already set up)
-- Azure CLI (optional, for command line deployment)
-
-## 🔧 Azure Web App Setup
-
-### Option 1: Azure Portal (Recommended)
-
-1. **Create Azure Web App:**
-   - Go to [Azure Portal](https://portal.azure.com)
-   - Click "Create a resource" → "Web App"
-   - Configure:
-     - **App name:** `space-debris-dashboard` (or your preferred name)
-     - **Runtime stack:** Python 3.11
-     - **Operating System:** Linux
-     - **Region:** Your preferred region
-
-2. **Get Publish Profile:**
-   - Go to your Web App in Azure Portal
-   - Click "Get publish profile" and download the file
-   - Copy the entire content of the `.publishsettings` file
-
-3. **Configure GitHub Secrets:**
-   - Go to your GitHub repository
-   - Settings → Secrets and variables → Actions
-   - Click "New repository secret"
-   - Name: `AZURE_WEBAPP_PUBLISH_PROFILE`
-   - Value: Paste the entire publish profile content
-   - Click "Add secret"
-
-### Option 2: Azure CLI
-
-```bash
-# Login to Azure
-az login
-
-# Create resource group (if needed)
-az group create --name space-debris-rg --location eastus
-
-# Create App Service plan
-az appservice plan create --name space-debris-plan --resource-group space-debris-rg --sku B1 --is-linux
-
-# Create Web App
-az webapp create --resource-group space-debris-rg --plan space-debris-plan --name space-debris-dashboard --runtime "PYTHON|3.11"
-
-# Get publish profile
-az webapp deployment list-publishing-profiles --name space-debris-dashboard --resource-group space-debris-rg --xml
-```
-
-## 🔄 Deployment Process
-
-### Automatic Deployment (GitHub Actions)
-
-Once secrets are configured, deployment happens automatically:
-
-1. Push to `main` branch triggers the workflow
-2. GitHub Actions builds the application
-3. Deploys to Azure Web App
-4. Available at: `https://space-debris-dashboard.azurewebsites.net`
-
-### Manual Deployment
-
-If you prefer manual deployment:
-
-```bash
-# Install Azure CLI
-# Login to Azure
-az login
-
-# Deploy from local directory
-az webapp up --name space-debris-dashboard --resource-group space-debris-rg --runtime "PYTHON:3.11"
-```
-
-## 🌐 Application URLs
-
-After successful deployment:
-
-- **Main Dashboard:** `https://space-debris-dashboard.azurewebsites.net/`
-- **API Health:** `https://space-debris-dashboard.azurewebsites.net/health`
-- **Top Risks API:** `https://space-debris-dashboard.azurewebsites.net/api/top-risks`
-
-## 🔍 Features Deployed
-
-- ✅ Real-time TLE data processing from CelesTrak
-- ✅ Modern glass-morphism dashboard
-- ✅ Space debris risk assessment (0-5 scale)
-- ✅ Top 3 highest risk objects display
-- ✅ Responsive design for all devices
-- ✅ ASCII-compliant for CI/CD compatibility
-
-## 📊 Monitoring
-
-Monitor your deployment:
-- Azure Portal → Your Web App → Monitoring
-- Logs available in Azure Portal
-- Health check: `/health` endpoint
-
-## 🔧 Configuration
-
-Environment variables (set in Azure Portal):
-- `PORT`: Automatically set by Azure
-- `FLASK_ENV`: Set to `production`
-
-## 🚨 Troubleshooting
-
-### Common Issues:
-
-1. **Deployment fails with credential error:**
-   - Ensure `AZURE_WEBAPP_PUBLISH_PROFILE` secret is correctly set
-   - Re-download publish profile if needed
-
-2. **App doesn't start:**
-   - Check logs in Azure Portal
-   - Verify Python version compatibility
-   - Ensure all dependencies in requirements.txt
-
-3. **API returns errors:**
-   - Check CelesTrak connectivity
-   - Verify external network access is allowed
-
-### Getting Help:
-
-- Check GitHub Actions logs for deployment issues
-- Azure Portal → Your Web App → Diagnose and solve problems
-- Review application logs in Azure Portal
-
-## 🔐 Security Notes
-
-- Publish profiles contain sensitive credentials
-- Keep GitHub secrets secure
-- Regularly rotate publish profiles
-- Monitor Azure costs and usage
-
-## 📈 Scaling
-
-For production use:
-- Consider upgrading to Standard or Premium App Service Plan
-- Enable Application Insights for monitoring
-- Set up custom domains and SSL certificates
-- Configure backup and disaster recovery
-
----
-
-**Status:** ✅ Ready for deployment
-**Last Updated:** November 2025
-**CI/CD:** Fully operational with ASCII compliance
++/-#+/- +/-S+/-p+/-a+/-c+/-e+/- +/-D+/-e+/-b+/-r+/-i+/-s+/- +/-R+/-i+/-s+/-k+/- +/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/--+/- +/-A+/-z+/-u+/-r+/-e+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-G+/-u+/-i+/-d+/-e+/-
++/-
++/-#+/-#+/- +/-+/- +/-Q+/-u+/-i+/-c+/-k+/- +/-S+/-t+/-a+/-r+/-t+/-
++/-
++/-T+/-h+/-i+/-s+/- +/-g+/-u+/-i+/-d+/-e+/- +/-w+/-i+/-l+/-l+/- +/-h+/-e+/-l+/-p+/- +/-y+/-o+/-u+/- +/-d+/-e+/-p+/-l+/-o+/-y+/- +/-t+/-h+/-e+/- +/-S+/-p+/-a+/-c+/-e+/- +/-D+/-e+/-b+/-r+/-i+/-s+/- +/-R+/-i+/-s+/-k+/- +/-A+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-s+/-y+/-s+/-t+/-e+/-m+/- +/-t+/-o+/- +/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/-s+/-.+/-
++/-
++/-#+/-#+/- +/-+/- +/-P+/-r+/-e+/-r+/-e+/-q+/-u+/-i+/-s+/-i+/-t+/-e+/-s+/-
++/-
++/--+/- +/-A+/-z+/-u+/-r+/-e+/- +/-s+/-u+/-b+/-s+/-c+/-r+/-i+/-p+/-t+/-i+/-o+/-n+/-
++/--+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-r+/-e+/-p+/-o+/-s+/-i+/-t+/-o+/-r+/-y+/- +/-(+/-a+/-l+/-r+/-e+/-a+/-d+/-y+/- +/-s+/-e+/-t+/- +/-u+/-p+/-)+/-
++/--+/- +/-A+/-z+/-u+/-r+/-e+/- +/-C+/-L+/-I+/- +/-(+/-o+/-p+/-t+/-i+/-o+/-n+/-a+/-l+/-,+/- +/-f+/-o+/-r+/- +/-c+/-o+/-m+/-m+/-a+/-n+/-d+/- +/-l+/-i+/-n+/-e+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-)+/-
++/-
++/-#+/-#+/- +/-+/- +/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/- +/-S+/-e+/-t+/-u+/-p+/-
++/-
++/-#+/-#+/-#+/- +/-O+/-p+/-t+/-i+/-o+/-n+/- +/-1+/-:+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/- +/-(+/-R+/-e+/-c+/-o+/-m+/-m+/-e+/-n+/-d+/-e+/-d+/-)+/-
++/-
++/-1+/-.+/- +/-*+/-*+/-C+/-r+/-e+/-a+/-t+/-e+/- +/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/-:+/-*+/-*+/-
++/- +/- +/- +/--+/- +/-G+/-o+/- +/-t+/-o+/- +/-[+/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/-]+/-(+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-p+/-o+/-r+/-t+/-a+/-l+/-.+/-a+/-z+/-u+/-r+/-e+/-.+/-c+/-o+/-m+/-)+/-
++/- +/- +/- +/--+/- +/-C+/-l+/-i+/-c+/-k+/- +/-"+/-C+/-r+/-e+/-a+/-t+/-e+/- +/-a+/- +/-r+/-e+/-s+/-o+/-u+/-r+/-c+/-e+/-"+/- +/-+/- +/-"+/-W+/-e+/-b+/- +/-A+/-p+/-p+/-"+/-
++/- +/- +/- +/--+/- +/-C+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-e+/-:+/-
++/- +/- +/- +/- +/- +/--+/- +/-*+/-*+/-A+/-p+/-p+/- +/-n+/-a+/-m+/-e+/-:+/-*+/-*+/- +/-`+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-`+/- +/-(+/-o+/-r+/- +/-y+/-o+/-u+/-r+/- +/-p+/-r+/-e+/-f+/-e+/-r+/-r+/-e+/-d+/- +/-n+/-a+/-m+/-e+/-)+/-
++/- +/- +/- +/- +/- +/--+/- +/-*+/-*+/-R+/-u+/-n+/-t+/-i+/-m+/-e+/- +/-s+/-t+/-a+/-c+/-k+/-:+/-*+/-*+/- +/-P+/-y+/-t+/-h+/-o+/-n+/- +/-3+/-.+/-1+/-1+/-
++/- +/- +/- +/- +/- +/--+/- +/-*+/-*+/-O+/-p+/-e+/-r+/-a+/-t+/-i+/-n+/-g+/- +/-S+/-y+/-s+/-t+/-e+/-m+/-:+/-*+/-*+/- +/-L+/-i+/-n+/-u+/-x+/-
++/- +/- +/- +/- +/- +/--+/- +/-*+/-*+/-R+/-e+/-g+/-i+/-o+/-n+/-:+/-*+/-*+/- +/-Y+/-o+/-u+/-r+/- +/-p+/-r+/-e+/-f+/-e+/-r+/-r+/-e+/-d+/- +/-r+/-e+/-g+/-i+/-o+/-n+/-
++/-
++/-2+/-.+/- +/-*+/-*+/-G+/-e+/-t+/- +/-P+/-u+/-b+/-l+/-i+/-s+/-h+/- +/-P+/-r+/-o+/-f+/-i+/-l+/-e+/-:+/-*+/-*+/-
++/- +/- +/- +/--+/- +/-G+/-o+/- +/-t+/-o+/- +/-y+/-o+/-u+/-r+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/- +/-i+/-n+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/-
++/- +/- +/- +/--+/- +/-C+/-l+/-i+/-c+/-k+/- +/-"+/-G+/-e+/-t+/- +/-p+/-u+/-b+/-l+/-i+/-s+/-h+/- +/-p+/-r+/-o+/-f+/-i+/-l+/-e+/-"+/- +/-a+/-n+/-d+/- +/-d+/-o+/-w+/-n+/-l+/-o+/-a+/-d+/- +/-t+/-h+/-e+/- +/-f+/-i+/-l+/-e+/-
++/- +/- +/- +/--+/- +/-C+/-o+/-p+/-y+/- +/-t+/-h+/-e+/- +/-e+/-n+/-t+/-i+/-r+/-e+/- +/-c+/-o+/-n+/-t+/-e+/-n+/-t+/- +/-o+/-f+/- +/-t+/-h+/-e+/- +/-`+/-.+/-p+/-u+/-b+/-l+/-i+/-s+/-h+/-s+/-e+/-t+/-t+/-i+/-n+/-g+/-s+/-`+/- +/-f+/-i+/-l+/-e+/-
++/-
++/-3+/-.+/- +/-*+/-*+/-C+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-e+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-S+/-e+/-c+/-r+/-e+/-t+/-s+/-:+/-*+/-*+/-
++/- +/- +/- +/--+/- +/-G+/-o+/- +/-t+/-o+/- +/-y+/-o+/-u+/-r+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-r+/-e+/-p+/-o+/-s+/-i+/-t+/-o+/-r+/-y+/-
++/- +/- +/- +/--+/- +/-S+/-e+/-t+/-t+/-i+/-n+/-g+/-s+/- +/-+/- +/-S+/-e+/-c+/-r+/-e+/-t+/-s+/- +/-a+/-n+/-d+/- +/-v+/-a+/-r+/-i+/-a+/-b+/-l+/-e+/-s+/- +/-+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/-
++/- +/- +/- +/--+/- +/-C+/-l+/-i+/-c+/-k+/- +/-"+/-N+/-e+/-w+/- +/-r+/-e+/-p+/-o+/-s+/-i+/-t+/-o+/-r+/-y+/- +/-s+/-e+/-c+/-r+/-e+/-t+/-"+/-
++/- +/- +/- +/--+/- +/-N+/-a+/-m+/-e+/-:+/- +/-`+/-A+/-Z+/-U+/-R+/-E+/-_+/-W+/-E+/-B+/-A+/-P+/-P+/-_+/-P+/-U+/-B+/-L+/-I+/-S+/-H+/-_+/-P+/-R+/-O+/-F+/-I+/-L+/-E+/-`+/-
++/- +/- +/- +/--+/- +/-V+/-a+/-l+/-u+/-e+/-:+/- +/-P+/-a+/-s+/-t+/-e+/- +/-t+/-h+/-e+/- +/-e+/-n+/-t+/-i+/-r+/-e+/- +/-p+/-u+/-b+/-l+/-i+/-s+/-h+/- +/-p+/-r+/-o+/-f+/-i+/-l+/-e+/- +/-c+/-o+/-n+/-t+/-e+/-n+/-t+/-
++/- +/- +/- +/--+/- +/-C+/-l+/-i+/-c+/-k+/- +/-"+/-A+/-d+/-d+/- +/-s+/-e+/-c+/-r+/-e+/-t+/-"+/-
++/-
++/-#+/-#+/-#+/- +/-O+/-p+/-t+/-i+/-o+/-n+/- +/-2+/-:+/- +/-A+/-z+/-u+/-r+/-e+/- +/-C+/-L+/-I+/-
++/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-L+/-o+/-g+/-i+/-n+/- +/-t+/-o+/- +/-A+/-z+/-u+/-r+/-e+/-
++/-a+/-z+/- +/-l+/-o+/-g+/-i+/-n+/-
++/-
++/-#+/- +/-C+/-r+/-e+/-a+/-t+/-e+/- +/-r+/-e+/-s+/-o+/-u+/-r+/-c+/-e+/- +/-g+/-r+/-o+/-u+/-p+/- +/-(+/-i+/-f+/- +/-n+/-e+/-e+/-d+/-e+/-d+/-)+/-
++/-a+/-z+/- +/-g+/-r+/-o+/-u+/-p+/- +/-c+/-r+/-e+/-a+/-t+/-e+/- +/--+/--+/-n+/-a+/-m+/-e+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-r+/-g+/- +/--+/--+/-l+/-o+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-e+/-a+/-s+/-t+/-u+/-s+/-
++/-
++/-#+/- +/-C+/-r+/-e+/-a+/-t+/-e+/- +/-A+/-p+/-p+/- +/-S+/-e+/-r+/-v+/-i+/-c+/-e+/- +/-p+/-l+/-a+/-n+/-
++/-a+/-z+/- +/-a+/-p+/-p+/-s+/-e+/-r+/-v+/-i+/-c+/-e+/- +/-p+/-l+/-a+/-n+/- +/-c+/-r+/-e+/-a+/-t+/-e+/- +/--+/--+/-n+/-a+/-m+/-e+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-p+/-l+/-a+/-n+/- +/--+/--+/-r+/-e+/-s+/-o+/-u+/-r+/-c+/-e+/--+/-g+/-r+/-o+/-u+/-p+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-r+/-g+/- +/--+/--+/-s+/-k+/-u+/- +/-B+/-1+/- +/--+/--+/-i+/-s+/--+/-l+/-i+/-n+/-u+/-x+/-
++/-
++/-#+/- +/-C+/-r+/-e+/-a+/-t+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/-
++/-a+/-z+/- +/-w+/-e+/-b+/-a+/-p+/-p+/- +/-c+/-r+/-e+/-a+/-t+/-e+/- +/--+/--+/-r+/-e+/-s+/-o+/-u+/-r+/-c+/-e+/--+/-g+/-r+/-o+/-u+/-p+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-r+/-g+/- +/--+/--+/-p+/-l+/-a+/-n+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-p+/-l+/-a+/-n+/- +/--+/--+/-n+/-a+/-m+/-e+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/--+/--+/-r+/-u+/-n+/-t+/-i+/-m+/-e+/- +/-"+/-P+/-Y+/-T+/-H+/-O+/-N+/-|+/-3+/-.+/-1+/-1+/-"+/-
++/-
++/-#+/- +/-G+/-e+/-t+/- +/-p+/-u+/-b+/-l+/-i+/-s+/-h+/- +/-p+/-r+/-o+/-f+/-i+/-l+/-e+/-
++/-a+/-z+/- +/-w+/-e+/-b+/-a+/-p+/-p+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-l+/-i+/-s+/-t+/--+/-p+/-u+/-b+/-l+/-i+/-s+/-h+/-i+/-n+/-g+/--+/-p+/-r+/-o+/-f+/-i+/-l+/-e+/-s+/- +/--+/--+/-n+/-a+/-m+/-e+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/--+/--+/-r+/-e+/-s+/-o+/-u+/-r+/-c+/-e+/--+/-g+/-r+/-o+/-u+/-p+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-r+/-g+/- +/--+/--+/-x+/-m+/-l+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-P+/-r+/-o+/-c+/-e+/-s+/-s+/-
++/-
++/-#+/-#+/-#+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-c+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-(+/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/-)+/-
++/-
++/-O+/-n+/-c+/-e+/- +/-s+/-e+/-c+/-r+/-e+/-t+/-s+/- +/-a+/-r+/-e+/- +/-c+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-e+/-d+/-,+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-h+/-a+/-p+/-p+/-e+/-n+/-s+/- +/-a+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-c+/-a+/-l+/-l+/-y+/-:+/-
++/-
++/-1+/-.+/- +/-P+/-u+/-s+/-h+/- +/-t+/-o+/- +/-`+/-m+/-a+/-i+/-n+/-`+/- +/-b+/-r+/-a+/-n+/-c+/-h+/- +/-t+/-r+/-i+/-g+/-g+/-e+/-r+/-s+/- +/-t+/-h+/-e+/- +/-w+/-o+/-r+/-k+/-f+/-l+/-o+/-w+/-
++/-2+/-.+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/- +/-b+/-u+/-i+/-l+/-d+/-s+/- +/-t+/-h+/-e+/- +/-a+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/-
++/-3+/-.+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-s+/- +/-t+/-o+/- +/-A+/-z+/-u+/-r+/-e+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/-
++/-4+/-.+/- +/-A+/-v+/-a+/-i+/-l+/-a+/-b+/-l+/-e+/- +/-a+/-t+/-:+/- +/-`+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-`+/-
++/-
++/-#+/-#+/-#+/- +/-M+/-a+/-n+/-u+/-a+/-l+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/-
++/-I+/-f+/- +/-y+/-o+/-u+/- +/-p+/-r+/-e+/-f+/-e+/-r+/- +/-m+/-a+/-n+/-u+/-a+/-l+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-:+/-
++/-
++/-`+/-`+/-`+/-b+/-a+/-s+/-h+/-
++/-#+/- +/-I+/-n+/-s+/-t+/-a+/-l+/-l+/- +/-A+/-z+/-u+/-r+/-e+/- +/-C+/-L+/-I+/-
++/-#+/- +/-L+/-o+/-g+/-i+/-n+/- +/-t+/-o+/- +/-A+/-z+/-u+/-r+/-e+/-
++/-a+/-z+/- +/-l+/-o+/-g+/-i+/-n+/-
++/-
++/-#+/- +/-D+/-e+/-p+/-l+/-o+/-y+/- +/-f+/-r+/-o+/-m+/- +/-l+/-o+/-c+/-a+/-l+/- +/-d+/-i+/-r+/-e+/-c+/-t+/-o+/-r+/-y+/-
++/-a+/-z+/- +/-w+/-e+/-b+/-a+/-p+/-p+/- +/-u+/-p+/- +/--+/--+/-n+/-a+/-m+/-e+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/- +/--+/--+/-r+/-e+/-s+/-o+/-u+/-r+/-c+/-e+/--+/-g+/-r+/-o+/-u+/-p+/- +/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-r+/-g+/- +/--+/--+/-r+/-u+/-n+/-t+/-i+/-m+/-e+/- +/-"+/-P+/-Y+/-T+/-H+/-O+/-N+/-:+/-3+/-.+/-1+/-1+/-"+/-
++/-`+/-`+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-A+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-U+/-R+/-L+/-s+/-
++/-
++/-A+/-f+/-t+/-e+/-r+/- +/-s+/-u+/-c+/-c+/-e+/-s+/-s+/-f+/-u+/-l+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-:+/-
++/-
++/--+/- +/-*+/-*+/-M+/-a+/-i+/-n+/- +/-D+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-:+/-*+/-*+/- +/-`+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-`+/-
++/--+/- +/-*+/-*+/-A+/-P+/-I+/- +/-H+/-e+/-a+/-l+/-t+/-h+/-:+/-*+/-*+/- +/-`+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-h+/-e+/-a+/-l+/-t+/-h+/-`+/-
++/--+/- +/-*+/-*+/-T+/-o+/-p+/- +/-R+/-i+/-s+/-k+/-s+/- +/-A+/-P+/-I+/-:+/-*+/-*+/- +/-`+/-h+/-t+/-t+/-p+/-s+/-:+/-/+/-/+/-s+/-p+/-a+/-c+/-e+/--+/-d+/-e+/-b+/-r+/-i+/-s+/--+/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-.+/-a+/-z+/-u+/-r+/-e+/-w+/-e+/-b+/-s+/-i+/-t+/-e+/-s+/-.+/-n+/-e+/-t+/-/+/-a+/-p+/-i+/-/+/-t+/-o+/-p+/--+/-r+/-i+/-s+/-k+/-s+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-F+/-e+/-a+/-t+/-u+/-r+/-e+/-s+/- +/-D+/-e+/-p+/-l+/-o+/-y+/-e+/-d+/-
++/-
++/--+/- +/-+/- +/-R+/-e+/-a+/-l+/--+/-t+/-i+/-m+/-e+/- +/-T+/-L+/-E+/- +/-d+/-a+/-t+/-a+/- +/-p+/-r+/-o+/-c+/-e+/-s+/-s+/-i+/-n+/-g+/- +/-f+/-r+/-o+/-m+/- +/-C+/-e+/-l+/-e+/-s+/-T+/-r+/-a+/-k+/-
++/--+/- +/-+/- +/-M+/-o+/-d+/-e+/-r+/-n+/- +/-g+/-l+/-a+/-s+/-s+/--+/-m+/-o+/-r+/-p+/-h+/-i+/-s+/-m+/- +/-d+/-a+/-s+/-h+/-b+/-o+/-a+/-r+/-d+/-
++/--+/- +/-+/- +/-S+/-p+/-a+/-c+/-e+/- +/-d+/-e+/-b+/-r+/-i+/-s+/- +/-r+/-i+/-s+/-k+/- +/-a+/-s+/-s+/-e+/-s+/-s+/-m+/-e+/-n+/-t+/- +/-(+/-0+/--+/-5+/- +/-s+/-c+/-a+/-l+/-e+/-)+/-
++/--+/- +/-+/- +/-T+/-o+/-p+/- +/-3+/- +/-h+/-i+/-g+/-h+/-e+/-s+/-t+/- +/-r+/-i+/-s+/-k+/- +/-o+/-b+/-j+/-e+/-c+/-t+/-s+/- +/-d+/-i+/-s+/-p+/-l+/-a+/-y+/-
++/--+/- +/-+/- +/-R+/-e+/-s+/-p+/-o+/-n+/-s+/-i+/-v+/-e+/- +/-d+/-e+/-s+/-i+/-g+/-n+/- +/-f+/-o+/-r+/- +/-a+/-l+/-l+/- +/-d+/-e+/-v+/-i+/-c+/-e+/-s+/-
++/--+/- +/-+/- +/-A+/-S+/-C+/-I+/-I+/--+/-c+/-o+/-m+/-p+/-l+/-i+/-a+/-n+/-t+/- +/-f+/-o+/-r+/- +/-C+/-I+/-/+/-C+/-D+/- +/-c+/-o+/-m+/-p+/-a+/-t+/-i+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/-
++/-#+/-#+/- +/-+/- +/-M+/-o+/-n+/-i+/-t+/-o+/-r+/-i+/-n+/-g+/-
++/-
++/-M+/-o+/-n+/-i+/-t+/-o+/-r+/- +/-y+/-o+/-u+/-r+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-:+/-
++/--+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/- +/-+/- +/-Y+/-o+/-u+/-r+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/- +/-+/- +/-M+/-o+/-n+/-i+/-t+/-o+/-r+/-i+/-n+/-g+/-
++/--+/- +/-L+/-o+/-g+/-s+/- +/-a+/-v+/-a+/-i+/-l+/-a+/-b+/-l+/-e+/- +/-i+/-n+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/-
++/--+/- +/-H+/-e+/-a+/-l+/-t+/-h+/- +/-c+/-h+/-e+/-c+/-k+/-:+/- +/-`+/-/+/-h+/-e+/-a+/-l+/-t+/-h+/-`+/- +/-e+/-n+/-d+/-p+/-o+/-i+/-n+/-t+/-
++/-
++/-#+/-#+/- +/-+/- +/-C+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-a+/-t+/-i+/-o+/-n+/-
++/-
++/-E+/-n+/-v+/-i+/-r+/-o+/-n+/-m+/-e+/-n+/-t+/- +/-v+/-a+/-r+/-i+/-a+/-b+/-l+/-e+/-s+/- +/-(+/-s+/-e+/-t+/- +/-i+/-n+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/-)+/-:+/-
++/--+/- +/-`+/-P+/-O+/-R+/-T+/-`+/-:+/- +/-A+/-u+/-t+/-o+/-m+/-a+/-t+/-i+/-c+/-a+/-l+/-l+/-y+/- +/-s+/-e+/-t+/- +/-b+/-y+/- +/-A+/-z+/-u+/-r+/-e+/-
++/--+/- +/-`+/-F+/-L+/-A+/-S+/-K+/-_+/-E+/-N+/-V+/-`+/-:+/- +/-S+/-e+/-t+/- +/-t+/-o+/- +/-`+/-p+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/-`+/-
++/-
++/-#+/-#+/- +/-+/- +/-T+/-r+/-o+/-u+/-b+/-l+/-e+/-s+/-h+/-o+/-o+/-t+/-i+/-n+/-g+/-
++/-
++/-#+/-#+/-#+/- +/-C+/-o+/-m+/-m+/-o+/-n+/- +/-I+/-s+/-s+/-u+/-e+/-s+/-:+/-
++/-
++/-1+/-.+/- +/-*+/-*+/-D+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-f+/-a+/-i+/-l+/-s+/- +/-w+/-i+/-t+/-h+/- +/-c+/-r+/-e+/-d+/-e+/-n+/-t+/-i+/-a+/-l+/- +/-e+/-r+/-r+/-o+/-r+/-:+/-*+/-*+/-
++/- +/- +/- +/--+/- +/-E+/-n+/-s+/-u+/-r+/-e+/- +/-`+/-A+/-Z+/-U+/-R+/-E+/-_+/-W+/-E+/-B+/-A+/-P+/-P+/-_+/-P+/-U+/-B+/-L+/-I+/-S+/-H+/-_+/-P+/-R+/-O+/-F+/-I+/-L+/-E+/-`+/- +/-s+/-e+/-c+/-r+/-e+/-t+/- +/-i+/-s+/- +/-c+/-o+/-r+/-r+/-e+/-c+/-t+/-l+/-y+/- +/-s+/-e+/-t+/-
++/- +/- +/- +/--+/- +/-R+/-e+/--+/-d+/-o+/-w+/-n+/-l+/-o+/-a+/-d+/- +/-p+/-u+/-b+/-l+/-i+/-s+/-h+/- +/-p+/-r+/-o+/-f+/-i+/-l+/-e+/- +/-i+/-f+/- +/-n+/-e+/-e+/-d+/-e+/-d+/-
++/-
++/-2+/-.+/- +/-*+/-*+/-A+/-p+/-p+/- +/-d+/-o+/-e+/-s+/-n+/-'+/-t+/- +/-s+/-t+/-a+/-r+/-t+/-:+/-*+/-*+/-
++/- +/- +/- +/--+/- +/-C+/-h+/-e+/-c+/-k+/- +/-l+/-o+/-g+/-s+/- +/-i+/-n+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/-
++/- +/- +/- +/--+/- +/-V+/-e+/-r+/-i+/-f+/-y+/- +/-P+/-y+/-t+/-h+/-o+/-n+/- +/-v+/-e+/-r+/-s+/-i+/-o+/-n+/- +/-c+/-o+/-m+/-p+/-a+/-t+/-i+/-b+/-i+/-l+/-i+/-t+/-y+/-
++/- +/- +/- +/--+/- +/-E+/-n+/-s+/-u+/-r+/-e+/- +/-a+/-l+/-l+/- +/-d+/-e+/-p+/-e+/-n+/-d+/-e+/-n+/-c+/-i+/-e+/-s+/- +/-i+/-n+/- +/-r+/-e+/-q+/-u+/-i+/-r+/-e+/-m+/-e+/-n+/-t+/-s+/-.+/-t+/-x+/-t+/-
++/-
++/-3+/-.+/- +/-*+/-*+/-A+/-P+/-I+/- +/-r+/-e+/-t+/-u+/-r+/-n+/-s+/- +/-e+/-r+/-r+/-o+/-r+/-s+/-:+/-*+/-*+/-
++/- +/- +/- +/--+/- +/-C+/-h+/-e+/-c+/-k+/- +/-C+/-e+/-l+/-e+/-s+/-T+/-r+/-a+/-k+/- +/-c+/-o+/-n+/-n+/-e+/-c+/-t+/-i+/-v+/-i+/-t+/-y+/-
++/- +/- +/- +/--+/- +/-V+/-e+/-r+/-i+/-f+/-y+/- +/-e+/-x+/-t+/-e+/-r+/-n+/-a+/-l+/- +/-n+/-e+/-t+/-w+/-o+/-r+/-k+/- +/-a+/-c+/-c+/-e+/-s+/-s+/- +/-i+/-s+/- +/-a+/-l+/-l+/-o+/-w+/-e+/-d+/-
++/-
++/-#+/-#+/-#+/- +/-G+/-e+/-t+/-t+/-i+/-n+/-g+/- +/-H+/-e+/-l+/-p+/-:+/-
++/-
++/--+/- +/-C+/-h+/-e+/-c+/-k+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-A+/-c+/-t+/-i+/-o+/-n+/-s+/- +/-l+/-o+/-g+/-s+/- +/-f+/-o+/-r+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/- +/-i+/-s+/-s+/-u+/-e+/-s+/-
++/--+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/- +/-+/- +/-Y+/-o+/-u+/-r+/- +/-W+/-e+/-b+/- +/-A+/-p+/-p+/- +/-+/- +/-D+/-i+/-a+/-g+/-n+/-o+/-s+/-e+/- +/-a+/-n+/-d+/- +/-s+/-o+/-l+/-v+/-e+/- +/-p+/-r+/-o+/-b+/-l+/-e+/-m+/-s+/-
++/--+/- +/-R+/-e+/-v+/-i+/-e+/-w+/- +/-a+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-l+/-o+/-g+/-s+/- +/-i+/-n+/- +/-A+/-z+/-u+/-r+/-e+/- +/-P+/-o+/-r+/-t+/-a+/-l+/-
++/-
++/-#+/-#+/- +/-+/- +/-S+/-e+/-c+/-u+/-r+/-i+/-t+/-y+/- +/-N+/-o+/-t+/-e+/-s+/-
++/-
++/--+/- +/-P+/-u+/-b+/-l+/-i+/-s+/-h+/- +/-p+/-r+/-o+/-f+/-i+/-l+/-e+/-s+/- +/-c+/-o+/-n+/-t+/-a+/-i+/-n+/- +/-s+/-e+/-n+/-s+/-i+/-t+/-i+/-v+/-e+/- +/-c+/-r+/-e+/-d+/-e+/-n+/-t+/-i+/-a+/-l+/-s+/-
++/--+/- +/-K+/-e+/-e+/-p+/- +/-G+/-i+/-t+/-H+/-u+/-b+/- +/-s+/-e+/-c+/-r+/-e+/-t+/-s+/- +/-s+/-e+/-c+/-u+/-r+/-e+/-
++/--+/- +/-R+/-e+/-g+/-u+/-l+/-a+/-r+/-l+/-y+/- +/-r+/-o+/-t+/-a+/-t+/-e+/- +/-p+/-u+/-b+/-l+/-i+/-s+/-h+/- +/-p+/-r+/-o+/-f+/-i+/-l+/-e+/-s+/-
++/--+/- +/-M+/-o+/-n+/-i+/-t+/-o+/-r+/- +/-A+/-z+/-u+/-r+/-e+/- +/-c+/-o+/-s+/-t+/-s+/- +/-a+/-n+/-d+/- +/-u+/-s+/-a+/-g+/-e+/-
++/-
++/-#+/-#+/- +/-+/- +/-S+/-c+/-a+/-l+/-i+/-n+/-g+/-
++/-
++/-F+/-o+/-r+/- +/-p+/-r+/-o+/-d+/-u+/-c+/-t+/-i+/-o+/-n+/- +/-u+/-s+/-e+/-:+/-
++/--+/- +/-C+/-o+/-n+/-s+/-i+/-d+/-e+/-r+/- +/-u+/-p+/-g+/-r+/-a+/-d+/-i+/-n+/-g+/- +/-t+/-o+/- +/-S+/-t+/-a+/-n+/-d+/-a+/-r+/-d+/- +/-o+/-r+/- +/-P+/-r+/-e+/-m+/-i+/-u+/-m+/- +/-A+/-p+/-p+/- +/-S+/-e+/-r+/-v+/-i+/-c+/-e+/- +/-P+/-l+/-a+/-n+/-
++/--+/- +/-E+/-n+/-a+/-b+/-l+/-e+/- +/-A+/-p+/-p+/-l+/-i+/-c+/-a+/-t+/-i+/-o+/-n+/- +/-I+/-n+/-s+/-i+/-g+/-h+/-t+/-s+/- +/-f+/-o+/-r+/- +/-m+/-o+/-n+/-i+/-t+/-o+/-r+/-i+/-n+/-g+/-
++/--+/- +/-S+/-e+/-t+/- +/-u+/-p+/- +/-c+/-u+/-s+/-t+/-o+/-m+/- +/-d+/-o+/-m+/-a+/-i+/-n+/-s+/- +/-a+/-n+/-d+/- +/-S+/-S+/-L+/- +/-c+/-e+/-r+/-t+/-i+/-f+/-i+/-c+/-a+/-t+/-e+/-s+/-
++/--+/- +/-C+/-o+/-n+/-f+/-i+/-g+/-u+/-r+/-e+/- +/-b+/-a+/-c+/-k+/-u+/-p+/- +/-a+/-n+/-d+/- +/-d+/-i+/-s+/-a+/-s+/-t+/-e+/-r+/- +/-r+/-e+/-c+/-o+/-v+/-e+/-r+/-y+/-
++/-
++/--+/--+/--+/-
++/-
++/-*+/-*+/-S+/-t+/-a+/-t+/-u+/-s+/-:+/-*+/-*+/- +/-+/- +/-R+/-e+/-a+/-d+/-y+/- +/-f+/-o+/-r+/- +/-d+/-e+/-p+/-l+/-o+/-y+/-m+/-e+/-n+/-t+/-
++/-*+/-*+/-L+/-a+/-s+/-t+/- +/-U+/-p+/-d+/-a+/-t+/-e+/-d+/-:+/-*+/-*+/- +/-N+/-o+/-v+/-e+/-m+/-b+/-e+/-r+/- +/-2+/-0+/-2+/-5+/-
++/-*+/-*+/-C+/-I+/-/+/-C+/-D+/-:+/-*+/-*+/- +/-F+/-u+/-l+/-l+/-y+/- +/-o+/-p+/-e+/-r+/-a+/-t+/-i+/-o+/-n+/-a+/-l+/- +/-w+/-i+/-t+/-h+/- +/-A+/-S+/-C+/-I+/-I+/- +/-c+/-o+/-m+/-p+/-l+/-i+/-a+/-n+/-c+/-e+/-
