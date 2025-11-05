@@ -54,7 +54,7 @@ jobs:
 echo "🛰️ Space Debris Risk Assessment - Quick Start"
 echo "=============================================="
 pip install -r requirements.txt
-python -c "from app_standalone import OptimizedTLEParser; parser = OptimizedTLEParser(); print('Testing TLE parser...'); parser.fetch_and_parse_celestrack_data()"
+python -c "from app_standalone import optimized_fetch_celestrack_tle; print('Testing TLE parser...'); data = optimized_fetch_celestrack_tle(); print(f'Successfully processed {len(data)} objects')"
 EOF
         
         cat > release-package/quick_start.bat << 'EOF'
@@ -62,7 +62,7 @@ EOF
 echo 🛰️ Space Debris Risk Assessment - Quick Start
 echo ==============================================
 pip install -r requirements.txt
-python -c "from app_standalone import OptimizedTLEParser; parser = OptimizedTLEParser(); print('Testing TLE parser...'); parser.fetch_and_parse_celestrack_data()"
+python -c "from app_standalone import optimized_fetch_celestrack_tle; print('Testing TLE parser...'); data = optimized_fetch_celestrack_tle(); print(f'Successfully processed {len(data)} objects')"
 EOF
         
         chmod +x release-package/quick_start.sh
@@ -73,14 +73,13 @@ EOF
     - name: 📊 Generate Release Report
       run: |
         python -c "
-        from app_standalone import OptimizedTLEParser
         import json
         import time
         
         # Test the optimized parser
         start_time = time.time()
-        parser = OptimizedTLEParser()
-        data = parser.fetch_and_parse_celestrack_data()
+        from app_standalone import optimized_fetch_celestrack_tle
+        data = optimized_fetch_celestrack_tle()
         end_time = time.time()
         
         # Generate test results

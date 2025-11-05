@@ -264,9 +264,8 @@ jobs:
         start_time = time.time()
         
         # Test the optimized TLE parser performance
-        from app_standalone import OptimizedTLEParser
-        parser = OptimizedTLEParser()
-        parser.fetch_and_parse_celestrack_data()
+        from app_standalone import optimized_fetch_celestrack_tle
+        data = optimized_fetch_celestrack_tle()
         
         end_time = time.time()
         
