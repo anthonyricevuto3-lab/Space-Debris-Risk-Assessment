@@ -52,10 +52,36 @@ jobs:
           name: python-app
           path: .
 
+      - name: Check Azure credentials
+        id: check-creds
+        run: |
+          if [ -z "${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}" ]; then
+            echo "skip-deployment=true" >> $GITHUB_OUTPUT
+            echo "WARNING: Azure Web App publish profile not configured"
+            echo "To enable deployment:"
+            echo "1. Go to Azure Portal -> Your Web App -> Get publish profile"
+            echo "2. Add the profile content as AZURE_WEBAPP_PUBLISH_PROFILE secret in GitHub repo"
+            echo "3. Re-run this workflow"
+          else
+            echo "skip-deployment=false" >> $GITHUB_OUTPUT
+            echo "Azure credentials found, proceeding with deployment"
+          fi
+
       - name: Deploy to Azure Web App
+        if: steps.check-creds.outputs.skip-deployment == 'false'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+
+      - name: Deployment Status
+        run: |
+          if [ "${{ steps.check-creds.outputs.skip-deployment }}" == "true" ]; then
+            echo "Deployment skipped - Azure credentials not configured"
+            echo "Build completed successfully, ready for manual deployment"
+          else
+            echo "Deployment completed successfully"
+            echo "App URL: ${{ steps.deploy-to-webapp.outputs.webapp-url }}"
+          fi
