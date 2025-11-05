@@ -36,17 +36,17 @@ jobs:
       uses: actions/cache@v4
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
           
     - name: 🔧 Install Dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r requirements-core.txt
+        pip install -r requirements.txt
         pip install pytest pytest-cov
-        # Install optional dependencies individually to handle compatibility
-        pip install sgp4>=2.20 || echo "sgp4 installation failed, continuing..."
+        # Test that our optimized TLE parser works
+        python -c "import app_standalone; print('✅ App import successful')"
         
     - name: 🔍 Lint Code
       run: |
@@ -56,36 +56,51 @@ jobs:
         
     - name: 🧪 Run Tests
       run: |
-        # Test TLE data loading (using the actual test_ml_app.py method)
+        # Test optimized TLE data fetching and parsing
         python -c "
-        import sys
-        import os
-        sys.path.append('.')
-        from test_ml_app import DebrisRiskTester
-        tester = DebrisRiskTester()
-        result = tester.load_tle_data()
-        assert result, 'TLE data loading failed'
-        assert len(tester.satellites) > 0, 'No satellites loaded'
-        print(f'✅ TLE loading test passed: {len(tester.satellites)} objects loaded')
+        import app_standalone
+        print('🧪 Testing optimized TLE parser...')
+        
+        # Test TLE data fetch
+        data = app_standalone.optimized_fetch_celestrack_tle()
+        assert data is not None, 'Failed to fetch TLE data'
+        assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
+        print(f'✅ TLE data test passed: {len(data)} objects loaded')
+        
+        # Test scoring system
+        for debris in data:
+            score = debris['risk_assessment']['earth_impact_score']
+            prob = debris['risk_assessment']['impact_probability_percent']
+            expected_prob = (score / 5.0) * 100
+            
+            assert 0 <= score <= 5, f'Risk score {score} out of range [0,5]'
+            assert 0 <= prob <= 100, f'Impact probability {prob} out of range [0,100]'
+            assert abs(prob - expected_prob) < 0.1, f'Scoring error: {prob}% != {expected_prob}%'
+            
+        print('✅ Scoring system test passed')
+        print('✅ All tests completed successfully!')
         "
         
-        # Test risk model with the actual class
-        python -c "
-        import sys
-        sys.path.append('src')
-        from risk_model import DebrisRiskModel
-        model = DebrisRiskModel()
-        # Create mock satellite and target data for testing
-        satellite = {'altitude': 400, 'eccentricity': 0.01, 'inclination': 51.6}
-        target = {'altitude': 410, 'eccentricity': 0.05, 'inclination': 52.0}
-        risk = model.predict_risk(satellite, target)
-        assert 0 <= risk <= 1, f'Risk score {risk} out of range'
-        print(f'✅ Risk model test passed: risk={risk:.3f}')
-        "
-        
-    - name: 🎯 Run Application Test
+    - name: 🎯 Test Flask API
       run: |
-        python test_ml_app.py
+        python -c "
+        from app_standalone import app
+        
+        with app.test_client() as client:
+            # Test health endpoint
+            response = client.get('/health')
+            assert response.status_code == 200, 'Health endpoint failed'
+            
+            # Test API endpoint
+            response = client.get('/api/top-risks')
+            assert response.status_code == 200, 'API endpoint failed'
+            
+            data = response.get_json()
+            assert isinstance(data, list), 'API should return a list'
+            assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
+            
+            print('✅ Flask API tests passed')
+        "
         
   build:
     name: 🏗️ Build Application
@@ -151,23 +166,37 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
         
-    - name: 📦 Install Azure ML SDK
+    - name: 📦 Install Dependencies for Deployment
       if: steps.check-creds.outputs.skip-deployment == 'false'
       run: |
         python -m pip install --upgrade pip
-        pip install azure-ai-ml azure-identity azure-cli
+        pip install -r requirements.txt
+        pip install azure-cli
         
-    - name: 🚀 Deploy to Azure ML
+    - name: 🚀 Create Deployment Package
       if: steps.check-creds.outputs.skip-deployment == 'false'
       run: |
-        python deploy_simple_v1.py
-      env:
-        AZURE_SUBSCRIPTION_ID: ${{ env.AZURE_SUBSCRIPTION_ID }}
+        zip -r space-debris-optimized.zip app.py app_standalone.py requirements.txt
         
-    - name: 🧪 Test Deployment
+    - name: 🌐 Deploy to Azure App Service
       if: steps.check-creds.outputs.skip-deployment == 'false'
       run: |
-        echo "Deployment testing would go here"
+        az webapp deployment source config-zip \
+          --resource-group "${{ env.AZURE_RESOURCE_GROUP }}" \
+          --name "space-debris-api-v2" \
+          --src space-debris-optimized.zip
+        
+    - name: 🧪 Test Live Deployment
+      if: steps.check-creds.outputs.skip-deployment == 'false'
+      run: |
+        # Wait for deployment to complete
+        sleep 30
+        
+        # Test the live API
+        curl -f "https://space-debris-api-v2.azurewebsites.net/health" || exit 1
+        curl -f "https://space-debris-api-v2.azurewebsites.net/api/top-risks" || exit 1
+        
+        echo "✅ Live deployment test passed"
       continue-on-error: true
       
   security-scan:
