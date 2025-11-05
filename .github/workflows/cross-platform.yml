@@ -39,19 +39,19 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         # Test that our optimized TLE parser works
-        python -c "import app_standalone; print('✅ App import successful')"
+        python -c "import app_standalone; print(' App import successful')"
         
     - name: Test TLE Data Loading
       run: |
         python -c "
         import app_standalone
-        print('🧪 Testing optimized TLE parser...')
+        print(' Testing optimized TLE parser...')
         
         # Test TLE data fetch
         data = app_standalone.optimized_fetch_celestrack_tle()
         assert data is not None, 'Failed to fetch TLE data'
         assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
-        print(f'✅ TLE data test passed: {len(data)} objects loaded')
+        print(f' TLE data test passed: {len(data)} objects loaded')
         
         # Test scoring system
         for debris in data:
@@ -60,7 +60,7 @@ jobs:
             assert 0 <= score <= 5, f'Risk score {score} out of range [0,5]'
             assert 0 <= prob <= 100, f'Impact probability {prob} out of range [0,100]'
             
-        print('✅ All tests passed')
+        print(' All tests passed')
         "
         
     - name: Test Flask API
@@ -79,7 +79,7 @@ jobs:
             assert isinstance(data, list), 'API should return a list'
             assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
             
-            print('✅ Flask API tests passed')
+            print(' Flask API tests passed')
         "
         "
         
@@ -95,7 +95,7 @@ jobs:
         end_time = time.time()
         
         print(f'Performance: {end_time - start_time:.2f} seconds for {len(data)} top-risk objects')
-        print('✅ Performance test passed')
+        print(' Performance test passed')
         "
         
     - name: Performance Benchmark
@@ -115,7 +115,7 @@ jobs:
         
         avg_time = sum(times) / len(times)
         print(f'Average performance: {avg_time:.3f} seconds over {len(times)} runs')
-        print('✅ Performance benchmark completed')
+        print(' Performance benchmark completed')
         "
         
   dependency-check:
@@ -160,14 +160,14 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         # Test that our optimized TLE parser works
-        python -c "import app_standalone; print('✅ App import successful')"
+        python -c "import app_standalone; print(' App import successful')"
         
     - name: Validate TLE Data Quality
       run: |
         python -c "
         import app_standalone
         
-        print('🧪 Validating TLE data quality...')
+        print(' Validating TLE data quality...')
         data = app_standalone.optimized_fetch_celestrack_tle()
         assert data is not None, 'TLE data loading failed'
         assert len(data) >= 3, f'Insufficient TLE data: {len(data)} objects'
@@ -186,7 +186,7 @@ jobs:
             assert 0 <= score <= 5, f'Invalid risk score: {score}'
             assert 0 <= prob <= 100, f'Invalid probability: {prob}'
             
-        print(f'✅ TLE data validation passed: {len(data)} objects verified')
+        print(f' TLE data validation passed: {len(data)} objects verified')
         "
         
         for i, sat in enumerate(satellites[:5]):

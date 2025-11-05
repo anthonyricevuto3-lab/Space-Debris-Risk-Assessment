@@ -151,7 +151,7 @@ def optimized_fetch_celestrack_tle():
         lines = tle_data.split('\n')
         total_objects = len(lines) // 3
         
-        print(f"⚡ Fetched {total_objects} TLE objects in {fetch_time:.3f}s")
+        print(f" Fetched {total_objects} TLE objects in {fetch_time:.3f}s")
         
         # Pre-allocate lists for maximum performance
         names = []
@@ -176,7 +176,7 @@ def optimized_fetch_celestrack_tle():
                         norad_ids.append(line1[2:7].strip())
         
         parse_time = time.time() - parse_start
-        print(f"⚡ Parsed {len(orbital_params)} objects in {parse_time:.3f}s")
+        print(f" Parsed {len(orbital_params)} objects in {parse_time:.3f}s")
         
         if not orbital_params:
             return None
@@ -185,7 +185,7 @@ def optimized_fetch_celestrack_tle():
         risk_start = time.time()
         risk_scores = parser.vectorized_risk_calculation(orbital_params, names)
         risk_time = time.time() - risk_start
-        print(f"⚡ Calculated risks in {risk_time:.3f}s")
+        print(f" Calculated risks in {risk_time:.3f}s")
         
         # Fast object construction with pre-computed values
         debris_objects = []
@@ -248,21 +248,21 @@ def optimized_fetch_celestrack_tle():
             debris_objects.append(debris_object)
         
         construction_time = time.time() - construction_start
-        print(f"⚡ Constructed objects in {construction_time:.3f}s")
+        print(f" Constructed objects in {construction_time:.3f}s")
         
         # Ultra-fast sorting using key extraction
         sorted_debris = sorted(debris_objects, key=lambda x: x['risk_assessment']['earth_impact_score'], reverse=True)
         
         total_time = time.time() - start_time
-        print(f"🚀 Total processing time: {total_time:.3f}s for {len(sorted_debris)} objects")
+        print(f" Total processing time: {total_time:.3f}s for {len(sorted_debris)} objects")
         
         return sorted_debris[:3]
         
     except requests.RequestException as e:
-        print(f"❌ Network error: {e}")
+        print(f" Network error: {e}")
         return None
     except Exception as e:
-        print(f"❌ Processing error: {e}")
+        print(f" Processing error: {e}")
         return None
 
 def generate_realistic_debris_data():
@@ -273,7 +273,7 @@ def generate_realistic_debris_data():
     if real_data:
         return real_data
     
-    print("⚠️ Falling back to optimized simulated data")
+    print(" Falling back to optimized simulated data")
     
     # Ultra-fast fallback data generation
     random.seed(42)  # Consistent results
@@ -403,29 +403,29 @@ def home():
     </head>
     <body>
         <div class="container">
-            <h1>🛰️ Space Debris Impact Monitor</h1>
+            <h1> Space Debris Impact Monitor</h1>
             <div class="subtitle">Real-time tracking of the highest risk space debris threatening Earth</div>
             
             <div class="top-risks">
                 <div class="section-header">
-                    <div class="section-title">🚨 Top 3 Highest Risk Debris Objects</div>
-                    <button class="refresh-btn" onclick="loadTopRisks()">🔄 Refresh Analysis</button>
+                    <div class="section-title"> Top 3 Highest Risk Debris Objects</div>
+                    <button class="refresh-btn" onclick="loadTopRisks()"> Refresh Analysis</button>
                 </div>
                 <div id="top-risks-content">
-                    <div class="loading">🔍 Analyzing space debris risk data...</div>
+                    <div class="loading"> Analyzing space debris risk data...</div>
                 </div>
             </div>
             
             <div class="data-source">
                 <p>Data source: High-Performance Live TLE data from CelesTrak (COSMOS-2251 debris catalog)</p>
-                <p>⚡ Optimized TLE parser • 🚀 Vectorized risk calculations • 📡 Real-time orbital tracking</p>
-                <p>🔥 Ultra-fast processing engine • 🛰️ NORAD catalog objects • ⚠️ Live risk assessment</p>
+                <p> Optimized TLE parser   Vectorized risk calculations   Real-time orbital tracking</p>
+                <p> Ultra-fast processing engine   NORAD catalog objects   Live risk assessment</p>
             </div>
         </div>
 
         <script>
         function loadTopRisks() {
-            document.getElementById('top-risks-content').innerHTML = '<div class="loading">🔍 Analyzing debris trajectories and impact probabilities...</div>';
+            document.getElementById('top-risks-content').innerHTML = '<div class="loading"> Analyzing debris trajectories and impact probabilities...</div>';
             
             fetch('/api/top-risks')
                 .then(response => response.json())
@@ -434,23 +434,23 @@ def home():
                         displayTopRisks(data);
                     } else if (data.error) {
                         document.getElementById('top-risks-content').innerHTML = 
-                            '<div class="warning-message">🔄 ' + data.error + '</div>';
+                            '<div class="warning-message"> ' + data.error + '</div>';
                     } else {
                         document.getElementById('top-risks-content').innerHTML = 
-                            '<div class="warning-message">⚠️ No debris risk data available.</div>';
+                            '<div class="warning-message"> No debris risk data available.</div>';
                     }
                 })
                 .catch(error => {
                     console.error('API Error:', error);
                     document.getElementById('top-risks-content').innerHTML = 
-                        '<div class="error-message">❌ Network error. Please check connection and try again.</div>';
+                        '<div class="error-message"> Network error. Please check connection and try again.</div>';
                 });
         }
         
         function displayTopRisks(risks) {
             if (!Array.isArray(risks) || risks.length === 0) {
                 document.getElementById('top-risks-content').innerHTML = 
-                    '<div class="warning-message">⚠️ No debris risk data available.</div>';
+                    '<div class="warning-message"> No debris risk data available.</div>';
                 return;
             }
             
@@ -475,53 +475,53 @@ def home():
                 html += `
                     <div class="debris-card ${riskClass}">
                         <div class="debris-header">
-                            <div class="debris-name">🛰️ #${index + 1}: ${debrisInfo.name || 'Unknown Debris'}</div>
+                            <div class="debris-name"> #${index + 1}: ${debrisInfo.name || 'Unknown Debris'}</div>
                             <div class="risk-score">${riskAssessment.earth_impact_score || 0}/5.0</div>
                         </div>
                         
                         <div class="impact-summary">
                             <div class="impact-box">
-                                <div class="impact-label">🎯 Earth Impact Probability</div>
+                                <div class="impact-label"> Earth Impact Probability</div>
                                 <div class="impact-value ${impactClass}">${impactProb}%</div>
                             </div>
                             <div class="impact-box">
-                                <div class="impact-label">📅 Time to Impact</div>
+                                <div class="impact-label"> Time to Impact</div>
                                 <div class="impact-value">${impactPrediction.days_until_impact || 'N/A'} days</div>
                             </div>
                             <div class="impact-box">
-                                <div class="impact-label">⚠️ Risk Level</div>
+                                <div class="impact-label"> Risk Level</div>
                                 <div class="impact-value">${riskAssessment.risk_level || 'Unknown'}</div>
                             </div>
                         </div>
                         
                         <div class="impact-details">
-                            <h3>🌍 Predicted Impact Details</h3>
+                            <h3> Predicted Impact Details</h3>
                             <div class="detail-grid">
                                 <div class="detail-item">
-                                    <div class="detail-label">📍 Impact Coordinates</div>
+                                    <div class="detail-label"> Impact Coordinates</div>
                                     <div class="detail-value">
-                                        Lat: ${impactLocation.latitude || 0}°<br>
-                                        Lon: ${impactLocation.longitude || 0}°
+                                        Lat: ${impactLocation.latitude || 0} degrees<br>
+                                        Lon: ${impactLocation.longitude || 0} degrees
                                     </div>
                                 </div>
                                 <div class="detail-item">
-                                    <div class="detail-label">📅 Impact Date & Time</div>
+                                    <div class="detail-label"> Impact Date & Time</div>
                                     <div class="detail-value">${impactPrediction.estimated_impact_date || 'Unknown'}</div>
                                 </div>
                                 <div class="detail-item">
-                                    <div class="detail-label">🏔️ Current Altitude</div>
+                                    <div class="detail-label"> Current Altitude</div>
                                     <div class="detail-value">${orbitalData.altitude_km || 0} km</div>
                                 </div>
                                 <div class="detail-item">
-                                    <div class="detail-label">⚖️ Estimated Mass</div>
+                                    <div class="detail-label"> Estimated Mass</div>
                                     <div class="detail-value">${debrisChars.estimated_mass_kg || 0} kg</div>
                                 </div>
                                 <div class="detail-item">
-                                    <div class="detail-label">🔢 NORAD Catalog ID</div>
+                                    <div class="detail-label"> NORAD Catalog ID</div>
                                     <div class="detail-value">${debrisInfo.norad_id || 'N/A'}</div>
                                 </div>
                                 <div class="detail-item">
-                                    <div class="detail-label">💥 Fragmentation Risk</div>
+                                    <div class="detail-label"> Fragmentation Risk</div>
                                     <div class="detail-value">${debrisChars.fragment_count_estimate || 1} pieces</div>
                                 </div>
                             </div>
