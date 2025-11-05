@@ -1,5 +1,15 @@
 
-# Integration code for app_ai.py - Hybrid AI System Enhancement
+"""
+Integration code for app_ai.py - Hybrid AI System Enhancement
+"""
+
+from datetime import datetime
+from flask import Flask, request, jsonify
+
+# Mock base class for compatibility
+class AISpaceDebrisRiskAssessment:
+    """Base class placeholder"""
+    pass
 
 class HybridAISpaceDebrisRiskAssessment(AISpaceDebrisRiskAssessment):
     """Enhanced AI system with hybrid orbital decay and reentry prediction"""
@@ -72,29 +82,34 @@ class HybridAISpaceDebrisRiskAssessment(AISpaceDebrisRiskAssessment):
         return base_assessment
 
 # Usage example for Flask route enhancement:
-@app.route('/api/enhanced-assessment', methods=['POST'])
-def enhanced_assessment():
-    """Enhanced risk assessment endpoint with hybrid AI"""
-    try:
-        data = request.get_json()
-        tle_data = data.get('tle')
-        debris_info = data.get('debris_info', {})
+def create_enhanced_assessment_route(app, ai_assessor):
+    """Factory function to create enhanced assessment route"""
+    
+    @app.route('/api/enhanced-assessment', methods=['POST'])
+    def enhanced_assessment():
+        """Enhanced risk assessment endpoint with hybrid AI"""
+        try:
+            data = request.get_json()
+            tle_data = data.get('tle')
+            debris_info = data.get('debris_info', {})
 
-        # Use enhanced hybrid assessment
-        if hasattr(ai_assessor, 'enhanced_risk_assessment'):
-            risk_data = ai_assessor.enhanced_risk_assessment(tle_data, debris_info)
-        else:
-            risk_data = ai_assessor.assess_risk(tle_data, debris_info)
+            # Use enhanced hybrid assessment
+            if hasattr(ai_assessor, 'enhanced_risk_assessment'):
+                risk_data = ai_assessor.enhanced_risk_assessment(tle_data, debris_info)
+            else:
+                risk_data = ai_assessor.assess_risk(tle_data, debris_info)
 
-        return jsonify({
-            'status': 'success',
-            'risk_assessment': risk_data,
-            'timestamp': datetime.utcnow().isoformat(),
-            'model_version': 'hybrid_ai_v1.0'
-        })
+            return jsonify({
+                'status': 'success',
+                'risk_assessment': risk_data,
+                'timestamp': datetime.utcnow().isoformat(),
+                'model_version': 'hybrid_ai_v1.0'
+            })
 
-    except Exception as e:
-        return jsonify({
-            'status': 'error',
-            'message': str(e)
-        }), 500
+        except Exception as e:
+            return jsonify({
+                'status': 'error',
+                'message': str(e)
+            }), 500
+    
+    return enhanced_assessment

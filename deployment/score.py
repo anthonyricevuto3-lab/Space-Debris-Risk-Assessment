@@ -17,8 +17,7 @@ class OptimizedTLEParser:
 
     def parse_tle_batch(self, tle_text: str) -> List[Dict]:
         """Parse TLE data with vectorized operations"""
-        lines = tle_text.strip().split('
-')
+        lines = tle_text.strip().split('\n')
 
         # Group into sets of 3 (name, line1, line2)
         tle_sets = []
