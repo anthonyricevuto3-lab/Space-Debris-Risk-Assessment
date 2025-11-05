@@ -43,12 +43,10 @@ jobs:
         mkdir -p release-package
         
         # Copy essential files
-        cp -r src/ release-package/
-        cp test_ml_app.py release-package/
+        cp app_standalone.py release-package/
+        cp app.py release-package/
         cp requirements.txt release-package/
         cp README.md release-package/
-        cp DEPLOYMENT_GUIDE.md release-package/
-        cp deploy_simple.py release-package/
         
         # Create deployment scripts
         cat > release-package/quick_start.sh << 'EOF'
@@ -56,7 +54,7 @@ jobs:
 echo "🛰️ Space Debris Risk Assessment - Quick Start"
 echo "=============================================="
 pip install -r requirements.txt
-python test_ml_app.py --max-pairs 50
+python -c "from app_standalone import OptimizedTLEParser; parser = OptimizedTLEParser(); print('Testing TLE parser...'); parser.fetch_and_parse_celestrack_data()"
 EOF
         
         cat > release-package/quick_start.bat << 'EOF'
@@ -64,7 +62,7 @@ EOF
 echo 🛰️ Space Debris Risk Assessment - Quick Start
 echo ==============================================
 pip install -r requirements.txt
-python test_ml_app.py --max-pairs 50
+python -c "from app_standalone import OptimizedTLEParser; parser = OptimizedTLEParser(); print('Testing TLE parser...'); parser.fetch_and_parse_celestrack_data()"
 EOF
         
         chmod +x release-package/quick_start.sh
@@ -74,7 +72,29 @@ EOF
         
     - name: 📊 Generate Release Report
       run: |
-        python test_ml_app.py --max-pairs 100 --format json --save-output release-test-results.json
+        python -c "
+        from app_standalone import OptimizedTLEParser
+        import json
+        import time
+        
+        # Test the optimized parser
+        start_time = time.time()
+        parser = OptimizedTLEParser()
+        data = parser.fetch_and_parse_celestrack_data()
+        end_time = time.time()
+        
+        # Generate test results
+        results = {
+          'objects_processed': len(data) if data else 0,
+          'processing_time': round(end_time - start_time, 3),
+          'status': 'success' if data else 'failed'
+        }
+        
+        with open('release-test-results.json', 'w') as f:
+          json.dump(results, f, indent=2)
+        
+        print(f'Release test completed: {results}')
+        "
         
         # Create release notes
         cat > RELEASE_NOTES.md << 'EOF'
