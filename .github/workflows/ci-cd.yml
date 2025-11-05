@@ -277,30 +277,33 @@ jobs:
         print(f'   Execution Time: {end_time - start_time:.2f} seconds')
         print(f'   Memory Usage: {mem_after:.2f} MB (Δ{mem_after - mem_before:.2f} MB)')
         "
-        "
-
+        
   azure-info:
     name: ℹ️ Azure Deployment Info
     runs-on: ubuntu-latest
     needs: [test, build]
-    if: github.ref == 'refs/heads/main' && secrets.AZURE_CREDENTIALS == ''
+    if: github.ref == 'refs/heads/main'
     
     steps:
     - name: 📋 Azure Setup Instructions
       run: |
-        echo "🔵 Azure Deployment Skipped"
-        echo "================================"
-        echo "Azure deployment was skipped because AZURE_CREDENTIALS secret is not configured."
-        echo ""
-        echo "To enable Azure ML deployment:"
-        echo "1. Create an Azure service principal:"
-        echo "   az ad sp create-for-rbac --name 'space-debris-github-actions' --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} --sdk-auth"
-        echo ""
-        echo "2. Add the output as AZURE_CREDENTIALS secret in your GitHub repository"
-        echo "3. Set these repository secrets:"
-        echo "   - AZURE_CREDENTIALS (service principal JSON)"
-        echo "   - Optionally update environment variables in workflow"
-        echo ""
-        echo "For more information, see: https://github.com/Azure/login#configure-deployment-credentials"
-        echo ""
-        echo "✅ Application testing and building completed successfully!"
+        if [ -z "${{ secrets.AZURE_CREDENTIALS }}" ]; then
+          echo "🔵 Azure Deployment Skipped"
+          echo "================================"
+          echo "Azure deployment was skipped because AZURE_CREDENTIALS secret is not configured."
+          echo ""
+          echo "To enable Azure ML deployment:"
+          echo "1. Create an Azure service principal:"
+          echo "   az ad sp create-for-rbac --name 'space-debris-github-actions' --role contributor --scopes /subscriptions/{subscription-id}/resourceGroups/{resource-group} --sdk-auth"
+          echo ""
+          echo "2. Add the output as AZURE_CREDENTIALS secret in your GitHub repository"
+          echo "3. Set these repository secrets:"
+          echo "   - AZURE_CREDENTIALS (service principal JSON)"
+          echo "   - Optionally update environment variables in workflow"
+          echo ""
+          echo "For more information, see: https://github.com/Azure/login#configure-deployment-credentials"
+          echo ""
+          echo "✅ Application testing and building completed successfully!"
+        else
+          echo "✅ Azure credentials are configured - deployment available through deploy-azure job"
+        fi
