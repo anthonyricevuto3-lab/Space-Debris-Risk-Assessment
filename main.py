@@ -30,6 +30,18 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 
 app = Flask(__name__)
 
+# Production configuration
+app.config['JSON_SORT_KEYS'] = False
+app.config['JSONIFY_PRETTYPRINT_REGULAR'] = False
+
+# Set proper CORS headers for Azure API integration
+@app.after_request
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    return response
+
 class HybridOrbitDecayPredictor:
     """Hybrid AI predictor combining SGP4 physics with machine learning"""
     
@@ -425,8 +437,12 @@ def health_check():
     })
 
 if __name__ == '__main__':
-    print("Starting Space Debris Risk Assessment System v2.0")
-    print("Features: Hybrid AI with SGP4 physics and machine learning")
-    print("Data Source: Real-time CelesTrak TLE data")
-    print("Display: Top 3 highest risk objects with detailed predictions")
-    app.run(host='0.0.0.0', port=5000, debug=False)
+    print("Starting Space Debris Risk Assessment Dashboard")
+    print("Features: Modern UI + Hybrid AI + Azure Integration")
+    print("Access: http://localhost:5000")
+    
+    # Development server
+    port = int(os.environ.get('PORT', 5000))
+    debug_mode = os.environ.get('FLASK_ENV') != 'production'
+    
+    app.run(host='0.0.0.0', port=port, debug=debug_mode)
