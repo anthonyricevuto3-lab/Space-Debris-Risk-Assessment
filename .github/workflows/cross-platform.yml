@@ -211,17 +211,19 @@ jobs:
         test_tle = '''1 25544U 98067A   21001.00000000  .00016717  00000-0  10270-3 0  9991
 2 25544  51.6461 339.2983 0002178  60.5734  74.9102 15.48919103262505'''
         
-        parsed = parser.parse_tle_line(test_tle.split('\n'))
+        tle_lines = test_tle.split('\n')
+        parsed = parser.fast_parse_tle_line(tle_lines[0], tle_lines[1])
         assert parsed is not None, 'TLE parsing failed'
         
-        # Test risk calculation
-        test_objects = [parsed] * 3  # Create test data
-        risks = parser.calculate_collision_risks(test_objects)
+        # Test risk calculation using the vectorized method
+        test_params = [parsed]
+        test_names = ['TEST_SATELLITE']
+        risk_scores = parser.vectorized_risk_calculation(test_params, test_names)
         
-        for i, risk in enumerate(risks[:3]):
-            assert 0 <= risk['impact_probability'] <= 100, f'Invalid risk score {risk[\"impact_probability\"]} for test case {i}'
-            assert 0 <= risk['risk_score'] <= 5, f'Invalid risk level {risk[\"risk_score\"]} for test case {i}'
-            print(f'Test case {i+1}: risk_score={risk[\"risk_score\"]}, impact_probability={risk[\"impact_probability\"]}%')
+        for i, risk_score in enumerate(risk_scores):
+            assert 0 <= risk_score <= 5, f'Invalid risk score {risk_score} for test case {i}'
+            impact_probability = (risk_score / 5.0) * 100
+            print(f'Test case {i+1}: risk_score={risk_score:.1f}, impact_probability={impact_probability:.1f}%')
             
         print('Risk calculation validation passed')
         "

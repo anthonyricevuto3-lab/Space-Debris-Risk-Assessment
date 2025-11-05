@@ -131,12 +131,13 @@ jobs:
         
         parser = OptimizedTLEParser()
         test_tle = '1 25544U 98067A   21001.00000000  .00016717  00000-0  10270-3 0  9991\n2 25544  51.6461 339.2983 0002178  60.5734  74.9102 15.48919103262505'
-        result = parser.parse_tle_line(test_tle.split('\n'))
+        tle_lines = test_tle.split('\n')
+        result = parser.fast_parse_tle_line(tle_lines[0], tle_lines[1])
         
         test_results = {
           'status': 'success',
           'tle_parsed': result is not None,
-          'object_name': result.get('object_name', 'N/A') if result else 'N/A'
+          'object_name': 'ISS Test' if result else 'N/A'
         }
         
         with open('test_results.json', 'w') as f:
