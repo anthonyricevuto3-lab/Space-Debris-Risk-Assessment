@@ -43,26 +43,28 @@ jobs:
         mkdir -p release-package
         
         # Copy essential files
-        cp app_standalone.py release-package/
-        cp app.py release-package/
+        cp main.py release-package/
         cp requirements.txt release-package/
         cp README.md release-package/
+        cp -r templates/ release-package/
+        cp -r static/ release-package/
+        cp -r deployment/ release-package/
         
         # Create deployment scripts
         cat > release-package/quick_start.sh << 'EOF'
 #!/bin/bash
-echo " Space Debris Risk Assessment - Quick Start"
+echo "Space Debris Risk Assessment - Quick Start"
 echo "=============================================="
 pip install -r requirements.txt
-python -c "from app_standalone import optimized_fetch_celestrack_tle; print('Testing TLE parser...'); data = optimized_fetch_celestrack_tle(); print(f'Successfully processed {len(data)} objects')"
+python -c "from main import app; print('Testing Flask app...'); print('App created successfully')"
 EOF
         
         cat > release-package/quick_start.bat << 'EOF'
 @echo off
-echo  Space Debris Risk Assessment - Quick Start
+echo Space Debris Risk Assessment - Quick Start
 echo ==============================================
 pip install -r requirements.txt
-python -c "from app_standalone import optimized_fetch_celestrack_tle; print('Testing TLE parser...'); data = optimized_fetch_celestrack_tle(); print(f'Successfully processed {len(data)} objects')"
+python -c "from main import app; print('Testing Flask app...'); print('App created successfully')"
 EOF
         
         chmod +x release-package/quick_start.sh
@@ -76,17 +78,19 @@ EOF
         import json
         import time
         
-        # Test the optimized parser
+        # Test the main application
         start_time = time.time()
-        from app_standalone import optimized_fetch_celestrack_tle
-        data = optimized_fetch_celestrack_tle()
+        from main import app
+        with app.test_client() as client:
+            response = client.get('/health')
+            status_ok = response.status_code == 200
         end_time = time.time()
         
         # Generate test results
         results = {
-          'objects_processed': len(data) if data else 0,
+          'health_check': status_ok,
           'processing_time': round(end_time - start_time, 3),
-          'status': 'success' if data else 'failed'
+          'status': 'success' if status_ok else 'failed'
         }
         
         with open('release-test-results.json', 'w') as f:

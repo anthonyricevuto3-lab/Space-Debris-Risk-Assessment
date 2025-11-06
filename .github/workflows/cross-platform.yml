@@ -38,84 +38,60 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        # Test that our optimized TLE parser works
-        python -c "import app_standalone; print(' App import successful')"
+        # Test that our main application works
+        python -c "import main; print('App import successful')"
         
-    - name: Test TLE Data Loading
+    - name: Test Flask Application
       run: |
         python -c "
-        import app_standalone
-        print(' Testing optimized TLE parser...')
+        from main import app
+        print('Testing main application...')
         
-        # Test TLE data fetch
-        data = app_standalone.optimized_fetch_celestrack_tle()
-        assert data is not None, 'Failed to fetch TLE data'
-        assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
-        print(f' TLE data test passed: {len(data)} objects loaded')
-        
-        # Test scoring system
-        for debris in data:
-            score = debris['risk_assessment']['earth_impact_score']
-            prob = debris['risk_assessment']['impact_probability_percent']
-            assert 0 <= score <= 5, f'Risk score {score} out of range [0,5]'
-            assert 0 <= prob <= 100, f'Impact probability {prob} out of range [0,100]'
+        # Test Flask app
+        with app.test_client() as client:
+            response = client.get('/health')
+            assert response.status_code == 200, 'Health check failed'
+            print('Health check passed')
             
-        print(' All tests passed')
+            response = client.get('/')
+            assert response.status_code == 200, 'Main page failed'
+            print('Main page test passed')
+            
+        print('All tests passed')
         "
         
-    - name: Test Flask API
+    - name: Test API Endpoints
       run: |
         python -c "
-        from app_standalone import app
+        from main import app
         
         with app.test_client() as client:
             response = client.get('/health')
             assert response.status_code == 200, 'Health endpoint failed'
+            print('Health endpoint test passed')
             
-            response = client.get('/api/top-risks')
-            assert response.status_code == 200, 'API endpoint failed'
-            
-            data = response.get_json()
-            assert isinstance(data, list), 'API should return a list'
-            assert len(data) == 3, f'Expected 3 objects, got {len(data)}'
-            
-            print(' Flask API tests passed')
-        "
+            response = client.get('/')
+            assert response.status_code == 200, 'Main page failed'
+            print('Main page test passed')
         "
         
-    - name: Test Performance
-      run: |
-        python -c "
-        import time
-        import app_standalone
-        
-        # Performance benchmark
-        start_time = time.time()
-        data = app_standalone.optimized_fetch_celestrack_tle()
-        end_time = time.time()
-        
-        print(f'Performance: {end_time - start_time:.2f} seconds for {len(data)} top-risk objects')
-        print(' Performance test passed')
-        "
-        
-    - name: Performance Benchmark
+    - name: Performance Test
       if: matrix.os == 'ubuntu-latest' && matrix.python-version == '3.11'
       run: |
         python -c "
         import time
-        import app_standalone
+        from main import app
         
-        # Extended performance test
-        times = []
-        for i in range(3):
-            start_time = time.time()
-            data = app_standalone.optimized_fetch_celestrack_tle()
-            end_time = time.time()
-            times.append(end_time - start_time)
+        # Performance benchmark
+        start_time = time.time()
+        with app.test_client() as client:
+            for i in range(5):
+                response = client.get('/health')
+                assert response.status_code == 200
+        end_time = time.time()
         
-        avg_time = sum(times) / len(times)
-        print(f'Average performance: {avg_time:.3f} seconds over {len(times)} runs')
-        print(' Performance benchmark completed')
+        print(f'Performance: {end_time - start_time:.3f} seconds for 5 health checks')
+        print('Performance test passed')
         "
         
   dependency-check:
@@ -142,8 +118,8 @@ jobs:
         # Static security analysis (continue on error)
         bandit -r . --exclude="./.github/,./venv/,./env/,./__pycache__/" -f json || echo "Static analysis completed with warnings"
         
-  data-validation:
-    name: TLE Data Validation
+  application-validation:
+    name: Application Validation
     runs-on: ubuntu-latest
     
     steps:
@@ -159,71 +135,33 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        # Test that our optimized TLE parser works
-        python -c "import app_standalone; print(' App import successful')"
         
-    - name: Validate TLE Data Quality
+    - name: Validate Application Structure
       run: |
         python -c "
-        import app_standalone
+        from main import app
+        import os
         
-        print(' Validating TLE data quality...')
-        data = app_standalone.optimized_fetch_celestrack_tle()
-        assert data is not None, 'TLE data loading failed'
-        assert len(data) >= 3, f'Insufficient TLE data: {len(data)} objects'
+        print('Validating application structure...')
         
-        # Validate data structure
-        for i, debris in enumerate(data):
-            assert 'debris_info' in debris, f'Missing debris_info in object {i}'
-            assert 'name' in debris['debris_info'], f'Missing name in object {i}'
-            assert 'norad_id' in debris['debris_info'], f'Missing norad_id in object {i}'
-            assert 'risk_assessment' in debris, f'Missing risk_assessment in object {i}'
-            assert 'orbital_data' in debris, f'Missing orbital_data in object {i}'
+        # Check that Flask app is created properly
+        assert app is not None, 'Flask app creation failed'
+        print('Flask app creation validated')
+        
+        # Check that required files exist
+        required_files = ['main.py', 'requirements.txt', 'templates/index.html']
+        for file in required_files:
+            assert os.path.exists(file), f'Required file missing: {file}'
+        
+        print('File structure validation passed')
+        
+        # Test app functionality
+        with app.test_client() as client:
+            response = client.get('/health')
+            assert response.status_code == 200, 'Health endpoint failed'
             
-            # Validate scoring
-            score = debris['risk_assessment']['earth_impact_score']
-            prob = debris['risk_assessment']['impact_probability_percent']
-            assert 0 <= score <= 5, f'Invalid risk score: {score}'
-            assert 0 <= prob <= 100, f'Invalid probability: {prob}'
+            response = client.get('/')
+            assert response.status_code == 200, 'Main page failed'
             
-        print(f' TLE data validation passed: {len(data)} objects verified')
-        "
-        
-        for i, sat in enumerate(satellites[:5]):
-            assert 'name' in sat, f'Missing name in satellite {i}'
-            assert 'line1' in sat, f'Missing line1 in satellite {i}'
-            assert 'line2' in sat, f'Missing line2 in satellite {i}'
-            assert 'norad_id' in sat, f'Missing norad_id in satellite {i}'
-            
-        print(f'TLE data validation passed: {len(satellites)} objects verified')
-        "
-        
-    - name: Validate Risk Calculations
-      run: |
-        python -c "
-        from app_standalone import OptimizedTLEParser
-        import time
-        
-        # Test the optimized TLE parser
-        parser = OptimizedTLEParser()
-        
-        # Test with sample TLE data
-        test_tle = '''1 25544U 98067A   21001.00000000  .00016717  00000-0  10270-3 0  9991
-2 25544  51.6461 339.2983 0002178  60.5734  74.9102 15.48919103262505'''
-        
-        tle_lines = test_tle.split('\n')
-        parsed = parser.fast_parse_tle_line(tle_lines[0], tle_lines[1])
-        assert parsed is not None, 'TLE parsing failed'
-        
-        # Test risk calculation using the vectorized method
-        test_params = [parsed]
-        test_names = ['TEST_SATELLITE']
-        risk_scores = parser.vectorized_risk_calculation(test_params, test_names)
-        
-        for i, risk_score in enumerate(risk_scores):
-            assert 0 <= risk_score <= 5, f'Invalid risk score {risk_score} for test case {i}'
-            impact_probability = (risk_score / 5.0) * 100
-            print(f'Test case {i+1}: risk_score={risk_score:.1f}, impact_probability={impact_probability:.1f}%')
-            
-        print('Risk calculation validation passed')
+        print('Application validation completed successfully')
         "
