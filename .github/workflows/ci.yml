@@ -36,9 +36,9 @@ jobs:
       run: |
         python -c "import main; print('Flask app imports successfully')"
     
-    - name: Check for emoji characters
+    - name: Check for non-ASCII characters
       run: |
-        if grep -r '[^\x00-\x7F]' --include="*.py" --include="*.yml" --include="*.yaml" .; then
+        if grep -r '[^\x00-\x7F]' --include="*.py" --include="*.yml" --include="*.yaml" --exclude-dir=.git --exclude-dir=.venv --exclude-dir=venv --exclude-dir=env --exclude-dir=__pycache__ .; then
           echo "Found non-ASCII characters in source files"
           exit 1
         else
