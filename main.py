@@ -168,6 +168,10 @@ def create_application():
     return app
 
 
+# Create global app instance for testing and deployment
+app = create_application()
+
+
 def main():
     """
     Main application entry point with comprehensive startup and configuration.
@@ -232,8 +236,8 @@ def main():
         - Input validation on all endpoints
         - Rate limiting enabled for API protection
     """
-    # Create application
-    app = create_application()
+    # Use global app instance
+    global app
     
     # Application startup information
     environment = os.environ.get('FLASK_ENV', 'development')
