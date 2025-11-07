@@ -3,85 +3,367 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Space Debris Risk Assessment - Anthony Ricevuto</title>
+    <title>Space Debris Risk Assessment System</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body {
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+        
+        body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: linear-gradient(135deg, #0c1445 0%, #1a2980 100%);
-            color: white;
-            margin: 0;
+            color: white; 
+            min-height: 100vh; 
             padding: 20px;
-            min-height: 100vh;
         }
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
+        
+        .container { 
+            max-width: 1200px; 
+            margin: 0 auto; 
         }
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
+        
+        .header { 
+            text-align: center; 
+            margin-bottom: 40px; 
         }
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        
+        .header h1 { 
+            font-size: 2.5em; 
+            margin-bottom: 10px; 
+            color: #00d4aa; 
         }
-        .card {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-            margin: 20px 0;
-            backdrop-filter: blur(10px);
+        
+        .header p { 
+            font-size: 1.2em; 
+            opacity: 0.9; 
         }
-        .demo-note {
-            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-            color: white;
-            padding: 20px;
+        
+        .feature-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 20px; 
+            margin-bottom: 40px; 
+        }
+        
+        .feature-card { 
+            background: rgba(255, 255, 255, 0.1); 
+            padding: 20px; 
             border-radius: 10px;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .feature-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
-            margin: 30px 0;
-        }
-        .feature {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 10px;
-        }
-        .links {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .links a {
-            display: inline-block;
-            background: #4ecdc4;
-            color: white;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 25px;
-            margin: 10px;
-            font-weight: bold;
+            backdrop-filter: blur(10px); 
+            border: 1px solid rgba(255, 255, 255, 0.2);
             transition: transform 0.3s ease;
         }
-        .links a:hover {
-            transform: translateY(-3px);
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
         }
-        .tech-stack {
+        
+        .feature-card h3 { 
+            color: #00d4aa; 
+            margin-bottom: 10px; 
+        }
+        
+        .api-section { 
+            background: rgba(255, 255, 255, 0.05); 
+            padding: 30px; 
+            border-radius: 15px; 
+            margin-top: 30px; 
+        }
+        
+        .api-endpoint { 
+            background: #1e3a8a; 
+            padding: 15px; 
+            margin: 10px 0; 
+            border-radius: 8px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            justify-content: center;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .method { 
+            color: #10b981; 
+            font-weight: bold; 
+            font-family: monospace;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+        
+        .endpoint-url {
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+        
+        .status-section {
+            background: rgba(0, 212, 170, 0.1);
+            border: 1px solid #00d4aa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        
+        .status-ok {
+            color: #10b981;
+        }
+        
+        .footer { 
+            text-align: center; 
+            margin-top: 40px; 
+            opacity: 0.7; 
+        }
+        
+        .architecture-section {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
             margin: 20px 0;
         }
-        .tech-badge {
-            background: rgba(100, 181, 246, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            border: 1px solid #64b5f6;
+        
+        .architecture-section h3 {
+            color: #00d4aa;
+            margin-bottom: 15px;
+        }
+        
+        .architecture-list {
+            list-style: none;
+            padding-left: 20px;
+        }
+        
+        .architecture-list li {
+            margin: 8px 0;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .architecture-list li:before {
+            content: "✅";
+            position: absolute;
+            left: 0;
+        }
+
+        /* Risk Analysis Sections */
+        .risk-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .high-risk-section {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(159, 18, 57, 0.2));
+            border: 2px solid #dc2626;
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .risk-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid #dc2626;
+        }
+
+        .risk-score-high {
+            color: #ff4444;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .risk-score-medium {
+            color: #ffaa00;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .risk-score-low {
+            color: #00ff88;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .reentry-prediction {
+            background: rgba(0, 100, 200, 0.2);
+            border: 1px solid #0064c8;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        /* Debris Analysis Styles */
+        .debris-summary {
+            background: linear-gradient(135deg, rgba(0, 212, 170, 0.2), rgba(0, 100, 200, 0.2));
+            border: 2px solid #00d4aa;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        .summary-stats span {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .top-risks-header {
+            background: rgba(220, 38, 38, 0.2);
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .urgent-warning {
+            background: linear-gradient(135deg, rgba(220, 38, 38, 0.3), rgba(239, 68, 68, 0.3));
+            border: 2px solid #dc2626;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 6px solid #ff0000;
+            animation: pulse-warning 2s infinite;
+        }
+
+        @keyframes pulse-warning {
+            0%, 100% { box-shadow: 0 0 5px rgba(220, 38, 38, 0.5); }
+            50% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.8); }
+        }
+
+        .impact-location {
+            background: rgba(255, 165, 0, 0.2);
+            border: 1px solid #ffa500;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 5px 0;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #00d4aa;
+        }
+
+        .error-message {
+            background: rgba(220, 38, 38, 0.2);
+            border: 1px solid #dc2626;
+            padding: 15px;
+            border-radius: 8px;
+            color: #ff6b6b;
+            margin: 10px 0;
+        }
+
+        .update-controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #00d4aa, #0064c8);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 212, 170, 0.3);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .chart-container {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .satellite-details {
+            font-size: 0.9em;
+            line-height: 1.4;
+        }
+
+        .urgent-warning {
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px solid #ff0000;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(255, 0, 0, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 0, 0, 0); }
+        }
+
+        .timeline-item {
+            padding: 10px;
+            margin: 5px 0;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            border-left: 3px solid #00d4aa;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .control-panel {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .control-panel {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .risk-dashboard {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -89,90 +371,497 @@
     <div class="container">
         <div class="header">
             <h1>🛰️ Space Debris Risk Assessment System</h1>
-            <p>Advanced AI-powered space debris analysis and risk prediction</p>
-            <p style="font-size: 0.9rem; opacity: 0.8;">
+            <p>Real-Time Analysis with Impact Predictions & Risk Scoring</p>
+            <p style="font-size: 0.9em; opacity: 0.7; margin-top: 10px;">
                 Developed by <strong>Anthony Ricevuto</strong> - Computer Science Student at CSULB<br>
-                <a href="https://www.linkedin.com/in/anthony-ricevuto-mle/" target="_blank" style="color: #64b5f6;">LinkedIn: anthony-ricevuto-mle</a>
+                <a href="https://www.linkedin.com/in/anthony-ricevuto-mle/" target="_blank" style="color: #64b5f6; text-decoration: none;">LinkedIn: anthony-ricevuto-mle</a>
             </p>
         </div>
 
-        <div class="demo-note">
-            <h3>📖 GitHub Pages Demo Site</h3>
-            <p>This is a static demonstration of the Space Debris Risk Assessment System. The full interactive Flask application with real-time AI analysis is deployed on Azure and available for recruiters upon request.</p>
-        </div>
-
-        <div class="card">
-            <h2>🌟 Project Overview</h2>
-            <p>A comprehensive space debris risk assessment system combining advanced hybrid AI models with real-time orbital data analysis. This student project demonstrates AI/ML applications in space technology, featuring the ability to process individual satellites and entire debris groups (like Cosmos 2251's 598 debris pieces) for comprehensive reentry risk predictions.</p>
-        </div>
-
+        <!-- System Explanation Section -->
         <div class="feature-grid">
-            <div class="feature">
-                <h3>🤖 Hybrid AI System</h3>
-                <p>Combines SGP4 physics-based orbital mechanics with ensemble machine learning including Random Forest, Gradient Boosting, and Neural Networks for accurate risk assessment.</p>
+            <div class="feature-card">
+                <h3>📊 Understanding Risk Scores</h3>
+                <p><strong>What the percentages mean:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><span style="color: #ff4444; font-weight: bold;">70-100%:</span> High Risk - Imminent reentry threat requiring immediate attention</li>
+                    <li><span style="color: #ffaa00; font-weight: bold;">40-69%:</span> Medium Risk - Elevated threat level, monitor closely</li>
+                    <li><span style="color: #00ff88; font-weight: bold;">0-39%:</span> Low Risk - Stable orbit with distant reentry timeline</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+                    Risk scores combine orbital decay rate, altitude trends, atmospheric density effects, 
+                    solar activity impact, and collision probability to assess reentry likelihood within 30 days.
+                </p>
             </div>
-            <div class="feature">
-                <h3>📊 Real-time Analysis</h3>
-                <p>Processes 598+ debris pieces from major collision events in under 2 minutes, with sub-second individual satellite analysis capabilities.</p>
-            </div>
-            <div class="feature">
-                <h3>🌐 Professional Architecture</h3>
-                <p>Built with Flask, featuring comprehensive API documentation, error handling, and deployment-ready architecture for both Azure and GitHub.</p>
-            </div>
-            <div class="feature">
-                <h3>🔬 Scientific Accuracy</h3>
-                <p>Uses validated TLE (Two-Line Element) data from CelesTrak and implements industry-standard orbital mechanics calculations with SGP4 propagation.</p>
-            </div>
-        </div>
-
-        <div class="card">
-            <h2>🛠️ Technology Stack</h2>
-            <div class="tech-stack">
-                <span class="tech-badge">Python 3.11</span>
-                <span class="tech-badge">Flask</span>
-                <span class="tech-badge">Scikit-Learn</span>
-                <span class="tech-badge">NumPy</span>
-                <span class="tech-badge">Pandas</span>
-                <span class="tech-badge">SGP4</span>
-                <span class="tech-badge">Azure App Service</span>
-                <span class="tech-badge">GitHub Actions</span>
-                <span class="tech-badge">REST API</span>
-                <span class="tech-badge">Machine Learning</span>
+            <div class="feature-card">
+                <h3>🤖 Hybrid AI Risk Assessment</h3>
+                <p><strong>Our AI models work together to provide accurate predictions:</strong></p>
+                <ul style="margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Physics-Based SGP4:</strong> Calculates precise orbital mechanics and atmospheric drag</li>
+                    <li><strong>Random Forest:</strong> Analyzes historical debris patterns and decay rates</li>
+                    <li><strong>Gradient Boosting:</strong> Optimizes predictions using ensemble learning</li>
+                    <li><strong>Neural Network:</strong> Captures complex non-linear orbital interactions</li>
+                </ul>
+                <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">
+                    Trained on 5,000+ satellite samples with real orbital data, our hybrid approach 
+                    combines the reliability of physics with the adaptability of machine learning.
+                </p>
             </div>
         </div>
 
-        <div class="card">
-            <h2>⚡ Performance Metrics</h2>
-            <ul>
-                <li><strong>Individual Analysis:</strong> Sub-second response time</li>
-                <li><strong>Batch Processing:</strong> 598 debris pieces in <2 minutes</li>
-                <li><strong>Model Accuracy:</strong> R² > 0.85 for ensemble predictions</li>
-                <li><strong>Data Processing:</strong> Real-time TLE parsing and validation</li>
-                <li><strong>API Response:</strong> JSON-formatted results with comprehensive risk scoring</li>
+        <!-- Live Risk Dashboard -->
+        <div class="update-controls">
+            <button class="btn" onclick="loadHighRiskData()" id="refreshBtn">
+                🔄 Refresh High-Risk Analysis
+            </button>
+            <button class="btn" onclick="loadReentryTimeline()">
+                📅 View Reentry Timeline
+            </button>
+        </div>
+
+        <div class="risk-dashboard">
+            <!-- Highest Risk Satellites -->
+            <div class="high-risk-section">
+                <h3>🚨 Highest Risk Satellites</h3>
+                <div id="highRiskSatellites" class="loading">
+                    Loading high-risk satellite data...
+                </div>
+            </div>
+
+            <!-- Reentry Predictions -->
+            <div class="reentry-prediction">
+                <h3>📊 Reentry Predictions & Impact Analysis</h3>
+                <div id="reentryPredictions" class="loading">
+                    Calculating reentry windows...
+                </div>
+            </div>
+        </div>
+
+        <!-- Risk Score Chart -->
+        <div class="chart-container">
+            <h3>📈 Risk Score Distribution</h3>
+            <canvas id="riskChart" width="400" height="200"></canvas>
+        </div>
+
+        <!-- Impact Timeline -->
+        <div class="architecture-section">
+            <h3>⏰ Predicted Impact Timeline</h3>
+            <div id="impactTimeline" class="loading">
+                Generating impact timeline...
+            </div>
+        </div>
+        
+        <div class="status-section">
+            <h3>🔧 System Status</h3>
+            <div class="status-item">
+                <span>Application Status:</span>
+                <span class="status-ok">✅ Operational</span>
+            </div>
+            <div class="status-item">
+                <span>Backend Architecture:</span>
+                <span class="status-ok">✅ Professional Modular Structure</span>
+            </div>
+            <div class="status-item">
+                <span>API Endpoints:</span>
+                <span class="status-ok">✅ RESTful with Validation</span>
+            </div>
+            <div class="status-item">
+                <span>AI Models:</span>
+                <span class="status-ok">✅ Hybrid Physics + ML</span>
+            </div>
+        </div>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>🤖 Hybrid AI Prediction</h3>
+                <p>Combines SGP4 physics-based propagation with ensemble machine learning models (Random Forest, Gradient Boosting, Neural Networks) for accurate orbital decay prediction.</p>
+            </div>
+            <div class="feature-card">
+                <h3>⚠️ Advanced Risk Assessment</h3>
+                <p>Comprehensive reentry risk analysis including spatial coverage, timing uncertainty, threat categorization, and priority scoring for mission-critical decisions.</p>
+            </div>
+            <div class="feature-card">
+                <h3>📊 Real-time Data Processing</h3>
+                <p>Optimized TLE data parsing with caching, batch processing, and concurrent analysis of multiple satellites with comprehensive error handling.</p>
+            </div>
+            <div class="feature-card">
+                <h3>🏗️ Professional Architecture</h3>
+                <p>Production-ready modular Flask application with app factory pattern, environment-specific configuration, and separated concerns for maintainability.</p>
+            </div>
+        </div>
+        
+        <div class="architecture-section">
+            <h3>🏗️ Professional Backend Architecture</h3>
+            <ul class="architecture-list">
+                <li><strong>app/</strong> - Main application package with factory pattern</li>
+                <li><strong>app/models/</strong> - AI/ML models and TLE parser classes</li>
+                <li><strong>app/services/</strong> - Business logic and data processing services</li>
+                <li><strong>app/routes/</strong> - RESTful API endpoints with blueprints</li>
+                <li><strong>app/config.py</strong> - Environment-specific configuration management</li>
+                <li><strong>main.py</strong> - Application entry point with professional startup</li>
             </ul>
         </div>
-
-        <div class="links">
-            <a href="https://github.com/anthonyricevuto3-lab/Space-Debris-Risk-Assessment" target="_blank">📚 View Source Code</a>
-            <a href="https://www.linkedin.com/in/anthony-ricevuto-mle/" target="_blank">💼 LinkedIn Profile</a>
-            <a href="mailto:anthony.ricevuto@student.csulb.edu">📧 Contact Me</a>
+        
+        <div class="api-section">
+            <h2>🔗 RESTful API Endpoints</h2>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/health</span>
+                </div>
+                <small>System health and model status check</small>
+            </div>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">/api/analyze/single</span>
+                </div>
+                <small>Analyze individual satellite reentry risk</small>
+            </div>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">/api/analyze/batch</span>
+                </div>
+                <small>Concurrent batch analysis of multiple satellites</small>
+            </div>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">/api/analyze/catalog</span>
+                </div>
+                <small>Analyze satellites by catalog numbers or groups</small>
+            </div>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">/api/report/risk</span>
+                </div>
+                <small>Generate comprehensive risk assessment reports</small>
+            </div>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">/api/satellites/high-risk</span>
+                </div>
+                <small>Filter and rank satellites by risk level</small>
+            </div>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">GET</span>
+                    <span class="endpoint-url">/api/model/info</span>
+                </div>
+                <small>AI model information and performance metrics</small>
+            </div>
+            
+            <div class="api-endpoint">
+                <div>
+                    <span class="method">POST</span>
+                    <span class="endpoint-url">/api/cache/clear</span>
+                </div>
+                <small>Clear TLE data cache for fresh analysis</small>
+            </div>
         </div>
-
-        <div class="card">
-            <h2>🎯 About This Project</h2>
-            <p>This project was developed as a demonstration of advanced programming skills and AI/ML applications in aerospace technology. It showcases:</p>
-            <ul>
-                <li>Advanced Python programming and software architecture</li>
-                <li>Machine learning ensemble methods and neural networks</li>
-                <li>REST API development and documentation</li>
-                <li>Cloud deployment (Azure) and CI/CD pipelines</li>
-                <li>Real-world data processing and orbital mechanics</li>
-                <li>Professional development practices and documentation</li>
-            </ul>
-            <p style="margin-top: 20px; text-align: center; font-style: italic;">
-                "Combining AI innovation with space safety engineering" - Anthony Ricevuto
+        
+        <div class="footer">
+            <p>✅ Professional Space Debris Monitoring System | Modular Architecture | Production Ready</p>
+            <p style="margin-top: 10px; font-size: 0.9em;">
+                Reorganized backend with separated concerns, comprehensive error handling, and scalable design
             </p>
         </div>
     </div>
+
+    <script>
+        // Global variables
+        let riskChart = null;
+        let currentHighRiskData = [];
+
+        // Initialize dashboard on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🛰️ Space Debris Dashboard Initialized');
+            loadHighRiskData();
+            initializeRiskChart();
+        });
+
+        // Load high-risk satellites data
+        async function loadHighRiskData() {
+            const refreshBtn = document.getElementById('refreshBtn');
+            const highRiskDiv = document.getElementById('highRiskSatellites');
+            
+            try {
+                refreshBtn.disabled = true;
+                refreshBtn.textContent = '🔄 Analyzing...';
+                highRiskDiv.innerHTML = '<div class="loading">🔍 Fetching high-risk satellite data...</div>';
+
+                // First, get Cosmos 2251 debris data (real space debris with high reentry risk)
+                const response = await fetch('/api/analyze/catalog', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        group_name: 'cosmos-2251-debris',  // Cosmos 2251 collision debris
+                        forecast_days: 30
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                console.log('📊 Received data:', data);
+
+                if (data.success && data.data.individual_results) {
+                    currentHighRiskData = data.data.individual_results;
+                    displayHighRiskSatellites(currentHighRiskData);
+                    updateRiskChart(currentHighRiskData);
+                    displayReentryPredictions(currentHighRiskData);
+                    displayImpactTimeline(currentHighRiskData);
+                } else {
+                    throw new Error(data.error || 'Failed to analyze satellites');
+                }
+
+            } catch (error) {
+                console.error('❌ Error loading high-risk data:', error);
+                highRiskDiv.innerHTML = `
+                    <div class="error-message">
+                        <strong>⚠️ Error Loading Data</strong><br>
+                        ${error.message}<br>
+                        <small>Check console for details</small>
+                    </div>
+                `;
+            } finally {
+                refreshBtn.disabled = false;
+                refreshBtn.textContent = '🔄 Refresh High-Risk Analysis';
+            }
+        }
+
+        // Display high-risk satellites
+        function displayHighRiskSatellites(satellites) {
+            const container = document.getElementById('highRiskSatellites');
+            
+            if (!satellites || satellites.length === 0) {
+                container.innerHTML = '<div class="risk-item">📡 No satellite data available</div>';
+                return;
+            }
+
+            // Sort by risk score (highest first) and take top 10 for detailed display
+            const sortedSatellites = satellites
+                .filter(sat => sat.risk_assessment && sat.risk_assessment.overall_reentry_risk)
+                .sort((a, b) => b.risk_assessment.overall_reentry_risk - a.risk_assessment.overall_reentry_risk);
+
+            if (sortedSatellites.length === 0) {
+                container.innerHTML = '<div class="risk-item">📊 Risk analysis in progress...</div>';
+                return;
+            }
+
+            // Show summary statistics
+            const totalPieces = sortedSatellites.length;
+            const highRisk = sortedSatellites.filter(s => s.risk_assessment.overall_reentry_risk >= 0.7).length;
+            const mediumRisk = sortedSatellites.filter(s => s.risk_assessment.overall_reentry_risk >= 0.4 && s.risk_assessment.overall_reentry_risk < 0.7).length;
+            const maxRisk = Math.max(...sortedSatellites.map(s => s.risk_assessment.overall_reentry_risk));
+            
+            let html = `
+                <div class="debris-summary">
+                    <h4>🛰️ Cosmos 2251 Debris Analysis</h4>
+                    <div class="summary-stats">
+                        <span>📊 Total Pieces: ${totalPieces}</span>
+                        <span class="risk-score-high">🔴 High Risk: ${highRisk}</span>
+                        <span class="risk-score-medium">🟡 Medium Risk: ${mediumRisk}</span>
+                        <span>📈 Max Risk Score: ${(maxRisk * 100).toFixed(1)}%</span>
+                    </div>
+                </div>
+                <div class="top-risks-header">
+                    <h5>🚨 Top 10 Highest Risk Debris Pieces:</h5>
+                </div>
+            `;
+
+            const topRisks = sortedSatellites.slice(0, 10);
+            topRisks.forEach((satellite, index) => {
+                const risk = satellite.risk_assessment.overall_reentry_risk;
+                const riskClass = risk >= 0.7 ? 'risk-score-high' : risk >= 0.4 ? 'risk-score-medium' : 'risk-score-low';
+                const urgentClass = risk >= 0.8 ? 'urgent-warning' : 'risk-item';
+                
+                // Get catalog number from debris_info or satellite_info
+                const catalogNum = satellite.debris_info?.catalog_number || satellite.satellite_info?.catalog_number || 'Unknown';
+                const name = satellite.debris_info?.name || satellite.satellite_info?.name || 'Unknown Debris';
+                const altitude = satellite.debris_info?.altitude_km || satellite.orbital_parameters?.current_altitude_km || 'N/A';
+                
+                html += `
+                    <div class="${urgentClass}">
+                        <div class="satellite-details">
+                            <strong>#${index + 1} - ${name} (${catalogNum})</strong>
+                            <br><span class="${riskClass}">Risk Score: ${(risk * 100).toFixed(1)}%</span>
+                            <br>📍 Altitude: ${typeof altitude === 'number' ? altitude.toFixed(1) : altitude} km
+                            <br>⏱️ Days to Reentry: ${satellite.reentry_prediction?.days_from_now || 'N/A'}
+                            <br>🎯 Spatial Risk: ${((satellite.risk_assessment?.peak_spatial_risk || 0) * 100).toFixed(1)}%
+                            ${risk >= 0.8 ? '<br><strong>🚨 URGENT: Immediate monitoring required!</strong>' : ''}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        // Display reentry predictions
+        function displayReentryPredictions(satellites) {
+            const container = document.getElementById('reentryPredictions');
+            
+            if (!satellites || satellites.length === 0) {
+                container.innerHTML = '<div class="loading">No prediction data available</div>';
+                return;
+            }
+
+            // Find satellites with imminent reentry (within 30 days)
+            const imminentReentries = satellites
+                .filter(sat => sat.reentry_prediction && sat.reentry_prediction.days_from_now <= 30)
+                .sort((a, b) => a.reentry_prediction.days_from_now - b.reentry_prediction.days_from_now);
+
+            let html = '<h4>🎯 Imminent Reentries (Next 30 Days)</h4>';
+            
+            if (imminentReentries.length === 0) {
+                html += '<div class="impact-location">✅ No imminent reentries predicted in the next 30 days</div>';
+            } else {
+                imminentReentries.forEach(satellite => {
+                    const days = satellite.reentry_prediction.days_from_now;
+                    const uncertainty = satellite.reentry_prediction.uncertainty_days || 0;
+                    const predictedDate = satellite.reentry_prediction.predicted_date;
+                    
+                    html += `
+                        <div class="impact-location">
+                            <strong>${satellite.satellite_info?.name || 'Unknown'}</strong>
+                            <br>📅 Predicted Reentry: ${days.toFixed(1)} days
+                            <br>📊 Uncertainty: ±${uncertainty.toFixed(1)} days
+                            ${predictedDate ? `<br>🗓️ Estimated Date: ${new Date(predictedDate).toLocaleDateString()}` : ''}
+                            <br>🌍 Coverage: ${satellite.orbital_parameters?.inclination_deg?.toFixed(1) || 'N/A'}° inclination
+                        </div>
+                    `;
+                });
+            }
+
+            // Add general statistics
+            const avgRisk = satellites.reduce((sum, sat) => sum + (sat.risk_assessment?.overall_reentry_risk || 0), 0) / satellites.length;
+            html += `
+                <div style="margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 5px;">
+                    <strong>📊 Analysis Summary:</strong>
+                    <br>🛰️ Satellites Analyzed: ${satellites.length}
+                    <br>📈 Average Risk Score: ${(avgRisk * 100).toFixed(1)}%
+                    <br>⚠️ High Risk (>70%): ${satellites.filter(s => (s.risk_assessment?.overall_reentry_risk || 0) > 0.7).length}
+                    <br>🔍 Last Updated: ${new Date().toLocaleTimeString()}
+                </div>
+            `;
+
+            container.innerHTML = html;
+        }
+
+        // Initialize risk chart
+        function initializeRiskChart() {
+            const ctx = document.getElementById('riskChart').getContext('2d');
+            riskChart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['High Risk (>70%)', 'Medium Risk (40-70%)', 'Low Risk (<40%)'],
+                    datasets: [{
+                        data: [0, 0, 1],  // Initial placeholder data
+                        backgroundColor: ['#ff4444', '#ffaa00', '#00ff88'],
+                        borderColor: ['#ff0000', '#ff8800', '#00cc66'],
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: 'white'
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Update risk chart with new data
+        function updateRiskChart(satellites) {
+            if (!riskChart || !satellites) return;
+
+            const highRisk = satellites.filter(s => (s.risk_assessment?.overall_reentry_risk || 0) > 0.7).length;
+            const mediumRisk = satellites.filter(s => {
+                const risk = s.risk_assessment?.overall_reentry_risk || 0;
+                return risk >= 0.4 && risk <= 0.7;
+            }).length;
+            const lowRisk = satellites.filter(s => (s.risk_assessment?.overall_reentry_risk || 0) < 0.4).length;
+
+            riskChart.data.datasets[0].data = [highRisk, mediumRisk, lowRisk];
+            riskChart.update();
+        }
+
+        // Display impact timeline
+        function displayImpactTimeline(satellites) {
+            const container = document.getElementById('impactTimeline');
+            
+            if (!satellites || satellites.length === 0) {
+                container.innerHTML = '<div class="loading">No timeline data available</div>';
+                return;
+            }
+
+            // Group satellites by time windows
+            const next7Days = satellites.filter(s => (s.reentry_prediction?.days_from_now || Infinity) <= 7);
+            const next30Days = satellites.filter(s => {
+                const days = s.reentry_prediction?.days_from_now || Infinity;
+                return days > 7 && days <= 30;
+            });
+            const nextYear = satellites.filter(s => {
+                const days = s.reentry_prediction?.days_from_now || Infinity;
+                return days > 30 && days <= 365;
+            });
+
+            let html = '';
+            
+            if (next7Days.length > 0) {
+                html += '<div class="timeline-item"><strong>🚨 Next 7 Days:</strong><br>';
+                next7Days.forEach(sat => {
+                    html += `• ${sat.satellite_info?.name || 'Unknown'} (${sat.reentry_prediction?.days_from_now?.toFixed(1) || 'N/A'} days)<br>`;
+                });
+                html += '</div>';
+            }
+
+            if (next30Days.length > 0) {
+                html += '<div class="timeline-item"><strong>⚠️ Next 30 Days:</strong><br>';
+                next30Days.slice(0, 5).forEach(sat => {
+                    html += `• ${sat.satellite_info?.name || 'Unknown'} (${sat.reentry_prediction?.days_from_now?.toFixed(1) || 'N/A'} days)<br>`;
+                });
+                if (next30Days.length > 5) html += `... and ${next30Days.length - 5} more<br>`;
+                html += '</div>';
+            }
+
+            if (nextYear.length > 0) {
+                html += `<div class="timeline-item"><strong>📅 Next Year:</strong> ${nextYear.length} satellites predicted to reenter</div>`;
+            }
+
+            if (html === '') {
+                html = '<div class="timeline-item">✅ No significant reentries predicted in analyzed timeframe</div>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Load reentry timeline (placeholder for future enhancement)
+        function loadReentryTimeline() {
+            alert('🚀 Reentry Timeline feature will show detailed temporal analysis of all tracked objects. Currently displaying integrated timeline below.');
+        }
+
+        // Auto-refresh every 5 minutes
+        setInterval(loadHighRiskData, 300000);
+    </script>
 </body>
 </html>

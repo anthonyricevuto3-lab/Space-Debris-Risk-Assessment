@@ -132,6 +132,8 @@ jobs:
         
     - name: 📄 Setup Pages
       uses: actions/configure-pages@v4
+      with:
+        enablement: true  # Explicitly enable GitHub Pages
       
     - name: 📤 Upload Artifact
       uses: actions/upload-pages-artifact@v3
