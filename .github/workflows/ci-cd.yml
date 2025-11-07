@@ -70,19 +70,13 @@ jobs:
         "
 
   deploy-pages:
-    name: 🌐 Deploy to GitHub Pages
+    name: 🌐 Update GitHub Pages
     runs-on: ubuntu-latest
     needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     
     permissions:
-      contents: read
-      pages: write
-      id-token: write
-    
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+      contents: write  # Need write permission to update docs folder
     
     steps:
     - name: 🚀 Checkout Code
@@ -104,47 +98,36 @@ jobs:
         from main import app
         import os
         
-        # Create dist directory for GitHub Pages
-        os.makedirs('dist', exist_ok=True)
-        
-        # Generate static HTML
+        # Generate static HTML for GitHub Pages
         with app.test_client() as client:
             response = client.get('/')
-            with open('dist/index.html', 'w', encoding='utf-8') as f:
+            with open('docs/index.html', 'w', encoding='utf-8') as f:
                 f.write(response.get_data(as_text=True))
         
-        print('✅ Static site generated successfully')
+        print('✅ Static site updated successfully')
         "
         
     - name: 📁 Copy Static Assets
       run: |
         # Copy app static assets if they exist
         if [ -d "app/static" ]; then
-          cp -r app/static/* dist/ 2>/dev/null || echo "No static files found"
+          cp -r app/static/* docs/ 2>/dev/null || echo "No static files found"
         fi
-        # Create a basic CSS file if none exists
-        if [ ! -f "dist/style.css" ]; then
-          echo "/* Space Debris Risk Assessment - Student Project by Anthony Ricevuto */" > dist/style.css
-        fi
-        # Add .nojekyll for GitHub Pages
-        touch dist/.nojekyll
+        # Ensure .nojekyll exists
+        touch docs/.nojekyll
         echo "✅ Static assets prepared"
         
-    - name: 📄 Setup Pages
-      uses: actions/configure-pages@v4
-      with:
-        enablement: true  # Explicitly enable GitHub Pages
-      
-    - name: 📤 Upload Artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./dist
-        
-    - name: 🚀 Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
-
-  security-scan:
+    - name: � Commit Updated Site
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add docs/
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "🚀 Auto-update GitHub Pages site [skip ci]"
+          git push
+        fi  security-scan:
     name: 🔒 Security Scan
     runs-on: ubuntu-latest
     
