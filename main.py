@@ -236,9 +236,6 @@ def main():
         - Input validation on all endpoints
         - Rate limiting enabled for API protection
     """
-    # Use global app instance
-    global app
-    
     # Application startup information
     environment = os.environ.get('FLASK_ENV', 'development')
     port = int(os.environ.get('PORT', 5000))
