@@ -7,7 +7,7 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# GitHub Pages permissions
+# GitHub Pages permissions (now that repo is public)
 permissions:
   contents: read
   pages: write
@@ -70,7 +70,7 @@ jobs:
         "
 
   deploy-pages:
-    name: Deploy to GitHub Pages
+    name: 🌐 Deploy to GitHub Pages
     runs-on: ubuntu-latest
     needs: test
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
@@ -104,7 +104,7 @@ jobs:
         from main import app
         import os
         
-        # Create dist directory
+        # Create dist directory for GitHub Pages
         os.makedirs('dist', exist_ok=True)
         
         # Generate static HTML
@@ -126,19 +126,19 @@ jobs:
         if [ ! -f "dist/style.css" ]; then
           echo "/* Space Debris Risk Assessment - Student Project by Anthony Ricevuto */" > dist/style.css
         fi
+        # Add .nojekyll for GitHub Pages
+        touch dist/.nojekyll
         echo "✅ Static assets prepared"
         
     - name: 📄 Setup Pages
       uses: actions/configure-pages@v4
-      with:
-        enablement: true  # Enable GitHub Pages if not already enabled
-        
+      
     - name: 📤 Upload Artifact
       uses: actions/upload-pages-artifact@v3
       with:
         path: ./dist
         
-    - name: 🌐 Deploy to GitHub Pages
+    - name: 🚀 Deploy to GitHub Pages
       id: deployment
       uses: actions/deploy-pages@v4
 
