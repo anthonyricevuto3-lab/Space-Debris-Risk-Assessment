@@ -7,6 +7,12 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# GitHub Pages permissions
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 env:
   PYTHON_VERSION: '3.11'
   AZURE_RESOURCE_GROUP: 'space-debris-rg'
@@ -124,7 +130,9 @@ jobs:
         
     - name: 📄 Setup Pages
       uses: actions/configure-pages@v4
-      
+      with:
+        enablement: true  # Enable GitHub Pages if not already enabled
+        
     - name: 📤 Upload Artifact
       uses: actions/upload-pages-artifact@v3
       with:
