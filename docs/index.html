@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Debris Risk Assessment - Anthony Ricevuto</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0c1445 0%, #1a2980 100%);
+            color: white;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        .demo-note {
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        .feature {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .links {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .links a {
+            display: inline-block;
+            background: #4ecdc4;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            margin: 10px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+        .links a:hover {
+            transform: translateY(-3px);
+        }
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .tech-badge {
+            background: rgba(100, 181, 246, 0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid #64b5f6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛰️ Space Debris Risk Assessment System</h1>
+            <p>Advanced AI-powered space debris analysis and risk prediction</p>
+            <p style="font-size: 0.9rem; opacity: 0.8;">
+                Developed by <strong>Anthony Ricevuto</strong> - Computer Science Student at CSULB<br>
+                <a href="https://www.linkedin.com/in/anthony-ricevuto-mle/" target="_blank" style="color: #64b5f6;">LinkedIn: anthony-ricevuto-mle</a>
+            </p>
+        </div>
+
+        <div class="demo-note">
+            <h3>📖 GitHub Pages Demo Site</h3>
+            <p>This is a static demonstration of the Space Debris Risk Assessment System. The full interactive Flask application with real-time AI analysis is deployed on Azure and available for recruiters upon request.</p>
+        </div>
+
+        <div class="card">
+            <h2>🌟 Project Overview</h2>
+            <p>A comprehensive space debris risk assessment system combining advanced hybrid AI models with real-time orbital data analysis. This student project demonstrates AI/ML applications in space technology, featuring the ability to process individual satellites and entire debris groups (like Cosmos 2251's 598 debris pieces) for comprehensive reentry risk predictions.</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature">
+                <h3>🤖 Hybrid AI System</h3>
+                <p>Combines SGP4 physics-based orbital mechanics with ensemble machine learning including Random Forest, Gradient Boosting, and Neural Networks for accurate risk assessment.</p>
+            </div>
+            <div class="feature">
+                <h3>📊 Real-time Analysis</h3>
+                <p>Processes 598+ debris pieces from major collision events in under 2 minutes, with sub-second individual satellite analysis capabilities.</p>
+            </div>
+            <div class="feature">
+                <h3>🌐 Professional Architecture</h3>
+                <p>Built with Flask, featuring comprehensive API documentation, error handling, and deployment-ready architecture for both Azure and GitHub.</p>
+            </div>
+            <div class="feature">
+                <h3>🔬 Scientific Accuracy</h3>
+                <p>Uses validated TLE (Two-Line Element) data from CelesTrak and implements industry-standard orbital mechanics calculations with SGP4 propagation.</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🛠️ Technology Stack</h2>
+            <div class="tech-stack">
+                <span class="tech-badge">Python 3.11</span>
+                <span class="tech-badge">Flask</span>
+                <span class="tech-badge">Scikit-Learn</span>
+                <span class="tech-badge">NumPy</span>
+                <span class="tech-badge">Pandas</span>
+                <span class="tech-badge">SGP4</span>
+                <span class="tech-badge">Azure App Service</span>
+                <span class="tech-badge">GitHub Actions</span>
+                <span class="tech-badge">REST API</span>
+                <span class="tech-badge">Machine Learning</span>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>⚡ Performance Metrics</h2>
+            <ul>
+                <li><strong>Individual Analysis:</strong> Sub-second response time</li>
+                <li><strong>Batch Processing:</strong> 598 debris pieces in <2 minutes</li>
+                <li><strong>Model Accuracy:</strong> R² > 0.85 for ensemble predictions</li>
+                <li><strong>Data Processing:</strong> Real-time TLE parsing and validation</li>
+                <li><strong>API Response:</strong> JSON-formatted results with comprehensive risk scoring</li>
+            </ul>
+        </div>
+
+        <div class="links">
+            <a href="https://github.com/anthonyricevuto3-lab/Space-Debris-Risk-Assessment" target="_blank">📚 View Source Code</a>
+            <a href="https://www.linkedin.com/in/anthony-ricevuto-mle/" target="_blank">💼 LinkedIn Profile</a>
+            <a href="mailto:anthony.ricevuto@student.csulb.edu">📧 Contact Me</a>
+        </div>
+
+        <div class="card">
+            <h2>🎯 About This Project</h2>
+            <p>This project was developed as a demonstration of advanced programming skills and AI/ML applications in aerospace technology. It showcases:</p>
+            <ul>
+                <li>Advanced Python programming and software architecture</li>
+                <li>Machine learning ensemble methods and neural networks</li>
+                <li>REST API development and documentation</li>
+                <li>Cloud deployment (Azure) and CI/CD pipelines</li>
+                <li>Real-world data processing and orbital mechanics</li>
+                <li>Professional development practices and documentation</li>
+            </ul>
+            <p style="margin-top: 20px; text-align: center; font-style: italic;">
+                "Combining AI innovation with space safety engineering" - Anthony Ricevuto
+            </p>
+        </div>
+    </div>
+</body>
+</html>

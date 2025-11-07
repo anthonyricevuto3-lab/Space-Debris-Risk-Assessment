@@ -1,3 +1,14 @@
+# Space Debris Risk Assessment System
+# Author: Anthony Ricevuto - Computer Science Student at CSULB
+# LinkedIn: https://www.linkedin.com/in/anthony-ricevuto-mle/
+# Student project demonstrating AI/ML applications in space technology
+#
+# Dependencies for hybrid AI system featuring:
+# - SGP4 orbital mechanics
+# - Machine Learning ensemble models
+# - Real-time risk assessment
+# - Flask web framework
+
 flask==2.3.3
 requests==2.31.0
 numpy==1.24.3
